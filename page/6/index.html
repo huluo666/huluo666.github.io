@@ -1,20 +1,483 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Kyren DevBlog | Whatever is worth doing is worth doing well.</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Kyren DevBlog</h1><a id="logo" href="/.">Kyren DevBlog</a><p class="description">Whatever is worth doing is worth doing well.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/categories/macapp"><i class="fa undefined"> Mac应用</i></a><a href="/categories/devtools"><i class="fa undefined"> 开发工具</i></a><a href="/categories/essay"><i class="fa undefined"> 随笔</i></a><a href="/categories/read"><i class="fa undefined"> 阅读</i></a><a href="/categories/"><i class="fa undefined"> 分类</i></a><a href="/leaveword/"><i class="fa undefined"> 留言</i></a><a href="/categories/resume"><i class="fa undefined"> 简历</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title"><a href="/2017/12/25/iOS参考动画/">iOS参考动画</a></h1><div class="post-meta">2017-12-25</div><div class="post-content"><p>iOS动画总结</p>
-<ul>
-<li><a href="https://github.com/yixiangboy/IOSAnimationDemo" target="_blank" rel="noopener">https://github.com/yixiangboy/IOSAnimationDemo</a></li></div><p class="readmore"><a href="/2017/12/25/iOS参考动画/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/12/22/WKWebView的使用/">iOS WKWebView的使用</a></h1><div class="post-meta">2017-12-22</div><div class="post-content"><p>1、WKWebView与js交互</p>
-<p>主要有两方面：1、js执行OC代码  2、oc调取写好的js代码</p>
-<ul>
-<li><h5 id="js调用OC："><a href="#js调用OC：" class="headerlink" title="js调用OC："></a>js调用OC：</h5><p>js是不能执行oc代码的，但是可以变相的执行，js可以将要执行的操作封装到网络请求里面，然后oc拦截这个请求，获取url里面的字符串解析即可，这里用到的代理协议。</p></div><p class="readmore"><a href="/2017/12/22/WKWebView的使用/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/12/22/WebRTC直播相关/">iOS webrtc相关</a></h1><div class="post-meta">2017-12-22</div><div class="post-content"><p><a href="http://www.jianshu.com/p/dc39c41c2915" target="_blank" rel="noopener">iOS Video Toolbox：GPGPU加速YUV图像处理</a></p>
-<p><a href="http://blog.csdn.net/wangruihit/article/details/46550853" target="_blank" rel="noopener">webrtc (6) 在Webrtc中集成VideoToolbox</a></p></div><p class="readmore"><a href="/2017/12/22/WebRTC直播相关/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/12/22/iOS判断是present还是push/">iOS判断是present还是push</a></h1><div class="post-meta">2017-12-22</div><div class="post-content"><p>方式</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)isModal &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.presentingViewController.presentedViewController == <span class="keyword">self</span></span><br><span class="line">      || (<span class="keyword">self</span>.navigationController != <span class="literal">nil</span> &amp;&amp; <span class="keyword">self</span>.navigationController.presentingViewController.presentedViewController == <span class="keyword">self</span>.navigationController)</span><br><span class="line">      || [<span class="keyword">self</span>.tabBarController.presentingViewController isKindOfClass:[<span class="built_in">UITabBarController</span> <span class="keyword">class</span>]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">BOOL</span>)isModal &#123;</span><br><span class="line">     <span class="keyword">if</span>([<span class="keyword">self</span> presentingViewController])</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">     <span class="keyword">if</span>([[[<span class="keyword">self</span> navigationController] presentingViewController] presentedViewController] == [<span class="keyword">self</span> navigationController])</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">     <span class="keyword">if</span>([[[<span class="keyword">self</span> tabBarController] presentingViewController] isKindOfClass:[<span class="built_in">UITabBarController</span> <span class="keyword">class</span>]])</span><br><span class="line">         <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></div><p class="readmore"><a href="/2017/12/22/iOS判断是present还是push/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/12/16/Mac-注册文件类型/">Mac开发 注册文件类型-NSDocument</a></h1><div class="post-meta">2017-12-16</div><div class="post-content"><p> <a href="https://developer.apple.com/library/content/samplecode/TextEdit/Introduction/Intro.html" target="_blank" rel="noopener">https://developer.apple.com/library/content/samplecode/TextEdit/Introduction/Intro.html</a><br><a href="https://developer.apple.com/library/content/samplecode/CustomSave/Introduction/Intro.html" target="_blank" rel="noopener">https://developer.apple.com/library/content/samplecode/CustomSave/Introduction/Intro.html</a><br><a href="http://blog.csdn.net/heroguo_jp/article/details/51784418" target="_blank" rel="noopener">自定义UTI 注册你的APP所支持的文件类型</a><br><a href="https://www.jianshu.com/p/a3fdd7e260ae" target="_blank" rel="noopener">Mac OSX 给现有的应用追加基于文档的功能</a><br><a href="https://developer.apple.com/library/content/samplecode/PackagedDocument/" target="_blank" rel="noopener">https://developer.apple.com/library/content/samplecode/PackagedDocument/</a><br><a href="https://juejin.im/post/5a45b2e65188257d7242be62" target="_blank" rel="noopener">Mac开发—NSDocument</a><br><a href="https://github.com/mstarke/MacPass" target="_blank" rel="noopener">https://github.com/mstarke/MacPass</a><br><a href="https://developer.apple.com/documentation/appkit/nsdocument" target="_blank" rel="noopener">https://developer.apple.com/documentation/appkit/nsdocument</a><br><a href="https://stackoverflow.com/questions/16390319/saving-document-extensions-and-preferences-info-plist" target="_blank" rel="noopener">https://stackoverflow.com/questions/16390319/saving-document-extensions-and-preferences-info-plist</a><br><a href="http://www.cnblogs.com/blueberryWT/articles/LearnCocoa.html" target="_blank" rel="noopener">COCOA学习笔记-1 创建一个类似于XCODE的启动页面</a><br>高亮<br><a href="https://github.com/raspu/Highlightr" target="_blank" rel="noopener">https://github.com/raspu/Highlightr</a><br><a href="https://github.com/cppforlife/BetterConsole" target="_blank" rel="noopener">https://github.com/cppforlife/BetterConsole</a></p></div><p class="readmore"><a href="/2017/12/16/Mac-注册文件类型/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/11/28/iOS时间转换yyyy年份与YYYY的区别/">iOS时间转换yyyy年份与YYYY的区别</a></h1><div class="post-meta">2017-11-28</div><div class="post-content"><p>源于开发中时间格式大小写不分出现的一个Bug</p>
-<p><code>大Y</code>是这周的年份，</p>
-<p><code>小y</code>才是标准的年份</p>
-<p><code>@&quot;YYYY-MM-dd&quot;</code>是以周计算的</p>
-<p>比如2016-1-1是周五，这周周日(一个星期的开始是周日)是2015-12-27日，那么这周的年份是2016，所以会加一年，也即27，28…31都会多一年。而2017-1-1正好是周日，不会出现错误，2018-1-1是周一，所以2017-12-31会多一年。以后转换日期格式的时候记得还是用<code>@“yyyy-MM-dd”</code>这种格式吧，避免出现这种情况衍生bug。</p></div><p class="readmore"><a href="/2017/11/28/iOS时间转换yyyy年份与YYYY的区别/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/11/10/OC与Swift混编/">OC与Swift混编</a></h1><div class="post-meta">2017-11-10</div><div class="post-content"><p><a href="http://huuang.com/?p=103" target="_blank" rel="noopener">http://huuang.com/?p=103</a></p>
-<p><a href="http://zcill.com/2016/01/23/%E5%9C%A8OC%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8swift%E5%86%99%E7%9A%84%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93/" target="_blank" rel="noopener">在objectivec项目中使用swift写的第三方库</a></p></div><p class="readmore"><a href="/2017/11/10/OC与Swift混编/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/11/08/常用开发网址/">常用开发网址</a></h1><div class="post-meta">2017-11-08</div><div class="post-content"><p>iOS开发<br><a href="http://swift.ctolib.com/" target="_blank" rel="noopener">http://swift.ctolib.com/</a><br><a href="http://www.cocoachina.com/" target="_blank" rel="noopener">http://www.cocoachina.com/</a></p></div><p class="readmore"><a href="/2017/11/08/常用开发网址/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/11/07/模拟Api接口工具/">模拟Api接口工具</a></h1><div class="post-meta">2017-11-07</div><div class="post-content"><h3 id="一、功能简介"><a href="#一、功能简介" class="headerlink" title="一、功能简介"></a>一、功能简介</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">快速简单的使用Mockjs对接口数据进行模拟，生成在线API。</span><br></pre></td></tr></table></figure></div><p class="readmore"><a href="/2017/11/07/模拟Api接口工具/">阅读全文</a></p></div><div class="post"><h1 class="post-title"><a href="/2017/11/06/mockjsTemplate/">Mockjs快速使用示例</a></h1><div class="post-meta">2017-11-06</div><div class="post-content"><!DOCTYPE html>
-<html lang="en">
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title></div><p class="readmore"><a href="/2017/11/06/mockjsTemplate/">阅读全文</a></p></div><nav class="page-navigator"><a class="extend prev" rel="prev" href="/page/5/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/7/">下一页</a></nav><script type="text/x-mathjax-config">MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-  });
-</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://www.imkyren.cn"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AppleScrips/">AppleScrips</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devtool/">devtool</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devtools/">devtools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">essay</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/macapp/">macapp</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node-js/">node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/resume/">resume</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/其它/">其它</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/快捷键/">快捷键</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技巧/">技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/正则/">正则</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/直播/">直播</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编辑器/">编辑器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Xcode/" style="font-size: 15px;">Xcode</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/AppleScrips/" style="font-size: 15px;">AppleScrips</a> <a href="/tags/App上传/" style="font-size: 15px;">App上传</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/AutoLayout/" style="font-size: 15px;">AutoLayout</a> <a href="/tags/CocoaPods/" style="font-size: 15px;">CocoaPods</a> <a href="/tags/直播/" style="font-size: 15px;">直播</a> <a href="/tags/其它/" style="font-size: 15px;">其它</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/Mac/" style="font-size: 15px;">Mac</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/React-Native/" style="font-size: 15px;">React Native</a> <a href="/tags/ios/" style="font-size: 15px;">ios</a> <a href="/tags/runtime-小书匠/" style="font-size: 15px;">runtime,小书匠</a> <a href="/tags/新建-模板-小书匠/" style="font-size: 15px;">新建,模板,小书匠</a> <a href="/tags/Runtime-模板-小书匠/" style="font-size: 15px;">Runtime,模板,小书匠</a> <a href="/tags/Swift/" style="font-size: 15px;">Swift</a> <a href="/tags/测试/" style="font-size: 15px;">测试</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/iOS-动画/" style="font-size: 15px;">iOS,动画</a> <a href="/tags/FFMpeg/" style="font-size: 15px;">FFMpeg</a> <a href="/tags/编程规范/" style="font-size: 15px;">编程规范</a> <a href="/tags/代码优化/" style="font-size: 15px;">代码优化</a> <a href="/tags/正则/" style="font-size: 15px;">正则</a> <a href="/tags/警告/" style="font-size: 15px;">警告</a> <a href="/tags/iOS-动画-绘图/" style="font-size: 15px;">iOS,动画,绘图</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/技巧/" style="font-size: 15px;">技巧</a> <a href="/tags/node-js/" style="font-size: 15px;">node.js</a> <a href="/tags/随笔/" style="font-size: 15px;">随笔</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/极客导航/" style="font-size: 15px;">极客导航</a> <a href="/tags/自定义View/" style="font-size: 15px;">自定义View</a> <a href="/tags/HUD/" style="font-size: 15px;">HUD</a> <a href="/tags/搜索框/" style="font-size: 15px;">搜索框</a> <a href="/tags/searchBar/" style="font-size: 15px;">searchBar</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/React-Native开发环境搭建-Mac/">React Native开发环境搭建-Mac</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/Runtime实现自定义description打印中文/">Runtime实现自定义description打印中文</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/Xcode格式化代码/">Xcode格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/优雅的使用Sublime-Text3/">优雅的使用Sublime-Text3</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS内存泄漏/">iOS内存泄漏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS网络请求NSURLSession/">[object Object]</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS常用第三分库源码分析/">iOS常用第三分库源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/26/iOS多线程/">iOS多线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/23/iOS中Class相关方法区别/">iOS中Class相关方法区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/22/KVO原理及实现/">KVO原理及实现</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.itechzero.com/" title="ITechzero" target="_blank">ITechzero</a><ul></ul><a href="https://github.com/trending?l=objective-c" title="GithubTrending" target="_blank">GithubTrending</a><ul></ul><a href="http://www.ctolib.com/" title="CTOLib" target="_blank">CTOLib</a><ul></ul><a href="http://www.iosappx.com/" title="苹果DEVUnion" target="_blank">苹果DEVUnion</a><ul></ul><a href="http://www.jianshu.com/users/97e4c0e7528e" title="木棠" target="_blank">木棠</a><ul></ul><a href="http://www.jianshu.com/users/a47bd3610273" title="LeapDing" target="_blank">LeapDing</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Kyren DevBlog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="Kyren DevBlog,Whatever is worth doing is worth doing well." />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title> [ Kyren DevBlog ]Whatever is worth doing is worth doing well.</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  <div class="recent-posts">
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/12/25/iOS参考动画/"><h2>iOS参考动画</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-12-25T06:12:28.000Z">
+            2017-12-25
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/12/25/iOS参考动画/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/12/22/WKWebView的使用/"><h2>iOS WKWebView的使用</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-12-22T05:53:06.000Z">
+            2017-12-22
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/12/22/WKWebView的使用/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/12/22/WebRTC直播相关/"><h2>iOS webrtc相关</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-12-22T05:53:06.000Z">
+            2017-12-22
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/12/22/WebRTC直播相关/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/12/22/iOS判断是present还是push/"><h2>iOS判断是present还是push</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-12-22T05:53:06.000Z">
+            2017-12-22
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/12/22/iOS判断是present还是push/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/12/16/Mac-注册文件类型/"><h2>Mac开发 注册文件类型-NSDocument</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-12-16T08:22:26.000Z">
+            2017-12-16
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/12/16/Mac-注册文件类型/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/11/28/iOS时间转换yyyy年份与YYYY的区别/"><h2>iOS时间转换yyyy年份与YYYY的区别</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-11-28T06:59:41.000Z">
+            2017-11-28
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/11/28/iOS时间转换yyyy年份与YYYY的区别/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/11/10/OC与Swift混编/"><h2>OC与Swift混编</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-11-10T08:41:50.000Z">
+            2017-11-10
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/11/10/OC与Swift混编/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/11/08/常用开发网址/"><h2>常用开发网址</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-11-08T02:14:26.000Z">
+            2017-11-08
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/11/08/常用开发网址/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/11/07/模拟Api接口工具/"><h2>模拟Api接口工具</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-11-07T03:07:31.000Z">
+            2017-11-07
+          </time>
+          
+          <span class="slash">/</span>
+          
+          <ul class="index-tag-list"><li class="index-tag-list-item"><a class="index-tag-list-link" href="/tags/工具/">工具</a></li></ul>
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/11/07/模拟Api接口工具/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2017/11/06/mockjsTemplate/"><h2>Mockjs快速使用示例</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2017-11-06T02:08:43.000Z">
+            2017-11-06
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2017/11/06/mockjsTemplate/"> 阅读全文〉</a>
+      </article>
+    
+  </div>
+
+
+
+    </div>
+
+    
+      <nav class="page-nav text-center">
+          <a class="extend prev" rel="prev" href="/page/5/">〈</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><a class="extend next" rel="next" href="/page/7/">〉</a>
+      </nav>
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>
