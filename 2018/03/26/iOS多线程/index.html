@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>iOS多线程 | Kimi DevBlog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = 'https://hm.baidu.com/hm.js?' + '6a9ed51a920318450ff72d94cf2338aa';
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+  })();
+  </script></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">iOS多线程</h1><a id="logo" href="/.">Kimi DevBlog</a><p class="description">Whatever is worth doing is worth doing well.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa undefined"> 首页</i></a><a href="/archives/"><i class="fa undefined"> 归档</i></a><a href="/categories/macapp"><i class="fa undefined"> Mac应用</i></a><a href="/categories/devtools"><i class="fa undefined"> 开发工具</i></a><a href="/categories/essay"><i class="fa undefined"> 随笔</i></a><a href="/categories/read"><i class="fa undefined"> 阅读</i></a><a href="/categories/"><i class="fa undefined"> 分类</i></a><a href="/leaveword/"><i class="fa undefined"> 留言</i></a><a href="/categories/resume"><i class="fa undefined"> 简历</i></a><a href="/about/"><i class="fa undefined"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">iOS多线程</h1><div class="post-meta">Mar 26, 2018<script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><div class="post-content"><p>在 iOS 中其实目前有 <code>4</code> 套多线程方案</p>
+<ul>
+<li>NSThread</li>
+<li>GCD</li>
+<li>NSOperation &amp; NSOperationQueue</li>
+<li>Pthreads(基于<strong>c语言</strong>的框架,不常用)</li>
+</ul>
+<h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>概念</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>进程</td>
+<td>一个具有一定独立功能的程序关于某个数据集合的一次运行活动。可以理解成一个运行中的应用程序</td>
+</tr>
+<tr>
+<td>线程</td>
+<td>程序执行流的最小单元，线程是进程中的一个实体。</td>
+</tr>
+<tr>
+<td>同步</td>
+<td>只能在当前线程按先后顺序依次执行，不开启新线程。</td>
+</tr>
+<tr>
+<td>异步</td>
+<td>可以在当前线程开启多个新线程执行，可不按顺序执行。  队列： 装载线程任务的队形结构。  并发： 线程执行可以同时一起进行执行。  串行： 线程执行只能依次逐一先后有序的执行。</td>
+</tr>
+<tr>
+<td>队列</td>
+<td>装载线程任务的队形结构。  并发： 线程执行可以同时一起进行执行。  串行： 线程执行只能依次逐一先后有序的执行。</td>
+</tr>
+<tr>
+<td>并发</td>
+<td>线程执行可以同时一起进行执行。</td>
+</tr>
+<tr>
+<td>串行</td>
+<td>线程执行只能依次逐一先后有序的执行。</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>备注：一个进程可有多个线程-&gt;一个进程可有多个队列-&gt;队列可分并发队列和串行队列。</p>
+</blockquote>
+<h4 id="一、NSThread"><a href="#一、NSThread" class="headerlink" title="一、NSThread"></a>一、NSThread</h4><p>这套方案是经过苹果封装后的，并且完全面向对象的。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方法一：创建线程，需要自己开启线程</span></span><br><span class="line"><span class="built_in">NSThread</span> *thread = [[<span class="built_in">NSThread</span> alloc]initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run) object:<span class="literal">nil</span>];</span><br><span class="line">thread.threadPriority = <span class="number">1</span>;<span class="comment">// 设置线程的优先级(0.0 - 1.0，1.0最高级)</span></span><br><span class="line"><span class="comment">// 开启线程</span></span><br><span class="line">[thread start];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二：静态实例化-创建线程后自动启动线程</span></span><br><span class="line">[<span class="built_in">NSThread</span> detachNewThreadSelector:<span class="keyword">@selector</span>(run) toTarget:<span class="keyword">self</span> withObject:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法三：隐式实例化-隐式创建并启动线程</span></span><br><span class="line">[<span class="keyword">self</span> performSelectorInBackground:<span class="keyword">@selector</span>(run) withObject:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
+<h4 id="二、GCD-英文全称-Grand-Central-Dispatch"><a href="#二、GCD-英文全称-Grand-Central-Dispatch" class="headerlink" title="二、GCD(英文全称:Grand Central Dispatch)"></a>二、GCD(英文全称:Grand Central Dispatch)</h4><ul>
+<li>GCD是苹果开发的一个多核编程的解决方法</li>
+<li>GCD是苹果推荐而且最简洁的;</li>
+<li>纯C语言，提供了非常多强大的函数；</li>
+<li>GCD会自动利用更多的CPU内核（比如双核、四核);</li>
+<li>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程）;</li>
+</ul>
+<p>GCD是基于C的API，因此比较底层。</p>
+<p>GCD所管理的调度队列（dispatch queue）主要有三类，1、<strong>串行队列</strong>（private dispatch queue）、2、<strong>并发队列</strong> （global dispatch queue，又称全局调度队列）和<strong>主队列</strong>（main dispatch queue）。</p>
+<p><strong>队列与任务</strong></p>
+<p>GCD有四个概念：串行队列、并行队列、同步、异步四者。</p>
+<p><code>同步（sync）</code> 和 <code>异步（async）</code> 的主要区别在于会不会阻塞当前线程，直到 <code>Block</code> 中的任务执行完毕！</p>
+<p><strong>同步(sync)</strong> ：它会阻塞当前线程并等待 <code>Block</code> 中的任务执行完毕，然后当前线程才会继续往下运行。</p>
+<p><strong>异步(async)</strong>：当前线程会直接往下执行，它不会阻塞当前线程。</p>
+<p><strong>队列</strong>：用于存放任务。一共有两种队列， <strong>串行队列</strong> 和 <strong>并行队列</strong>。</p>
+<p>队列<strong>：用于存放任务。一共有两种队列， </strong>串行队列<strong> 和 </strong>并行队列**。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>简介</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同步</td>
+<td>完成需要做的任务后才会返回，进行下一任务(“任务”，在 GCD 里指的是 Block；在 performSelector 方法中，对应 selector 方法。同步方法，功能类似 <code>dispatch_group_wait</code> ，而 group 指的是所有线程，包括主线程。)</td>
+</tr>
+<tr>
+<td>异步</td>
+<td>不会等待任务完成才返回，会立即返回。(异步是多线程的代名词，因为必定会开启新的线程，线程的申请是由异步负责，起到开分支的作用。)</td>
+</tr>
+<tr>
+<td>串行队列</td>
+<td>任务依次执行(同一时间队列中只有一个任务在执行，每个任务只有在前一个任务执行完成后才能开始执行。)</td>
+</tr>
+<tr>
+<td>并行队列</td>
+<td>任务并发执行(你唯一能保证的是，这些任务会按照被添加的顺序开始执行。但是任务可以以任何顺序完成)</td>
+</tr>
+<tr>
+<td>全局队列</td>
+<td>隶属于并行队列,不要与 barrier 栅栏方法搭配使用， barrier 只有与自定义的并行队列一起使用，才能让 barrier 达到我们所期望的栅栏功能。与 串行队列或者 global 队列 一起使用，barrier 的表现会和 dispatch_sync 方法一样。</td>
+</tr>
+<tr>
+<td>主队列</td>
+<td>隶属于串行队列,不能与 sync 同步方法搭配使用，会造成死循环（ 主队列是GCD自带的一种特殊的串行队列，放在主队列中的任务，都会放到主线程中执行）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自定义队列</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Serial Dispatch Queue:串行调度队列</span><br><span class="line">Concurrent Dispatch Queue:并发调度队列</span><br><span class="line">Serial:串行 Concurrent:同时   并发:Concurrency  并行:Parallelism</span><br></pre></td></tr></table></figure>
+<p>并发和并行都是指多个任务可以同时执行，都属于多线程编程概念，因此二者必然十分相近，容易混淆。二者区别只有一点，即是否多任务执行于严格的同一时刻。并发不是，并行是。</p>
+<table>
+<thead>
+<tr>
+<th>说明</th>
+<th>Dispatch Queue分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>串行的队列，每次只能执行一个任务，并且必须等待前一个执行任务完成</td>
+<td>Serial Dispatch Queue</td>
+</tr>
+<tr>
+<td>一次可以并发执行多个任务，不必等待执行中的任务完成</td>
+<td>Concurrent Dispatch Queue</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>同步执行</th>
+<th>异步执行</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>串行队列</td>
+<td>当前线程，一个一个执行( 不会新建线程)</td>
+<td>其他线程，一个一个执行, 每次使用 createDispatch 方法就会新建一条线程, 多条线程间会并行执行</td>
+</tr>
+<tr>
+<td>并发队列</td>
+<td>当前线程，一个一个执行( 不会新建线程)</td>
+<td>开很多线程，一起执行( iOS7-SDK 时代一般是5、6条， iOS8-SDK 以后可以50、60条)</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://www.zhihu.com/question/33515481" target="_blank" rel="noopener">并发与并行的区别？</a></p>
+<p>GCD使用步骤：</p>
+<ol>
+<li>定制任务<br>确定想做的事情，在 GCD 里指的是 Block</li>
+<li>将任务添加到队列中<br>GCD会自动将队列中的任务取出，放到对应的线程中执行<br>任务的取出遵循队列的FIFO原则：先进先出，后进后出</li>
+</ol>
+<h3 id="创建队列"><a href="#创建队列" class="headerlink" title="创建队列"></a>创建队列</h3><p>iOS 中, 队列主要分为:</p>
+<ul>
+<li><p>全局队列(dispatch_get_main_queue)</p>
+</li>
+<li><p>主队列(dispatch_get_global_queue)</p>
+</li>
+<li><p>自定义队列(dispatch_queue_create)</p>
+<p>①串行队列(dispatch_queue_create-DISPATCH_QUEUE_SERIAL)</p>
+<p>②并发队列(dispatch_queue_create-DISPATCH_QUEUE_CONCURRENT)</p>
+</li>
+</ul>
+<h5 id="1、主队列-串行队列"><a href="#1、主队列-串行队列" class="headerlink" title="1、主队列(串行队列)"></a>1、主队列(串行队列)</h5><p>它用于刷新 UI，任何需要刷新 UI 的工作都要在主队列执行，所以一般耗时的任务都要放到别的线程执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_main_queue;</span><br></pre></td></tr></table></figure>
+<h5 id="2、全局并行队列"><a href="#2、全局并行队列" class="headerlink" title="2、全局并行队列"></a>2、全局并行队列</h5><p>只要是并行任务一般都加入到这个队列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</span><br></pre></td></tr></table></figure>
+<h5 id="3、自定义队列"><a href="#3、自定义队列" class="headerlink" title="3、自定义队列"></a>3、自定义队列</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//串行队列</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.gcd.serialQueue&quot;, NULL);</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.gcd.serialQueue&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line"></span><br><span class="line">//并发(行)队列</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;com.gcd.conQueue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
+<h3 id="创建任务"><a href="#创建任务" class="headerlink" title="创建任务"></a>创建任务</h3><ul>
+<li>分为同步任务和异步任务</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//串行</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;serial_queue&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">//并发</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;serial_queue&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"></span><br><span class="line">//同步</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">  NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//异步</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">   NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h4><p>NSOperation 是苹果公司对 GCD 的封装，完全面向对象，<code>NSOperation</code> 和 <code>NSOperationQueue</code> 分别对应 GCD 的任务和队列 。操作步骤也很好理解：</p>
+<ul>
+<li>①将要执行的任务封装到一个 NSOperation 对象中。</li>
+</ul>
+<ul>
+<li>②将此任务添加到一个 NSOperationQueue 对象中。</li>
+</ul>
+<p>NSOperation 只是一个抽象类，所以不能封装任务。但它有 2 个子类用于封装任务。分别是：<code>NSInvocationOperation</code> 和 <code>NSBlockOperation</code> 。创建一个 Operation 后，需要调用 start 方法来启动任务，它会 默认在当前队列同步执行。当然你也可以在中途取消一个任务，只需要调用其 <code>cancel</code>方法即可。</p>
+<figure class="highlight plain"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//1.创建NSInvocationOperation对象</span><br><span class="line">NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run) object:nil];</span><br><span class="line"></span><br><span class="line">//2.开始执行</span><br><span class="line">[operation start];</span><br><span class="line"></span><br><span class="line">//1.创建NSBlockOperation对象</span><br><span class="line">NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">    NSLog(@&quot;%@&quot;, [NSThread currentThread]);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">//2.开始任务</span><br><span class="line">[operation start];</span><br></pre></td></tr></table></figure>
+<h5 id="NSOperationQueue"><a href="#NSOperationQueue" class="headerlink" title="NSOperationQueue"></a>NSOperationQueue</h5><p>NSOperationQueue是对GCD的objectivec封装，相对于GCD具有更多先进的特性，如可以添加NSOperation依赖，取消NSOperation等。</p>
+<p>NSOperationQueue是并发队列，且不遵循先进先出FIFO排序原则。</p>
+<h3 id="两种队列-NSOperation"><a href="#两种队列-NSOperation" class="headerlink" title="两种队列(NSOperation)"></a>两种队列(NSOperation)</h3><p>NSOperationQueue 有两种不同类型的队列：主队列和自定义队列。主队列运行在主线程之上，而自定义队列在后台执行。在两种类型中，这些队列所处理的任务都使用 NSOperation 的子类来表述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];  //主队列</span><br><span class="line">NSOperationQueue *queue = [[NSOperationQueue alloc] init]; //自定义队列</span><br><span class="line"></span><br><span class="line">//添加一个NSOperation</span><br><span class="line">[queue addOperation:operation]</span><br><span class="line"></span><br><span class="line">//添加一组NSOperation</span><br><span class="line">[queue addOperations:operations waitUntilFinished:NO</span><br><span class="line"></span><br><span class="line">//添加一个block形式的Operation</span><br><span class="line">[queue addOperationWithBlock:^&#123;</span><br><span class="line">    //执行一个Block的操作</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">[queue setMaxConcurrentOperationCount:1];</span><br><span class="line"></span><br><span class="line">//单个NSOperation取消</span><br><span class="line">[operation cancel]</span><br><span class="line"></span><br><span class="line">//取消NSOperationQueue中的所有操作</span><br><span class="line">[queue cancelAllOperations]</span><br><span class="line"></span><br><span class="line">// 暂停queue</span><br><span class="line">[queue setSuspended:YES];</span><br></pre></td></tr></table></figure>
+<p>NSOperation 有一个非常实用的功能，那就是添加依赖。比如有 3 个任务：A: 从服务器上下载一张图片，B：给这张图片加个水印，C：把图片返回给服务器。这时就可以用到依赖了:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//1.任务一：下载图片</span><br><span class="line">NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">    NSLog(@&quot;下载图片 - %@&quot;, [NSThread currentThread]);</span><br><span class="line">    [NSThread sleepForTimeInterval:1.0];</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">//2.任务二：打水印</span><br><span class="line">NSBlockOperation *operation2 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">    NSLog(@&quot;打水印   - %@&quot;, [NSThread currentThread]);</span><br><span class="line">    [NSThread sleepForTimeInterval:1.0];</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">//3.任务三：上传图片</span><br><span class="line">NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^&#123;</span><br><span class="line">    NSLog(@&quot;上传图片 - %@&quot;, [NSThread currentThread]);</span><br><span class="line">    [NSThread sleepForTimeInterval:1.0];</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">//4.设置依赖</span><br><span class="line">[operation2 addDependency:operation1];      //任务二依赖任务一</span><br><span class="line">[operation3 addDependency:operation2];      //任务三依赖任务二</span><br><span class="line"></span><br><span class="line">//5.创建队列并加入任务</span><br><span class="line">NSOperationQueue *queue = [[NSOperationQueue alloc] init];</span><br><span class="line">[queue addOperations:@[operation3, operation2, operation1] waitUntilFinished:NO];</span><br></pre></td></tr></table></figure>
+<p><a href="http://jumpingfrog0.github.io/2017/2017-04-20-iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">http://jumpingfrog0.github.io/2017/2017-04-20-iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%BB%E7%BB%93/</a></p>
+<p><a href="https://blog.cnbluebox.com/blog/2014/07/01/cocoashen-ru-xue-xi-nsoperationqueuehe-nsoperationyuan-li-he-shi-yong/" target="_blank" rel="noopener">https://blog.cnbluebox.com/blog/2014/07/01/cocoashen-ru-xue-xi-nsoperationqueuehe-nsoperationyuan-li-he-shi-yong/</a></p>
+<p><a href="http://www.cnblogs.com/kenshincui/p/3983982.html" target="_blank" rel="noopener">iOS开发系列–并行开发其实很容易</a></p>
+</div><div class="tags"></div><div class="post-nav"><a class="pre" href="/2018/03/27/iOS常用第三分库源码分析/">iOS常用第三分库源码分析</a><a class="next" href="/2018/03/23/iOS中Class相关方法区别/">iOS中Class相关方法区别</a></div><div id="lv-container" data-id="city" data-uid="MTAyMC8zNDM5OC8xMDkzNQ"><script>(function(d, s) {
+   var j, e = d.getElementsByTagName(s)[0];
+   if (typeof LivereTower === 'function') { return; }
+   j = d.createElement(s);
+   j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+   j.async = true;
+   e.parentNode.insertBefore(j, e);
+})(document, 'script');
+</script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Google Search"/><input type="hidden" name="sitesearch" value="http://huluo666.cn"/></form></div><div class="widget"><form class="search-form" action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank"><input type="search" name="word" maxlength="20" placeholder="百度搜索"/><input type="hidden" name="si" value="http://huluo666.cn"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="本地搜索" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/AppleScrips/">AppleScrips</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac/">Mac</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Node-js/">Node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Swift/">Swift</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devtool/">devtool</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/devtools/">devtools</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">essay</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/http/">http</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/macapp/">macapp</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/node-js/">node.js</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/read/">read</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/resume/">resume</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/shell/">shell</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/其它/">其它</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/快捷键/">快捷键</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/技巧/">技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/正则/">正则</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/直播/">直播</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/编辑器/">编辑器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/随笔/">随笔</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Xcode/" style="font-size: 15px;">Xcode</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a> <a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/AppleScrips/" style="font-size: 15px;">AppleScrips</a> <a href="/tags/App上传/" style="font-size: 15px;">App上传</a> <a href="/tags/iOS/" style="font-size: 15px;">iOS</a> <a href="/tags/AutoLayout/" style="font-size: 15px;">AutoLayout</a> <a href="/tags/CocoaPods/" style="font-size: 15px;">CocoaPods</a> <a href="/tags/直播/" style="font-size: 15px;">直播</a> <a href="/tags/其它/" style="font-size: 15px;">其它</a> <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/shell/" style="font-size: 15px;">shell</a> <a href="/tags/Mac/" style="font-size: 15px;">Mac</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/React-Native/" style="font-size: 15px;">React Native</a> <a href="/tags/ios/" style="font-size: 15px;">ios</a> <a href="/tags/runtime-小书匠/" style="font-size: 15px;">runtime,小书匠</a> <a href="/tags/新建-模板-小书匠/" style="font-size: 15px;">新建,模板,小书匠</a> <a href="/tags/Runtime-模板-小书匠/" style="font-size: 15px;">Runtime,模板,小书匠</a> <a href="/tags/Swift/" style="font-size: 15px;">Swift</a> <a href="/tags/测试/" style="font-size: 15px;">测试</a> <a href="/tags/html/" style="font-size: 15px;">html</a> <a href="/tags/http/" style="font-size: 15px;">http</a> <a href="/tags/iOS-动画/" style="font-size: 15px;">iOS,动画</a> <a href="/tags/FFMpeg/" style="font-size: 15px;">FFMpeg</a> <a href="/tags/编程规范/" style="font-size: 15px;">编程规范</a> <a href="/tags/代码优化/" style="font-size: 15px;">代码优化</a> <a href="/tags/正则/" style="font-size: 15px;">正则</a> <a href="/tags/警告/" style="font-size: 15px;">警告</a> <a href="/tags/iOS-动画-绘图/" style="font-size: 15px;">iOS,动画,绘图</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/技巧/" style="font-size: 15px;">技巧</a> <a href="/tags/node-js/" style="font-size: 15px;">node.js</a> <a href="/tags/随笔/" style="font-size: 15px;">随笔</a> <a href="/tags/算法/" style="font-size: 15px;">算法</a> <a href="/tags/极客导航/" style="font-size: 15px;">极客导航</a> <a href="/tags/自定义View/" style="font-size: 15px;">自定义View</a> <a href="/tags/HUD/" style="font-size: 15px;">HUD</a> <a href="/tags/搜索框/" style="font-size: 15px;">搜索框</a> <a href="/tags/searchBar/" style="font-size: 15px;">searchBar</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/04/02/React-Native开发环境搭建-Mac/">React Native开发环境搭建-Mac</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/Runtime实现自定义description打印中文/">Runtime实现自定义description打印中文</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/30/Xcode格式化代码/">Xcode格式化代码</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/29/优雅的使用Sublime-Text3/">优雅的使用Sublime-Text3</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS内存泄漏/">iOS内存泄漏</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS网络请求NSURLSession/">[object Object]</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/iOS常用第三分库源码分析/">iOS常用第三分库源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/26/iOS多线程/">iOS多线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/23/iOS中Class相关方法区别/">iOS中Class相关方法区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/03/22/KVO原理及实现/">KVO原理及实现</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.itechzero.com/" title="ITechzero" target="_blank">ITechzero</a><ul></ul><a href="https://github.com/trending?l=objective-c" title="GithubTrending" target="_blank">GithubTrending</a><ul></ul><a href="http://www.ctolib.com/" title="CTOLib" target="_blank">CTOLib</a><ul></ul><a href="http://www.iosappx.com/" title="苹果DEVUnion" target="_blank">苹果DEVUnion</a><ul></ul><a href="http://www.jianshu.com/users/97e4c0e7528e" title="木棠" target="_blank">木棠</a><ul></ul><a href="http://www.jianshu.com/users/a47bd3610273" title="LeapDing" target="_blank">LeapDing</a></div><div class="widget"><div class="widget-title"> Github名片</div><div class="github-card" data-github="huluo666" data-width="220" data-height="120" data-theme="medium"> </div><script type="text/javascript" src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2019 <a href="/." rel="nofollow">Kimi DevBlog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
