@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="iOS代码执行时间" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS代码执行时间 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS代码执行时间
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-12-27T01:53:14.000Z">
+        2017-12-27
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>在测试代码效率是往往会用到</p>
+<p>StackOverflow <a href="https://stackoverflow.com/questions/2129794/how-to-log-a-methods-execution-time-exactly-in-milliseconds" target="_blank" rel="noopener">How to log a method’s execution time exactly in milliseconds?</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//单位换算</span><br><span class="line">1分(min)=60秒(s)</span><br><span class="line">1秒(s)=1000毫秒(ms)</span><br><span class="line">1毫秒(ms)=1000微秒(μs)</span><br><span class="line">1微秒(μs)=1000纳秒(ns)</span><br></pre></td></tr></table></figure>
+<p>一、CFAbsoluteTime （纳秒级的精确度 ）</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CFAbsoluteTime</span> startTime =<span class="built_in">CFAbsoluteTimeGetCurrent</span>();</span><br><span class="line"><span class="comment">//在这写入要计算时间的代码</span></span><br><span class="line">...</span><br><span class="line"><span class="built_in">CFAbsoluteTime</span> executionTime = (<span class="built_in">CFAbsoluteTimeGetCurrent</span>() - startTime);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"executionTime %f ms"</span>, executionTime *<span class="number">1000.0</span>);</span><br><span class="line"><span class="comment">//打印出来代码执行时间 单位ms(executionTime 7.062972 ms)</span></span><br></pre></td></tr></table></figure>
+<p>block方式</p>
+<figure class="highlight plain"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">TIME_BLOCK(^&#123;</span><br><span class="line">    //执行需要测试的代码</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CGFloat TIME_BLOCK(void (^block)(void))&#123;</span><br><span class="line">    NSTimeInterval startTime = CACurrentMediaTime();</span><br><span class="line">    block ();</span><br><span class="line">    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;</span><br><span class="line">    NSLog(@&quot;executionTime = %f ms&quot;,  elapsedTime *1000.0);</span><br><span class="line">    return (CGFloat)elapsedTime / NSEC_PER_SEC;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//key 标识符</span><br><span class="line">CGFloat TIME_BLOCKWithkey (NSString *key,void (^block)(void)) &#123;</span><br><span class="line">    NSTimeInterval startTime = CACurrentMediaTime();</span><br><span class="line">    block ();</span><br><span class="line">    CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;</span><br><span class="line">    NSLog(@&quot;%@ executionTime = %f ms&quot;,key,elapsedTime *1000.0);</span><br><span class="line">    return (CGFloat)elapsedTime / NSEC_PER_SEC;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二、NSDate</p>
+<figure class="highlight plain"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSDate *methodStart = [NSDate date];</span><br><span class="line">/* ... Do whatever you need to do ... */</span><br><span class="line">NSDate *methodFinish = [NSDate date];</span><br><span class="line">NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];</span><br><span class="line">NSLog(@&quot;executionTime = %f ms&quot;,  executionTime *1000.0);</span><br><span class="line">//打印出来为代码执行时间 单位ms(7.090032 ms)</span><br></pre></td></tr></table></figure>
+<p>简写宏</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">宏定义</span><br><span class="line"><span class="meta">#define TICK   NSDate *startTime = [NSDate date]</span></span><br><span class="line"><span class="meta">#define TOCK   NSLog(@<span class="meta-string">"Time: %f"</span>, -[startTime timeIntervalSinceNow])</span></span><br><span class="line"></span><br><span class="line">TICK</span><br><span class="line"><span class="comment">/* ... Do Some Work Here ... */</span></span><br><span class="line">TOCK</span><br></pre></td></tr></table></figure>
+<p>三、<code>CACurrentMediaTime()</code>返回的精度-微秒级别</p>
+<p> CACurrentMediaTime方法获取到的时间，是手机从开机一直到当前所经过的秒数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSTimeInterval startTime = CACurrentMediaTime();</span><br><span class="line"></span><br><span class="line">// your code goes here</span><br><span class="line">CFTimeInterval elapsedTime = CACurrentMediaTime() - startTime;</span><br><span class="line">NSLog(@&quot;executionTime = %f ms&quot;,  elapsedTime *1000.0);</span><br><span class="line">//打印出来为代码执行时间 单位ms(7.299827 ms)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>NSDate 属于Foundation</li>
+<li>CFAbsoluteTimeGetCurrent() 属于 CoreFoundatio</li>
+<li>CACurrentMediaTime() 属于 QuartzCore</li>
+</ul>
+<p>第二种：（将运行代码放入下面的Block中，返回时间）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;mach/mach.h&gt;</span><br><span class="line">#import &lt;mach/mach_time.h&gt;  // for mach_absolute_time() and friends</span><br><span class="line"></span><br><span class="line">CGFloat TIME_BLOCK (void (^block)(void)) &#123;</span><br><span class="line">    mach_timebase_info_data_t info;</span><br><span class="line">    if (mach_timebase_info(&amp;info) != KERN_SUCCESS) return -1.0;</span><br><span class="line"></span><br><span class="line">    uint64_t start = mach_absolute_time ();</span><br><span class="line">    block ();</span><br><span class="line">    uint64_t end = mach_absolute_time ();</span><br><span class="line">    uint64_t elapsed = end - start;</span><br><span class="line"></span><br><span class="line">    uint64_t nanos = elapsed * info.numer / info.denom;</span><br><span class="line">    return (CGFloat)nanos / NSEC_PER_SEC;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//加入key</span><br><span class="line">CGFloat TIMEKey_BLOCK(NSString *key, void (^block)(void)) &#123;</span><br><span class="line">    mach_timebase_info_data_t info;</span><br><span class="line">    if (mach_timebase_info(&amp;info) != KERN_SUCCESS)</span><br><span class="line">    &#123;</span><br><span class="line">        return -1.0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    uint64_t start = mach_absolute_time();</span><br><span class="line">    block();</span><br><span class="line">    uint64_t end = mach_absolute_time();</span><br><span class="line">    uint64_t elapsed = end - start;</span><br><span class="line"></span><br><span class="line">    uint64_t nanos = elapsed * info.numer / info.denom;</span><br><span class="line">    float cost = (float)nanos / NSEC_PER_SEC;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;key: %@ (%f ms)\n&quot;, key, cost * 1000);</span><br><span class="line">    return cost;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">uint64_t getTickCount(void)</span><br><span class="line">&#123;</span><br><span class="line">    static mach_timebase_info_data_t sTimebaseInfo;</span><br><span class="line">    uint64_t machTime = mach_absolute_time();</span><br><span class="line"></span><br><span class="line">    // Convert to nanoseconds - if this is the first time we&apos;ve run, get the timebase.</span><br><span class="line">    if (sTimebaseInfo.denom == 0 )</span><br><span class="line">    &#123;</span><br><span class="line">        (void) mach_timebase_info(&amp;sTimebaseInfo);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Convert the mach time to milliseconds</span><br><span class="line">    uint64_t millis = ((machTime / 1000000) * sTimebaseInfo.numer) / sTimebaseInfo.denom;</span><br><span class="line">    return millis;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 计算脚本时间</span><br><span class="line"> * @param $last 最后一次的运行clock</span><br><span class="line"> * @param $key  标识</span><br><span class="line"> * @return 当前clock</span><br><span class="line"> */</span><br><span class="line">double timeNow(double last, char* key)&#123;</span><br><span class="line">    clock_t now = clock();</span><br><span class="line">    printf(&quot;time:%fs \t key:%s \n&quot;, (last != 0) ? (double)(now - last) / CLOCKS_PER_SEC : 0, key);</span><br><span class="line">    return now;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">double t1 = t(0, &quot;&quot;);</span><br><span class="line">//do something</span><br><span class="line">t(t1, &quot;end&quot;);</span><br></pre></td></tr></table></figure>
+<p>参考：</p>
+<p><a href="https://zhuanlan.zhihu.com/p/24377367?refer=mrpeak" target="_blank" rel="noopener">iOS关于时间的处理</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/12/25/iOS参考动画/" rel="next" title="iOS参考动画">
+          iOS参考动画
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/12/27/JSON数据压缩/" rel="prev" title="JSON数据压缩">
+            JSON数据压缩
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

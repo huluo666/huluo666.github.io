@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS," />
+  
+
+  
+    <meta name="description" content="const常量与define宏定义，结构体的区别" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>const常量与define宏定义，结构体的区别 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        const常量与define宏定义，结构体的区别
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-04-21T09:23:31.000Z">
+        2017-04-21
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 12 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h4 id="define和const区别"><a href="#define和const区别" class="headerlink" title="#define和const区别"></a>#define和const区别</h4><p><strong>(1) 编译器处理方式不同</strong></p>
+<ul>
+<li><code>编译时刻</code>:define宏是预编译（编译之前处理），const是编译运行阶段。</li>
+</ul>
+<p><strong>(2) 类型和编译安全检查不同</strong></p>
+<ul>
+<li>define宏没有类型，不做任何类型检查，仅仅是替换展开，不会报编译错误。</li>
+<li>const常量有具体的类型，在编译阶段会执行类型检查，会报编译错误。</li>
+<li>有些集成化的调试工具可以对const常量进行调试，但是不能对宏常量进行调试。</li>
+</ul>
+<p><strong>(3) 存储方式不同</strong></p>
+<ul>
+<li>define宏仅仅是展开，有多少地方使用，就展开多少次，不会分配内存。（宏定义不分配内存，<strong>变量定义</strong>分配内存。）</li>
+<li>const常量会在内存中分配(可以是堆中也可以是栈中)。</li>
+</ul>
+<p><strong>(4)const  可以节省空间，避免不必要的内存分配。</strong></p>
+<p> 例如：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define PI 3.14159 //常量宏</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> Pi=<span class="number">3.14159</span>; <span class="comment">//此时并未将Pi放入ROM中 ......</span></span><br><span class="line"><span class="keyword">double</span> i=Pi; <span class="comment">//此时为Pi分配内存，以后不再分配！</span></span><br><span class="line"><span class="keyword">double</span> I=PI; <span class="comment">//编译期间进行宏替换，分配内存</span></span><br><span class="line"><span class="keyword">double</span> j=Pi; <span class="comment">//没有内存分配</span></span><br><span class="line"><span class="keyword">double</span> J=PI; <span class="comment">//再进行宏替换，又一次分配内存！</span></span><br></pre></td></tr></table></figure>
+<p>宏是直接替换的,它会产生许多个临时的存储空间来存储需要替换的部分,这样会浪费内存,没有必要。 const定义常量从汇编的角度来看，只是给出了对应的内存地址，而不是象#define一样给出的是立即数，所以，const定义的常量在程序运行过程中只有一份拷贝（因为是全局的只读变量，存在静态区），而 #define定义的常量在内存中有若干个拷贝。</p>
+<p><strong>(5) 提高了效率。</strong></p>
+<p> 编译器通常不为普通const常量分配存储空间，而是将它们保存在符号表中，这使得它成为一个编译期间的常量，没有了存储与读内存的操作，使得它的效率也很高。使用大量#define宏，容易造成编译时间久，每次都需要重新替换。</p>
+<p><strong>(6) 宏替换只作替换，不做计算，不做表达式求解;</strong></p>
+<p>宏预编译时就替换了，程序运行时，并不分配内存。</p>
+<h4 id="static简介"><a href="#static简介" class="headerlink" title="static简介"></a>static简介</h4><ul>
+<li>修饰局部变量：<br>1.延长局部变量的生命周期,程序结束才会销毁。<br>2.局部变量只会生成一份内存,只会初始化一次。</li>
+<li>修饰全局变量<br>1.只能在本文件中访问,修改全局变量的作用域,生命周期不会改。</li>
+</ul>
+<h4 id="const简介"><a href="#const简介" class="headerlink" title="const简介"></a>const简介</h4><p>之前常用的字符串常量，一般是抽成宏，但是苹果不推荐我们抽成宏，推荐我们使用const常量。</p>
+<p>const在C语言中算是一个比较新的描述符，我们称之为常量修饰符，意即其所修饰<br>的对象为常量(immutable)。</p>
+<p>const只修饰它右边的内容，被const修饰的内容都是常量、都是不能再修改的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// （基本数据变量p，指针变量*p）</span></span><br><span class="line"><span class="comment">// const修饰指针变量访问的内存空间，修饰的是右边*p1，</span></span><br><span class="line"><span class="keyword">int</span>  *<span class="keyword">const</span> p1; <span class="comment">// p1:常量 *p1:变量--(*常量=指针变量)</span></span><br><span class="line"><span class="keyword">int</span>  <span class="keyword">const</span> *p2; <span class="comment">// p2:变量 *p2:常量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *p3;  <span class="comment">// p3:变量 *p3:常量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 第一个const修饰*p4 第二个const修饰 p4</span></span><br><span class="line"><span class="comment">// 两种方式一样，也即被const修饰的内容都是常量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p4;  <span class="comment">//  p4：常量 *p4：常量</span></span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * <span class="keyword">const</span> p5;  <span class="comment">//  p5：常量 *p4：常量</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>注：判断p和p是只读还是变量 关键是看const在谁前面。<ul>
+<li>如果只在p前面，那么p只读 *p还是变量；</li>
+<li>如果在<em>p前面，p是变量   </em>p是只读。</li>
+</ul>
+</li>
+</ul>
+<p><code>extern</code>与<code>const</code>联合使用</p>
+<p>开发中使用场景:在多个文件中经常使用的同一个字符串常量，可以使用extern与const组合。</p>
+<p>原因:</p>
+<ul>
+<li>static与const组合：在每个文件都需要定义一份静态全局变量。</li>
+<li>extern与const组合:只需要定义一份全局变量，多个文件共享。</li>
+</ul>
+<p>例如：</p>
+<p>AppConst.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> kStr1  = <span class="string">@"kimi"</span>;<span class="comment">//此处定义的kStr1不能改变，否则会发生错误</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">NSString</span>  <span class="keyword">const</span> *kStr2 = <span class="string">@"kimi"</span>;<span class="comment">//跟上面的定义写法不同，但是结果一样</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">NSString</span>  *kStr3 = <span class="string">@"kimi"</span>;<span class="comment">//此处定义的kStr可修改其值，但是修改过后他们的内存地址一样。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> kStr4;</span><br><span class="line"><span class="keyword">extern</span> <span class="built_in">NSString</span> *<span class="keyword">const</span> kStr5;</span><br></pre></td></tr></table></figure>
+<p>AppConst.m</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *<span class="keyword">const</span> kStr4 = <span class="string">@"kimi"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *<span class="keyword">const</span> kStr5 = <span class="string">@"kimi"</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">2017-04-21 14:47:02.077  kStr1内存地址： 0x109ddd0e0=FirstViewController</span><br><span class="line">2017-04-21 14:47:02.078  kStr2内存地址： 0x109dde408=FirstViewController</span><br><span class="line">2017-04-21 14:47:02.079  kStr3内存地址： 0x109dde410=FirstViewController</span><br><span class="line">2017-04-21 14:47:02.079  kStr4内存地址： 0x109ddd0d0=FirstViewController</span><br><span class="line">2017-04-21 14:47:02.080  kStr5内存地址： 0x109ddd0d8=FirstViewController</span><br><span class="line"></span><br><span class="line">2017-04-21 14:47:27.747  kStr1内存地址： 0x109ddd080=SecViewController</span><br><span class="line">2017-04-21 14:47:27.748  kStr2内存地址： 0x109dde320=SecViewController</span><br><span class="line">2017-04-21 14:47:27.748  kStr3内存地址： 0x109dde328=SecViewController</span><br><span class="line">2017-04-21 14:47:27.748  kStr4内存地址： 0x109ddd0d0=SecViewController</span><br><span class="line">2017-04-21 14:47:27.749  kStr5内存地址： 0x109ddd0d8=SecViewController</span><br><span class="line"></span><br><span class="line">2017-04-21 14:47:51.019  kStr1内存地址： 0x109ddd088=TestViewController</span><br><span class="line">2017-04-21 14:47:51.019  kStr2内存地址： 0x109dde3f0=TestViewController</span><br><span class="line">2017-04-21 14:47:51.020  kStr3内存地址： 0x109dde3f8=TestViewController</span><br><span class="line">2017-04-21 14:47:51.020  kStr4内存地址： 0x109ddd0d0=TestViewController</span><br><span class="line">2017-04-21 14:47:51.020  kStr5内存地址： 0x109ddd0d8=TestViewController</span><br></pre></td></tr></table></figure>
+<p>结论：使用<code>static NSString *const xxx  = @&quot;xxx&quot;</code>; 申明的静态全局常量，经过测试页面消失进入，相同Controller打印的内存地址相同，在不同Controller中内存地址不同，表明如果在不同文件中使用会占据多个内存空间，而使用 <code>extern NSString *const xxxx</code> 申明的全局静态变量，在不同文件中的内存地址都是相同的，表面只开辟一个内存空间。</p>
+<p>所以，全局常量正规写法:开发中便于管理所有的全局变量，通常创建GlobeConst文件，里面专门定义全局变量，统一管理。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//GlobeConst.h</span></span><br><span class="line"><span class="keyword">extern</span> <span class="built_in">NSString</span> * <span class="keyword">const</span> KNameKey = <span class="string">@"kimi"</span>;</span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSString</span> *<span class="keyword">const</span> MyFirstConstant;</span><br><span class="line">FOUNDATION_EXPORT <span class="built_in">NSString</span> *<span class="keyword">const</span> MySecondConstant;</span><br><span class="line"><span class="comment">//etc.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//GlobeConst.m</span></span><br><span class="line"><span class="built_in">NSString</span> * <span class="keyword">const</span>    KNameKey = <span class="string">@"kimi"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *<span class="keyword">const</span> MyFirstConstant = <span class="string">@"FirstConstant"</span>;</span><br><span class="line"><span class="built_in">NSString</span> *<span class="keyword">const</span> MySecondConstant = <span class="string">@"SecondConstant"</span>;</span><br></pre></td></tr></table></figure>
+<p>当然由于开发中常用数据类型所占字节很小，所以使用<code>static NSString *const xxx  = @&quot;xxx&quot;</code>来申明全局常量问题也不大，可以不在GlobeConst.m中添加代码，相对方便。</p>
+<p>使用字符串常量代替 <code>#define</code>宏定义会常数是可以使用指针比较相等性测试 (<code>stringInstance == MyFirstConstant</code>) 这比字符串比较快得多 (<code>[stringInstance isEqualToString:MyFirstConstant]</code>)</p>
+<p>传送门：<a href="http://huluo666.cn/2016/05/23/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F/" target="_blank" rel="noopener">常用数据类型对应字节数</a></p>
+<h5 id="其它全局常量的一些写法"><a href="#其它全局常量的一些写法" class="headerlink" title="其它全局常量的一些写法"></a>其它全局常量的一些写法</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in the header</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">struct</span> MANotifyingArrayNotificationsStruct</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *didAddObject;</span><br><span class="line">    <span class="built_in">NSString</span> *didChangeObject;</span><br><span class="line">    <span class="built_in">NSString</span> *didRemoveObject;</span><br><span class="line">&#125; MANotifyingArrayNotifications;</span><br><span class="line"></span><br><span class="line"><span class="comment">// in the implementation</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">struct</span> MANotifyingArrayNotificationsStruct MANotifyingArrayNotifications = &#123;</span><br><span class="line">    .didAddObject = <span class="string">@"didAddObject"</span>,</span><br><span class="line">    .didChangeObject = <span class="string">@"didChangeObject"</span>,</span><br><span class="line">    .didRemoveObject = <span class="string">@"didRemoveObject"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//访问</span></span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,MANotifyingArrayNotifications.didAddObject);</span><br></pre></td></tr></table></figure>
+<p>定义UIKit常量注意将.m文件改成.mm</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">UIColor</span> *)paleYellowColor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">UIColor</span>* paleYellow = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">if</span> (paleYellow == <span class="literal">nil</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        paleYellow = [<span class="built_in">UIColor</span> colorWithHueDegrees:<span class="number">60</span> saturation:<span class="number">0.2</span> brightness:<span class="number">1.0</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> paleYellow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.h文件</span><br><span class="line"><span class="keyword">extern</span> <span class="built_in">UIColor</span> *  <span class="keyword">const</span> COLOR_LIGHT_BLUE;</span><br><span class="line"></span><br><span class="line">.mm文件</span><br><span class="line"><span class="built_in">UIColor</span>* <span class="keyword">const</span> COLOR_LIGHT_BLUE = [[<span class="built_in">UIColor</span> alloc] initWithRed:<span class="number">21.0</span>f/<span class="number">255</span> green:<span class="number">180.0</span>f/<span class="number">255</span>  blue:<span class="number">1</span> alpha:<span class="number">1</span>];</span><br></pre></td></tr></table></figure>
+<p>使用单例保存全局变量</p>
+<p><a href="http://zhangbuhuai.com/initialize-and-load-in-objectivec/" target="_blank" rel="noopener">+initialize和+load</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#define和const区别"><span class="toc-text">#define和const区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#static简介"><span class="toc-text">static简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#const简介"><span class="toc-text">const简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#其它全局常量的一些写法"><span class="toc-text">其它全局常量的一些写法</span></a></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/04/20/iOS常数的定义/" rel="next" title="iOS常数的定义">
+          iOS常数的定义
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/04/24/iOS IPA重签名/" rel="prev" title="iOSipa重签名">
+            iOSipa重签名
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="node.js," />
+  
+
+  
+    <meta name="description" content="利用gulp和browser-sync实现Pug(jade)的实时预览" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>利用gulp和browser-sync实现Pug(jade)的实时预览 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        利用gulp和browser-sync实现Pug(jade)的实时预览
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-04-01T06:43:51.000Z">
+        2017-04-01
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>jade由于和注册商标重名，更名为pug。</p>
+<h5 id="一、Pug安装编译"><a href="#一、Pug安装编译" class="headerlink" title="一、Pug安装编译"></a>一、Pug安装编译</h5><p><code>$ npm install -g pug #全局安装</code></p>
+<p>这里如果遇见了</p>
+<p><code>bash: pug: command not found</code></p>
+<p>还需要安装<code>pug-cli</code>，具体原因，Github给出的解释是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You need to install pug-cli. The CLI was separated from the core library as part of this release.</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npm install -g pug-cli</span></span><br></pre></td></tr></table></figure>
+<p>cli是命令行端的程序。我们通过命令行来编译pug文件。</p>
+<h5 id="pug简单使用："><a href="#pug简单使用：" class="headerlink" title="pug简单使用："></a>pug简单使用：</h5><p><code>pug -h</code>— 查看帮助</p>
+<p><code>pug demo.pug</code>—在同级目录渲染并生成html文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">常用参数说明:</span><br><span class="line">-o 制定html输出目录</span><br><span class="line">-P 格式化输出html文件（样式美观）</span><br><span class="line">-w 监听模式，一旦pug文件有修改，自动会再次渲染输出html文件</span><br><span class="line">-b 制定所有pug文件的根目录用来指定文件的绝对路径</span><br><span class="line">-p 使用绝对路径方式</span><br></pre></td></tr></table></figure>
+<h4 id="二、gulp和browser-sync安装"><a href="#二、gulp和browser-sync安装" class="headerlink" title="二、gulp和browser-sync安装"></a>二、gulp和browser-sync安装</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo npm install gulp-pug</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo npm install browser-sync gulp --save-dev  </span></span><br><span class="line"><span class="meta">#</span><span class="bash">—save-dev这个属性会将条目保存到你package.json的devDependencies里面</span></span><br></pre></td></tr></table></figure>
+<p>在当前目录 创建package.json和gulpfile.js</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> node init   <span class="comment">#创建package.json文件</span></span></span><br></pre></td></tr></table></figure>
+<p>1.package.json文件配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;name&quot;: &quot;gulp&quot;,</span><br><span class="line">	&quot;version&quot;: &quot;3.9.1&quot;,</span><br><span class="line">	&quot;description&quot;: &quot;配置package文件，实现文件更改后浏览器即时刷新&quot;,</span><br><span class="line">	&quot;main&quot;: &quot;gulpfile.js&quot;,</span><br><span class="line">	&quot;scripts&quot;: &#123;</span><br><span class="line">		&quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;keywords&quot;: [</span><br><span class="line">		&quot;gulp&quot;</span><br><span class="line">	],</span><br><span class="line">	&quot;author&quot;: &quot;fidding.hjh&quot;,</span><br><span class="line">	&quot;devDependencies&quot;: &#123;</span><br><span class="line">		&quot;browser-sync&quot;: &quot;^2.10.0&quot;,</span><br><span class="line">		&quot;gulp&quot;: &quot;^3.9.1&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意里面的版本号要与安装的版本相对应</p>
+<p>2.gulpfile.js配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gulp        = <span class="built_in">require</span>(<span class="string">'gulp'</span>);</span><br><span class="line"><span class="keyword">var</span> browserSync = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>).create();</span><br><span class="line"><span class="keyword">var</span> pug = <span class="built_in">require</span>(<span class="string">'gulp-pug'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 编译pug</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">gulp.task(<span class="string">'task_pug'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(pug);</span><br><span class="line">	<span class="keyword">return</span> gulp.src(<span class="string">'./src/*.pug'</span>)</span><br><span class="line">		.pipe(pug(&#123;<span class="attr">pretty</span>:<span class="literal">true</span>&#125;)) <span class="comment">//格式化</span></span><br><span class="line">		.pipe(gulp.dest(<span class="string">'./src'</span>)) <span class="comment">//输出到文件夹</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*静态页面html实时预览*/</span></span><br><span class="line">gulp.task(<span class="string">'browser-sync'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	browserSync.init(&#123;</span><br><span class="line">		server: <span class="string">"./src"</span>	<span class="comment">////指定服务器启动根目录  </span></span><br><span class="line">	&#125;);</span><br><span class="line">	</span><br><span class="line">	gulp.watch(<span class="string">'src/*.pug'</span>, [<span class="string">'task_pug'</span>]);	<span class="comment">//监听pug文件变化-执行task_pug方法使用gulp-pug编译pug</span></span><br><span class="line">	gulp.watch([<span class="string">'src/*.html'</span>,]).on(<span class="string">"change"</span>,browserSync.reload);<span class="comment">//监听pug文件变化 刷新浏览器</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'default'</span>,[<span class="string">'task_pug'</span>,<span class="string">'browser-sync'</span>]); <span class="comment">//定义默认任务 命令 gulp default</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>$ gulp default</code> 会打开<a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> 页面，如果出现Can’t get  url 页面，需要在src目录下添加index.html页面。</p>
+<ul>
+<li><p><code>gulp</code> 等价于<code>gulp default</code>,运行default中定义的所有任务</p>
+<p>​</p>
+</li>
+</ul>
+<p>Mac系统可以使用<a href="https://www.npmjs.com/package/http-server" target="_blank" rel="noopener">http-server</a>或Python开启 <code>Web Server</code>,当前工作目录下执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m SimpleHTTPServer 3000    #指定与gulp相同端口3000</span><br></pre></td></tr></table></figure>
+<p>把生成的网页目录以文件名<code>index.html</code>保存到<code>src</code>目录下即可</p>
+<p>这样每次修改pug文件会自动编译成html文件，并利用<code>browser-sync</code>实时刷新预览。</p>
+<h4 id="三、出错解决："><a href="#三、出错解决：" class="headerlink" title="三、出错解决："></a>三、出错解决：</h4><p><a href="http://stackoverflow.com/questions/21406738/cant-get-gulp-to-run-cannot-find-module-gulp-util" target="_blank" rel="noopener">Can’t get Gulp to run: cannot find module ‘gulp-util’</a></p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><ul>
+<li><a href="http://www.jianshu.com/p/61b31dbf030d" target="_blank" rel="noopener">gulp 基本使用</a></li>
+</ul>
+<ul>
+<li><a href="http://blog.leanote.com/post/github-dtcz/gulp%E9%85%8D%E7%BD%AE%E5%AE%8C%E5%85%A8%E7%AF%87" target="_blank" rel="noopener">gulp配置完全指南</a></li>
+</ul>
+<ul>
+<li><p><a href="http://www.techug.com/post/gulp.html" target="_blank" rel="noopener">Gulp使用指南</a></p>
+</li>
+<li><p><a href="http://colobu.com/2014/11/17/gulp-plugins-introduction/" target="_blank" rel="noopener">gulp plugins 插件介绍</a></p>
+</li>
+<li><a href="http://www.jianshu.com/p/6f85a44d01f4" target="_blank" rel="noopener">gulp.watch的两种使用方法</a></li>
+</ul>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、Pug安装编译"><span class="toc-text">一、Pug安装编译</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pug简单使用："><span class="toc-text">pug简单使用：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、gulp和browser-sync安装"><span class="toc-text">二、gulp和browser-sync安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、出错解决："><span class="toc-text">三、出错解决：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考："><span class="toc-text">参考：</span></a>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/03/31/输入法小技巧/" rel="next" title="输入法小技巧">
+          输入法小技巧
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/04/01/macOS快捷键/" rel="prev" title="macOS快捷键">
+            macOS快捷键
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

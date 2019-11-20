@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="新建,模板,小书匠," />
+  
+
+  
+    <meta name="description" content="Runtime实现自定义description打印中文" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>Runtime实现自定义description打印中文 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Runtime实现自定义description打印中文
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-03-30T08:57:21.000Z">
+        2018-03-30
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/新建-模板-小书匠/">新建,模板,小书匠</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>实现原理简介：首先通过runtiime获取对象属性，然后取值进行自定义拼接，通过runtime方法交换自定义description方法，通过Unicode解码打印中文。只在Debug状态下进行方法交换</p>
+<p>在接触runtime前，团队开发时为便于调试，常常需要在model里进行description重写，手工重写十分的繁琐不便。而通过runtime方法交换可以无需一行代码即可自定义description，十分方便。另外，从服务器请求下来的json数据包含中文，控制无法直接显示中文，通过重写<br>DescriptionWithLocale方法Uinicode转码后可以方便查看中文，方便开发调试。</p>
+<p>需导入<code>#import &lt;objc/runtime.h&gt;</code></p>
+<ol>
+<li>description—-当通过NSLog函数打印一个对象时，其输出结果就是该对象的description方法的返回值</li>
+<li>debugDescription—当在LLDB中，通过诸如po命令打印一个对象时，其输出结果就是该对象的debugDescription方法的返回值。</li>
+<li>debugDescription—默认实现就是直接返回description方法的返回值。</li>
+</ol>
+<p>代码如下：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"NSObject+AutoDescription.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"NSObject+Propertys.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;objc/runtime.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 1.description----当通过NSLog函数打印一个对象时，其输出结果就是该对象的description方法的返回值</span></span><br><span class="line"><span class="comment"> 2.debugDescription---当在LLDB中，通过诸如po命令打印一个对象时，其输出结果就是该对象的debugDescription方法的返回值。</span></span><br><span class="line"><span class="comment"> 3.debugDescription---默认实现就是直接返回description方法的返回值。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span> (<span class="title">AutoDescription</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  C 方法交换</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span>  SwizzleMethods_AutoDes(Class cls, SEL originalSel, SEL newSel)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//获取实例方法</span></span><br><span class="line">    Method originalMethod = class_getInstanceMethod(cls, originalSel);</span><br><span class="line">    Method newMethod = class_getInstanceMethod(cls, newSel);</span><br><span class="line">    <span class="comment">//改变两个方法的具体指针指向</span></span><br><span class="line">    method_exchangeImplementations(originalMethod, newMethod);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// DEBUG输出</span></span><br><span class="line"><span class="meta">#ifdef DEBUG</span></span><br><span class="line">+ (<span class="keyword">void</span>)load &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        SwizzleMethods_AutoDes([<span class="built_in">NSObject</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(description), <span class="keyword">@selector</span>(autoDescription));</span><br><span class="line"><span class="comment">//        method_exchangeImplementations(class_getInstanceMethod([NSObject class], @selector(description)), class_getInstanceMethod([NSObject class], @selector(autoDescription)));</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)autoDescription</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (![<span class="keyword">self</span> isKindOfClass:[<span class="built_in">NSObject</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 调试状态</span></span><br><span class="line">    <span class="built_in">NSArray</span> * allProperties = [<span class="keyword">self</span>  getAllProperties];</span><br><span class="line">    <span class="built_in">NSString</span> * print_str = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"❗%@\n"</span>,[<span class="keyword">self</span> <span class="keyword">class</span>]];</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> * propertyName <span class="keyword">in</span> allProperties) &#123;</span><br><span class="line">        <span class="keyword">id</span> value = [<span class="keyword">self</span> valueForKey:propertyName]?:<span class="string">@"nil"</span>;<span class="comment">//默认值为nil字符串</span></span><br><span class="line">        <span class="keyword">if</span> (![value isKindOfClass:[<span class="built_in">NSString</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="keyword">return</span> print_str;</span><br><span class="line">        &#125;</span><br><span class="line">        print_str = [print_str stringByAppendingFormat:<span class="string">@"\t└%@:%@\n"</span>,propertyName,value];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> print_str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Uicode转码方法<br>参考 <a href="http://stackoverflow.com/questions/2099349/using-objectivec-cocoa-to-unescape-unicode-characters-ie-u1234/" target="_blank" rel="noopener">StackFlow</a></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="built_in">NSString</span> *)stringByReplaceUnicode:(<span class="built_in">NSString</span> *)string</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSMutableString</span> *convertedString = [string mutableCopy];</span><br><span class="line">    [convertedString replaceOccurrencesOfString:<span class="string">@"\\U"</span> withString:<span class="string">@"\\u"</span> options:<span class="number">0</span> range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, convertedString.length)];</span><br><span class="line">    <span class="built_in">CFStringRef</span> transform = <span class="built_in">CFSTR</span>(<span class="string">"Any-Hex/Java"</span>);</span><br><span class="line">    <span class="built_in">CFStringTransform</span>((__bridge <span class="built_in">CFMutableStringRef</span>)convertedString, <span class="literal">NULL</span>, transform, <span class="literal">YES</span>);</span><br><span class="line">    <span class="keyword">return</span> convertedString;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>字典NSDictionary，数组NSArray Description<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#pragma mark--- NSDictionary Description</span></span><br><span class="line"><span class="meta">#if DEBUG</span></span><br><span class="line"><span class="comment">//直接打印中文乱码问题</span></span><br><span class="line"><span class="comment">//http://objccn.io/issue-9-1/</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSDictionary</span> (<span class="title">AutoDescription</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    SwizzleMethods_AutoDes([<span class="built_in">NSDictionary</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(descriptionWithLocale:), <span class="keyword">@selector</span>(autoDescriptionWithLocale:));</span><br><span class="line">    SwizzleMethods_AutoDes([<span class="built_in">NSDictionary</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(descriptionWithLocale:indent:), <span class="keyword">@selector</span>(autoDescriptionWithLocale:indent:));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)autoDescriptionWithLocale:(<span class="keyword">id</span>)locale</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *description=[<span class="keyword">self</span> autoDescriptionWithLocale:locale];</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSObject</span> stringByReplaceUnicode:description];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)autoDescriptionWithLocale:(<span class="keyword">id</span>)locale indent:(<span class="built_in">NSUInteger</span>)level</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *description=[<span class="keyword">self</span> autoDescriptionWithLocale:locale indent:level];</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSObject</span> stringByReplaceUnicode:description];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark--- NSArray Description</span></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSArray</span> (<span class="title">AutoDescription</span>)</span></span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    SwizzleMethods_AutoDes([<span class="built_in">NSArray</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(descriptionWithLocale:), <span class="keyword">@selector</span>(autoDescriptionWithLocale:));</span><br><span class="line">    SwizzleMethods_AutoDes([<span class="built_in">NSArray</span> <span class="keyword">class</span>], <span class="keyword">@selector</span>(descriptionWithLocale:indent:), <span class="keyword">@selector</span>(autoDescriptionWithLocale:indent:));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)autoDescriptionWithLocale:(<span class="keyword">id</span>)locale</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *description=[<span class="keyword">self</span> autoDescriptionWithLocale:locale];</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSObject</span> stringByReplaceUnicode:description];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)autoDescriptionWithLocale:(<span class="keyword">id</span>)locale indent:(<span class="built_in">NSUInteger</span>)level</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSString</span> *description=[<span class="keyword">self</span> autoDescriptionWithLocale:locale indent:level];</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSObject</span> stringByReplaceUnicode:description];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/03/30/Xcode格式化代码/" rel="next" title="Xcode格式化代码">
+          Xcode格式化代码
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/04/02/React-Native开发环境搭建-Mac/" rel="prev" title="React Native开发环境搭建-Mac">
+            React Native开发环境搭建-Mac
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

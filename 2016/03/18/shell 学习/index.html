@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="shell," />
+  
+
+  
+    <meta name="description" content="shell 学习" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>shell 学习 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        shell 学习
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-03-18T09:33:45.000Z">
+        2016-03-18
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shell/">shell</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>shell程序设计</p>
+<p><a href="http://opus.konghy.cn/shell-tutorial/index.html" target="_blank" rel="noopener">http://opus.konghy.cn/shell-tutorial/index.html</a></p>
+<p><code>#!/bin/sh</code></p>
+<p>shell编程是以”#”为注释，但对<code>&quot;#!/bin/sh&quot;</code>却不是。</p>
+<p><code>&quot;#!/bin/sh&quot;</code>是对shell的声明，说明你所用的是那种类型的shell及其路径所在。</p>
+<p>#!/bin/sh 是指此脚本使用/bin/sh来解释执行，#!是特殊的表示符，其后面根的是此解释此脚本的shell的路径。</p>
+<p><code>“#!”</code>是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行。</p>
+<p>C是编译型语言，而shell是解释型语言。</p>
+<p><a href="https://github.com/qinjx/30min_guides/blob/master/shell.md" target="_blank" rel="noopener">https://github.com/qinjx/30min_guides/blob/master/shell.md</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">cd ~</span><br><span class="line">mkdir shell_tut</span><br><span class="line">cd shell_tut</span><br><span class="line"></span><br><span class="line">for ((i=0; i&lt;10; i++)); do</span><br><span class="line">    touch test_$i.txt</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h3 id="示例解释"><a href="#示例解释" class="headerlink" title="示例解释"></a>示例解释</h3><ul>
+<li>第1行：指定脚本解释器，这里是用/bin/sh做解释器的</li>
+<li>第2行：切换到当前用户的home目录</li>
+<li>第3行：创建一个目录shell_tut</li>
+<li>第4行：切换到shell_tut目录</li>
+<li>第5行：循环条件，一共循环10次</li>
+<li>第6行：创建一个test_1…10.txt文件</li>
+<li>第7行：循环体结束</li>
+</ul>
+<p><strong>流程判断语句if/if else/if else-if else</strong></p>
+<h4 id="if"><a href="#if" class="headerlink" title="if"></a>if</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h4 id="if-else"><a href="#if-else" class="headerlink" title="if else"></a>if else</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if condition</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">else</span><br><span class="line">    command</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<h4 id="if-else-if-else"><a href="#if-else-if-else" class="headerlink" title="if else-if else"></a>if else-if else</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if condition1</span><br><span class="line">then</span><br><span class="line">    command1</span><br><span class="line">elif condition2</span><br><span class="line">    command2</span><br><span class="line">else</span><br><span class="line">    commandN</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>写成一行用分号隔开（适用于终端命令提示符）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if `ps -ef | grep ssh`;  then echo hello; fi</span><br></pre></td></tr></table></figure>
+<p>末尾的fi就是if倒过来拼写</p>
+<h3 id="for-while"><a href="#for-while" class="headerlink" title="for while"></a>for while</h3><h4 id="for"><a href="#for" class="headerlink" title="for"></a>for</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for var in item1 item2 ... itemN</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    ...</span><br><span class="line">    commandN</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h4 id="C风格的for"><a href="#C风格的for" class="headerlink" title="C风格的for"></a>C风格的for</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (( EXP1; EXP2; EXP3 ))</span><br><span class="line">do</span><br><span class="line">    command1</span><br><span class="line">    command2</span><br><span class="line">    command3</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h4 id="while"><a href="#while" class="headerlink" title="while"></a>while</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while condition</span><br><span class="line">do</span><br><span class="line">    command</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h4 id="无限循环"><a href="#无限循环" class="headerlink" title="无限循环"></a>无限循环</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while :</span><br><span class="line">do</span><br><span class="line">    command</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while true</span><br><span class="line">do</span><br><span class="line">    command</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (( ; ; ))</span><br></pre></td></tr></table></figure>
+<h4 id="until"><a href="#until" class="headerlink" title="until"></a>until</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">until condition</span><br><span class="line">do</span><br><span class="line">    command</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h3 id="case"><a href="#case" class="headerlink" title="case"></a>case</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">case &quot;$&#123;opt&#125;&quot; in</span><br><span class="line">    &quot;Install-Puppet-Server&quot; )</span><br><span class="line">        install_master $1</span><br><span class="line">        exit</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">    &quot;Install-Puppet-Client&quot; )</span><br><span class="line">        install_client $1</span><br><span class="line">        exit</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">    &quot;Config-Puppet-Server&quot; )</span><br><span class="line">        config_puppet_master</span><br><span class="line">        exit</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">    &quot;Config-Puppet-Client&quot; )</span><br><span class="line">        config_puppet_client</span><br><span class="line">        exit</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">    &quot;Exit&quot; )</span><br><span class="line">        exit</span><br><span class="line">    ;;</span><br><span class="line"></span><br><span class="line">    * ) echo &quot;Bad option, please choose again&quot;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<p>case的语法和C family语言差别很大，它需要一个esac（就是case反过来）作为结束标记，每个case分支用右圆括号，用两个分号表示break</p>
+<p>执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> /bin/sh  test.sh</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> /bin/php test.php</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Permission denied</span></span><br><span class="line"><span class="meta">$</span><span class="bash">chmod +x test.sh	 <span class="comment">#使脚本具有执行权限 OR chmod 755 test.sh</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash">./test.sh			 <span class="comment">#执行脚本</span></span></span><br></pre></td></tr></table></figure>
+<p>关于 <code>man</code> 命令</p>
+<p>相当于帮助命令，如输入<code>man ls</code>即可进入使用指南页面。</p>
+<p><strong>常用命令文件夹操作命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>目录参数</th>
+<th>功能描述</th>
+<th style="text-align:left">事例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>表示当前目录</td>
+<td style="text-align:left">cd .  ls</td>
+</tr>
+<tr>
+<td>..</td>
+<td>表示当前目录的上一级目录</td>
+<td style="text-align:left">open .</td>
+</tr>
+<tr>
+<td>/</td>
+<td>根目录/目录分隔符</td>
+<td style="text-align:left">cd /</td>
+</tr>
+<tr>
+<td>./</td>
+<td>当前目录</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td>../</td>
+<td>回到上一级目录</td>
+<td style="text-align:left">cd ../..=cd ../+ ..</td>
+</tr>
+<tr>
+<td>~</td>
+<td>当前登陆用户目录</td>
+</tr>
+</tbody>
+</table>
+<p>相对路径/绝对路径 凡是以/开始的路径，都是绝对路径</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能描述</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pwd</td>
+<td>显示当前目录的绝对路径</td>
+<td></td>
+</tr>
+<tr>
+<td>ls</td>
+<td>列出当前目录的内容</td>
+<td></td>
+</tr>
+<tr>
+<td>cd</td>
+<td>切换工作目录</td>
+<td>cd /Users/myhome/</td>
+</tr>
+<tr>
+<td>open</td>
+<td>打开当前目录</td>
+</tr>
+</tbody>
+</table>
+<h3 id="处理特殊字符"><a href="#处理特殊字符" class="headerlink" title="处理特殊字符"></a>处理特殊字符</h3><p>如果目录中有特殊字符（空格，括号，引号，<code>[]</code>，<code>!</code>，<code>$</code>，<code>&amp;</code>，<code>*</code>，<code>;</code>，<code>|</code>，<code>\</code>），那么直接输入空格会造成系统识别困难，必须使用特殊的语法来表示这些字符。例如上例中，空格前添加反斜杠“<code>\</code>”（back slash）即可：<code>cd Punlic/Drop\ Box/</code>。除了反斜杠，也可以用引号的方法：<code>cd &quot;Public/Drop Box&quot;。</code></p>
+<p><strong>shell命令ifconfig</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">显示: ifconfig [设备名] 如 ifconfig en0</span><br><span class="line">显示过滤: ifconfig [设备名] |grep [string] 如 ifconfig en0 |grep ether</span><br><span class="line">配置ip: ifconfig [设备名] [ip] netmask [netmask]</span><br><span class="line">配置硬件ID: ifconfig en0 hw ether [硬件地址]</span><br><span class="line">启用或禁用设备 ifconfig en0 [up/down]</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ifconfig | grep <span class="string">"inet"</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">命令名</th>
+<th style="text-align:left">功能描述</th>
+<th>使用举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">mkdir</td>
+<td style="text-align:left">创建一个目录</td>
+<td>mkdir dirname</td>
+</tr>
+<tr>
+<td style="text-align:left">rmdir</td>
+<td style="text-align:left">删除一个目录</td>
+<td>rmdir dirname</td>
+</tr>
+<tr>
+<td style="text-align:left">mvdir</td>
+<td style="text-align:left">移动或重命名一个目录</td>
+<td>mvdir dir1 dir2</td>
+</tr>
+<tr>
+<td style="text-align:left">cd</td>
+<td style="text-align:left">改变当前目录</td>
+<td>cd dirname</td>
+</tr>
+<tr>
+<td style="text-align:left">pwd</td>
+<td style="text-align:left">显示当前目录的路径名</td>
+<td>pwd</td>
+</tr>
+<tr>
+<td style="text-align:left">ls</td>
+<td style="text-align:left">显示当前目录的内容</td>
+<td>ls -la <strong>-w 显示中文，-l 详细信息， -a 包括隐藏文件</strong></td>
+</tr>
+<tr>
+<td style="text-align:left">dircmp</td>
+<td style="text-align:left">比较两个目录的内容</td>
+<td>dircmp dir1 dir2</td>
+</tr>
+</tbody>
+</table>
+<p>用terminal启动相应程序打开文件的方法</p>
+<p> <code>open (-a) [program][filename]</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> open  -a Typora  README.md</span></span><br></pre></td></tr></table></figure>
+<p><strong>通配符</strong></p>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?</td>
+<td>匹配一个任意字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配0个或任意多个任意字符，也就是可以匹配任何内容</td>
+</tr>
+<tr>
+<td>[ ]</td>
+<td>匹配中括号中任意一个字符，例如：[abc]代表一个字符，或者a,或者b，或者c</td>
+</tr>
+<tr>
+<td>[-]</td>
+<td>匹配中括号中任意一个字符，代表一个范围。例如：[a-z]代表匹配一个小写字母</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td>逻辑非，表示匹配不是中括号内的一个字符，例如：[^0-9]代表匹配一个不是数字的字符</td>
+</tr>
+</tbody>
+</table>
+<p>shell权限修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chmod 777 aa.sh</span><br><span class="line">chmod -x aa.sh</span><br></pre></td></tr></table></figure>
+<p><a href="http://c.biancheng.net/cpp/shell/" target="_blank" rel="noopener">http://c.biancheng.net/cpp/shell/</a> C语言中文网<br><a href="http://www.iosxxx.com/blog/2015-12-25-mac-shellru-men.html#u53C2_u8003_u76EE_u5F55" target="_blank" rel="noopener">Mac shell入门</a><br><a href="http://www.jianshu.com/p/3291de46f3ff" target="_blank" rel="noopener">Mac 终端命令大全</a><br><a href="http://www.weiosx.com/show-12-142-1.html" target="_blank" rel="noopener">Mac OS X 终端常用命令大全</a><br><a href="http://www.iosxxx.com/blog/2015-12-25-mac-shellru-men.html#u53C2_u8003_u76EE_u5F55" target="_blank" rel="noopener">SHELL中的循环语句总结(FOR, WHILE, UNTIL）</a><br><a href="http://www.renfei.org/blog/mac-os-x-terminal-101.html" target="_blank" rel="noopener">Mac OS X Terminal 101：终端使用初级教程</a><br><a href="http://metman.info/blog/2014/11/05/bashjiao-ben-huo-qu-zi-shen-lu-jing-fang-fa/" target="_blank" rel="noopener">Bash脚本获取自身路径方法</a><br><a href="http://aotu.io/mac/docs/" target="_blank" rel="noopener">MAC全栈开发环境搭建指南</a><br><a href="http://www.jeffjade.com/2016/03/03/2016-03-02-how-to-use-atom/" target="_blank" rel="noopener">新编码神器Atom使用纪要</a><br><a href="http://w3cshow.com/2015/05/23/mac-terminal-md/" target="_blank" rel="noopener">http://w3cshow.com/2015/05/23/mac-terminal-md/</a><br><a href="http://www.jianshu.com/p/161a77e580b7" target="_blank" rel="noopener">使用shell脚本批量修改文件后缀名</a><br><a href="http://www.jellythink.com/archives/699" target="_blank" rel="noopener">Linux Shell简明教程（一）</a><br><a href="http://www.runoob.com/linux/linux-shell.html" target="_blank" rel="noopener">http://www.runoob.com/linux/linux-shell.html</a></p>
+<p>Shell参数解析脚本传参方法总结</p>
+<p><a href="http://www.jianshu.com/p/ff85119d2630" target="_blank" rel="noopener">http://www.jianshu.com/p/ff85119d2630</a><br><a href="https://www.jianshu.com/p/d3cd36c97abc" target="_blank" rel="noopener">https://www.jianshu.com/p/d3cd36c97abc</a><br><a href="http://www.zmonster.me/2014/08/09/pare-arguments-in-shell-function.html" target="_blank" rel="noopener">http://www.zmonster.me/2014/08/09/pare-arguments-in-shell-function.html</a></p>
+<p>shell脚本中echo显示内容带颜色的实现方法</p>
+<p><a href="http://www.jianshu.com/p/ba1b8aded634" target="_blank" rel="noopener">http://www.jianshu.com/p/ba1b8aded634</a><br><a href="http://huangshanben.com/articles/3031/" target="_blank" rel="noopener">http://huangshanben.com/articles/3031/</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#示例解释"><span class="toc-text">示例解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#if"><span class="toc-text">if</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#if-else"><span class="toc-text">if else</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#if-else-if-else"><span class="toc-text">if else-if else</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-while"><span class="toc-text">for while</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#for"><span class="toc-text">for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#C风格的for"><span class="toc-text">C风格的for</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#while"><span class="toc-text">while</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#无限循环"><span class="toc-text">无限循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#until"><span class="toc-text">until</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#case"><span class="toc-text">case</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理特殊字符"><span class="toc-text">处理特殊字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#目录操作"><span class="toc-text">目录操作</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/03/15/Swift学习-UITableView的简单使用/" rel="next" title="Swift学习-UITableView的简单使用">
+          Swift学习-UITableView的简单使用
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/03/18/UITableViewCell 间距/" rel="prev" title="UITableViewCell 间距设置">
+            UITableViewCell 间距设置
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

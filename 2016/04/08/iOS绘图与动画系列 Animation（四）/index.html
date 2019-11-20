@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS,动画,绘图," />
+  
+
+  
+    <meta name="description" content="iOS绘图与动画系列 Animation（四）" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS绘图与动画系列 Animation（四） [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS绘图与动画系列 Animation（四）
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-04-08T07:02:35.000Z">
+        2016-04-08
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS-动画-绘图/">iOS,动画,绘图</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>本系列文章很多知识点来源<a href="http://www.kancloud.cn/manual/ios" target="_blank" rel="noopener"><strong>ios核心动画高级技巧</strong></a>一书，提供了完整的绘图动画学习路线，强烈推荐阅读！</p>
+<p>前面通过<code>Core Graphics（Quartz 2D）</code>和<code>CAShapeLayer</code>与<code>UIBezierPath</code>结合可以随心所欲的绘制我们想要的图形。</p>
+<p>但是有些不足的是绘制的图形都是静态的，动画就是让这些图形动起来。</p>
+<h1 id="隐式动画、显式动画"><a href="#隐式动画、显式动画" class="headerlink" title="隐式动画、显式动画"></a>隐式动画、显式动画</h1><p><img src="http://7xr7vj.com1.z0.glb.clouddn.com/2016/04/08/FossyAr_1dtpH2cbIMf5icP8XV8M144.png" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/65cc0af7gw1dxlusbklpmj.jpg" alt=""></p>
+<h4 id="一、隐式动画"><a href="#一、隐式动画" class="headerlink" title="一、隐式动画"></a>一、隐式动画</h4><p><strong>1、什么是隐式动画？</strong></p>
+<p>每一个UIView内部都默认关联着一个<code>CALayer</code>，我们可以称这个Layer为<code>Root Layer</code>(根层)，所有非<code>Root Layer</code>，也就是手动创建的CALayer对象，都存在着隐式动画</p>
+<ul>
+<li>当对非RootLayer的部分属性进行修改时，默认会自动产生一些动画效果</li>
+<li>而这些属性称为AnimatableProperties(可动画属性)</li>
+<li>也就是说，对非根层的layer可动画属性进行修改产生的动画，就称为隐式动画</li>
+<li>之所以叫隐式是因为我们并没有指定任何动画的类型。我们仅仅改变了一个属性，然后Core Animation来决定如何并且何时去做动画。</li>
+<li>隐式动画是指通过UIView的<code>animateWithDuration:animations:</code>方法创建的动画。无须创建动画对象，只需改变动画层的属性，让核心动画自己去完成动画效果, 例如(CATransaction)。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bounds：用于设置CALayer的宽度和高度。修改这个属性会产生缩放动画</span><br><span class="line">backgroundColor：用于设置CALayer的背景色。修改这个属性会产生背景色的渐变动画</span><br><span class="line">position：用于设置CALayer的位置。修改这个属性会产生平移动画</span><br></pre></td></tr></table></figure>
+<p><strong>2、可以通过动画事务(CATransaction)关闭默认的隐式动画效果</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (view)moveLayer:(<span class="type">BOOL</span>)animation &#123;</span><br><span class="line">    <span class="keyword">if</span> (animation) &#123;</span><br><span class="line">        <span class="comment">// 改变了图层的位置，默认会有动画效果，这叫图层的隐式动画</span></span><br><span class="line">        <span class="keyword">self</span>.myLayer.position = <span class="type">CGPointMake</span>(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">        [<span class="keyword">self</span>.btnOfMove setTitle:@<span class="string">"还原"</span> forState:<span class="type">UIControlStateNormal</span>];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 使用事务来去掉图层的隐式动画。</span></span><br><span class="line">        [<span class="type">CATransaction</span> begin];<span class="comment">// 开启事务</span></span><br><span class="line">        [<span class="type">CATransaction</span> setDisableActions:<span class="type">YES</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">self</span>.myLayer.position = <span class="type">CGPointMake</span>(<span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">        </span><br><span class="line">        [<span class="type">CATransaction</span> commit];<span class="comment">// 提交事务</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.jianshu.com/p/966928e9cf49" target="_blank" rel="noopener">http://www.jianshu.com/p/966928e9cf49</a></p>
+<p>隐式动画是ios4之后引入sdk的，之前只有显式动画。从官方的介绍来看，两者并没有什么差别，甚至苹果还推荐使用隐式动画，但是这里面有一个问题，就是使用隐式动画后，View会暂时不能接收用户的触摸、滑动等手势。这就造成了当一个列表滚动时，如果对其中的view使用了隐式动画，就会感觉滚动无法主动停止下来，必须等动画结束了才能停止。</p>
+<h4 id="二、显式动画"><a href="#二、显式动画" class="headerlink" title="二、显式动画"></a>二、显式动画</h4><p>显式动画是指用户自己通过<code>beginAnimations:context:</code>和<code>commitAnimations</code>创建的动画。</p>
+<p>显示动画指的是，需要自己创建和管理动画对象，并且将它们应用到动画层，才能显示动画效果。</p>
+<p>显式动画的基类为<code>CAAnimation</code></p>
+<p><code>CAAnimation</code>分为这4种，他们分别是</p>
+<blockquote>
+<ul>
+<li><strong>1.CABasicAnimation</strong></li>
+<li>通过设定起始点，终点，时间，动画会沿着你这设定点进行移动。</li>
+<li><strong>2.CAKeyframeAnimation</strong></li>
+<li>Keyframe顾名思义就是关键点的frame，你可以通过设定CALayer的始点、中间关键点、终点的frame，时间，动画会沿你设定的轨迹进行移动</li>
+<li><strong>3.CAAnimationGroup</strong></li>
+<li>Group也就是组合的意思，就是把对这个Layer的所有动画都组合起来。PS：一个layer设定了很多动画，他们都会同时执行，如何按顺序执行我到时候再讲。</li>
+<li><strong>4.CATransition</strong></li>
+<li>这个就是苹果帮开发者封装好的一些动画。</li>
+</ul>
+</blockquote>
+<p>1）属性动画—基本动画<code>CABasicAnimation</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CABasicAnimation</span> *opAnim = [<span class="type">CABasicAnimation</span> animationWithKeyPath:@opacity];</span><br><span class="line">opAnim.duration = <span class="number">1.0</span>;</span><br><span class="line">opAnim.fromValue = [<span class="type">NSNumber</span> numberWithFloat:<span class="number">0.1</span>];</span><br><span class="line">opAnim.toValue= [<span class="type">NSNumber</span> numberWithFloat:<span class="number">1.0</span>];</span><br><span class="line">opAnim.repeatCount = <span class="number">1</span>;</span><br><span class="line">[view.layer addAnimation:opAnim forKey:@animateOpacity];</span><br></pre></td></tr></table></figure>
+<p>2）属性动画—关键帧动画<code>CAKeyframeAnimation</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//<span class="doctag">TODO:</span>CAKeyframeAnimation关键帧动画</span></span><br><span class="line">- (void)changeColor</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//1.创建CALayer对象</span></span><br><span class="line">    <span class="type">CALayer</span> *colorLayer = [<span class="type">CALayer</span> layer];</span><br><span class="line">    colorLayer.frame = <span class="type">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">64</span>, <span class="number">64</span>);</span><br><span class="line">    colorLayer.position = <span class="type">CGPointMake</span>(<span class="number">0</span>, <span class="number">150</span>);</span><br><span class="line">    colorLayer.backgroundColor = [<span class="type">UIColor</span> greenColor].<span class="type">CGColor</span>;</span><br><span class="line">    [<span class="keyword">self</span>.layer addSublayer:colorLayer];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">//2.创建关键帧动画</span></span><br><span class="line">    <span class="type">CAKeyframeAnimation</span> *animation = [<span class="type">CAKeyframeAnimation</span> animation];</span><br><span class="line">    animation.keyPath = @<span class="string">"backgroundColor"</span>;</span><br><span class="line">    animation.duration = <span class="number">2.0</span>;</span><br><span class="line">    animation.values = @[</span><br><span class="line">                         (__bridge id)[<span class="type">UIColor</span> blueColor].<span class="type">CGColor</span>,</span><br><span class="line">                         (__bridge id)[<span class="type">UIColor</span> redColor].<span class="type">CGColor</span>,</span><br><span class="line">                         (__bridge id)[<span class="type">UIColor</span> greenColor].<span class="type">CGColor</span>,</span><br><span class="line">                         (__bridge id)[<span class="type">UIColor</span> blueColor].<span class="type">CGColor</span> ];</span><br><span class="line">    animation.keyTimes = @[@(<span class="number">0.0</span>),@(<span class="number">0.3</span>),@(<span class="number">0.6</span>),@(<span class="number">1.0</span>)];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3.将动画应用到colorLayer层</span></span><br><span class="line">    [colorLayer addAnimation:animation forKey:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3、动画组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//TODO:CAAnimationGroup动画组</span><br><span class="line">- (void)changeColor2</span><br><span class="line">&#123;</span><br><span class="line">    //1.创建CALayer对象</span><br><span class="line">    CALayer *colorLayer = [CALayer layer];</span><br><span class="line">    colorLayer.frame = CGRectMake(0, 0, 64, 64);</span><br><span class="line">    colorLayer.position = CGPointMake(0, 150);</span><br><span class="line">    colorLayer.backgroundColor = [UIColor greenColor].CGColor;</span><br><span class="line">    [self.layer addSublayer:colorLayer];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //创建动画1</span><br><span class="line">    CAKeyframeAnimation *animation1 = [CAKeyframeAnimation animation];</span><br><span class="line">    animation1.keyPath = @&quot;position&quot;;</span><br><span class="line">    animation1.path = bezierPath.CGPath;</span><br><span class="line">    animation1.rotationMode = kCAAnimationRotateAuto;</span><br><span class="line">   </span><br><span class="line">    //创建动画2</span><br><span class="line">    CABasicAnimation *animation2 = [CABasicAnimation animation];</span><br><span class="line">    animation2.keyPath = @&quot;backgroundColor&quot;;</span><br><span class="line">    animation2.toValue = (__bridge id)[UIColor redColor].CGColor;</span><br><span class="line">   </span><br><span class="line">    </span><br><span class="line">    //创建动画组</span><br><span class="line">    CAAnimationGroup *groupAnimation = [CAAnimationGroup animation];</span><br><span class="line">    groupAnimation.animations = @[animation1, animation2];</span><br><span class="line">    groupAnimation.duration = 4.0;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //将动画应用到Layer层</span><br><span class="line">    [colorLayer addAnimation:groupAnimation forKey:nil];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、过度动画<code>CATransition</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">动画的开始与结束的快慢,有五个预置分别为(下同):</span><br><span class="line">kCAMediaTimingFunctionLinear 线性,即匀速</span><br><span class="line">kCAMediaTimingFunctionEaseIn 先慢后快</span><br><span class="line">kCAMediaTimingFunctionEaseOut 先快后慢</span><br><span class="line">kCAMediaTimingFunctionEaseInEaseOut 先慢后快再慢</span><br><span class="line">kCAMediaTimingFunctionDefault 实际效果是动画中间比较快.</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (void)transitionForView:(<span class="type">UIView</span>)view</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">CATransition</span> *caTransition = [<span class="type">CATransition</span> animation];</span><br><span class="line">    caTransition.duration = <span class="number">0.5</span>;</span><br><span class="line">    caTransition.delegate = <span class="keyword">self</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//设置运动速度  linear, easeIn, easeOut, easeInEaseOut, default</span></span><br><span class="line">    caTransition.timingFunction = [<span class="type">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseIn];<span class="comment">//切换速度效果</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// kCATransitionFade, kCATransitionMoveIn kCATransitionPush, kCATransitionReveal</span></span><br><span class="line">    caTransition.type = kCATransitionReveal;<span class="comment">//动画切换风格</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//kCATransitionFromRight, kCATransitionFromLeft   kCATransitionFromTop, kCATransitionFromBottom</span></span><br><span class="line">    <span class="comment">//设置子类</span></span><br><span class="line">    caTransition.subtype = kCATransitionFromLeft;<span class="comment">//动画切换方向</span></span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.layer addAnimation:groupAnimation forKey:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Block</code>块实现</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">UIView</span> animateWithDuration:<span class="type">DURATION</span> animations:^&#123;</span><br><span class="line">        [<span class="type">UIView</span> setAnimationCurve:<span class="type">UIViewAnimationCurveEaseInOut</span>];</span><br><span class="line">        [<span class="type">UIView</span> setAnimationTransition:transition forView:view cache:<span class="type">YES</span>];</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<p>都有哪些<code>animationWithKeyPath</code>，如图</p>
+<p><img src="https://github.com/Coneboy-k/KKCoreAnimation/blob/master/image/2.png?raw=true" alt=""></p>
+<p>参考：<a href="https://www.objc.io/issues/12-animations/animations-explained/" target="_blank" rel="noopener">https://www.objc.io/issues/12-animations/animations-explained/</a></p>
+<p>​       <a href="http://www.apeth.com/iOSBook/ch17.html" target="_blank" rel="noopener">http://www.apeth.com/iOSBook/ch17.html</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#隐式动画、显式动画"><span class="toc-text">隐式动画、显式动画</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、隐式动画"><span class="toc-text">一、隐式动画</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、显式动画"><span class="toc-text">二、显式动画</span></a></li></ol></li></ol></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/04/08/iOS绘图与动画系列 CAShapeLayer（三）/" rel="next" title="iOS绘图与动画系列 CAShapeLayer（三）">
+          iOS绘图与动画系列 CAShapeLayer（三）
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/04/10/html教程/" rel="prev" title="html笔记">
+            html笔记
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="JavaScript," />
+  
+
+  
+    <meta name="description" content="iOS使用js库实现css转换json" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS使用js库实现css转换json [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS使用js库实现css转换json
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-08-02T10:08:43.000Z">
+        2017-08-02
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 3 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><a href="https://github.com/aramk/CSSJSON" target="_blank" rel="noopener">https://github.com/aramk/CSSJSON</a></p>
+<p>在cssjson.js文件末尾加入css转换json然后json字符串输出函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleCSSJSON</span>(<span class="params">cssString</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> json = CSSJSON.toJSON(cssString);</span><br><span class="line">    <span class="keyword">var</span> jsonStr = <span class="built_in">JSON</span>.stringify(json);</span><br><span class="line">    <span class="keyword">return</span> jsonStr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)doCssParser</span><br><span class="line">&#123;</span><br><span class="line">    JSContext *context = [[JSContext alloc] init];</span><br><span class="line">    context.exceptionHandler = ^(JSContext *context, JSValue *exception) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"# JS Exception: %@"</span>, exception);</span><br><span class="line">        context.exception = exception;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSString</span> *cssText = [<span class="built_in">NSString</span> stringWithContentsOfFile:[[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"agate"</span> ofType:<span class="string">@"css"</span>]</span><br><span class="line">                                                  encoding:<span class="built_in">NSUTF8StringEncoding</span></span><br><span class="line">                                                     error:<span class="literal">nil</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *jsPath = [[<span class="built_in">NSBundle</span> mainBundle] pathForResource:<span class="string">@"cssjson"</span> ofType:<span class="string">@"js"</span>];</span><br><span class="line">    <span class="built_in">NSString</span> *jsString = [<span class="built_in">NSString</span> stringWithContentsOfFile:jsPath encoding:<span class="built_in">NSUTF8StringEncoding</span> error:<span class="literal">nil</span>];</span><br><span class="line">    [context evaluateScript:jsString];</span><br><span class="line"></span><br><span class="line">    JSValue *function = context[<span class="string">@"exampleCSSJSON"</span>];</span><br><span class="line">    JSValue* result = [function callWithArguments:@[cssText]];</span><br><span class="line">    <span class="built_in">NSString</span> *jsonStr=[result toString];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"result0:%@"</span>,jsonStr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//处理相同一个value对应多个key情况</span></span><br><span class="line">-(<span class="keyword">void</span>)fomatFinalJSONDict:(<span class="built_in">NSDictionary</span>*)jsonDict</span><br><span class="line"> &#123;</span><br><span class="line">       <span class="built_in">NSDictionary</span> *subDict=jsonDict[<span class="string">@"children"</span>];</span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mdict=[<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    [subDict enumerateKeysAndObjectsUsingBlock:^(<span class="built_in">NSString</span> *key, <span class="keyword">id</span>  obj, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">        <span class="built_in">NSArray</span> *keyArr=[key componentsSeparatedByString:<span class="string">@",\n"</span>];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"keyArr:%@"</span>,keyArr);</span><br><span class="line">        <span class="keyword">if</span> (keyArr.count&gt;<span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">NSString</span> *subKey <span class="keyword">in</span> keyArr) &#123;</span><br><span class="line">                [mdict setObject:obj?:<span class="string">@""</span> forKey:subKey];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            [mdict setObject:obj?:<span class="string">@""</span> forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>使用原生oc库解析</p>
+<p><a href="https://github.com/tracy-e/ESCssParser" target="_blank" rel="noopener">https://github.com/tracy-e/ESCssParser</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ESCssParser.h&quot;</span><br><span class="line">-(void)doESCssParser2</span><br><span class="line">&#123;</span><br><span class="line">    NSString *cssText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@&quot;agate&quot; ofType:@&quot;css&quot;]</span><br><span class="line">                                                  encoding:NSUTF8StringEncoding</span><br><span class="line">                                                     error:nil];</span><br><span class="line">    ESCssParser *parser = [[ESCssParser alloc] init];</span><br><span class="line">    NSDictionary *styleSheet = [parser parseText:cssText];</span><br><span class="line">    NSLog(@&quot;styleSheet: %@&quot;, styleSheet);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>虽然使用ESCssParser代码相对较少，但ESCssParser库代码量是很大的，使用js库解析，适用多平台同规则解析，相对全能多了。</p>
+<p>html演示</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    body &#123;</span></span><br><span class="line"><span class="undefined">        font-family: arial, sans-serif;</span></span><br><span class="line"><span class="undefined">        font-size: 18px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    pre &#123;</span></span><br><span class="line"><span class="undefined">        background: #eee;</span></span><br><span class="line"><span class="undefined">        padding: 10px;</span></span><br><span class="line"><span class="undefined">        width: 800px;</span></span><br><span class="line"><span class="undefined">        white-space: pre-wrap;</span></span><br><span class="line"><span class="undefined">        word-break: break-all;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Add this if you're supporting IE 7, 8 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"cssjson.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="comment">// Dummy CSS</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> css = <span class="string">'test'</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> json =exampleCSSJSON(css);</span></span><br><span class="line"><span class="xml">	document.write('<span class="tag">&lt;<span class="name">strong</span>&gt;</span>JSON<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span><span class="tag">&lt;<span class="name">pre</span>&gt;</span>'+json+'<span class="tag">&lt;/<span class="name">pre</span>&gt;</span>');</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其它参考</p>
+<p><a href="http://blog.cnbang.net/tech/2630/" target="_blank" rel="noopener">http://blog.cnbang.net/tech/2630/</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/06/06/MAC之http命令行工具/" rel="next" title="MAC之http命令行工具curl">
+          MAC之http命令行工具curl
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/08/02/iOS-UIWebview测试/" rel="prev" title="iOS webview测试">
+            iOS webview测试
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

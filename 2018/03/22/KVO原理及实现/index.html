@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="KVO原理及实现" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>KVO原理及实现 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        KVO原理及实现
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-03-22T08:17:03.000Z">
+        2018-03-22
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 11 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>KVO的实现原理简述：<br>​    当一个类的属性被观察的时候，系统会通过runtime动态的创建一个该类的派生类<strong>NSKVONotifying_A</strong>，并且会在这个类中重写基类被观察的属性的setter方法，而且系统将这个类的isa指针(<code>object_getClass(obj)</code>)指向了派生类，从而实现了给监听的属性赋值时调用的是派生类的setter方法。重写的setter方法会在调用原setter方法前后，通知观察对象值得改变。</p>
+<p>Person.h</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">copy</span>)    <span class="built_in">NSString</span> *userName;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>)  <span class="built_in">NSInteger</span> age;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">assign</span>)  <span class="built_in">CGFloat</span> height;</span><br><span class="line"></span><br><span class="line"><span class="comment">//手动触发KVO</span></span><br><span class="line">-(<span class="keyword">void</span>)manualTriggerKVO;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>Person.m</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">"Person.h"</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;objc/runtime.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Person</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *  如果重写，这两个方法，kvo就失效了。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//- (void)willChangeValueForKey:(NSString *)key&#123;</span></span><br><span class="line"><span class="comment">//    NSLog(@"willChangeValueForKey");</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//- (void)didChangeValueForKey:(NSString *)key&#123;</span></span><br><span class="line"><span class="comment">//    NSLog(@"didChangeValueForKey");</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)manualTriggerKVO</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//“手动触发userName的KVO”，必写。</span></span><br><span class="line">    [<span class="keyword">self</span> willChangeValueForKey:<span class="string">@"userName"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// “手动触发userName的KVO”，必写。</span></span><br><span class="line">    [<span class="keyword">self</span> didChangeValueForKey:<span class="string">@"userName"</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//options属性改变change的值，这个是观察者要实现的方法。</span></span><br><span class="line">- (<span class="keyword">void</span>)observeValueForKeyPath:(<span class="built_in">NSString</span> *)keyPath ofObject:(<span class="keyword">id</span>)object change:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">NSString</span> *,<span class="keyword">id</span>&gt; *)change context:(<span class="keyword">void</span> *)context&#123;</span><br><span class="line">    <span class="keyword">if</span> ([keyPath isEqualToString:<span class="string">@"age"</span>]) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@:%@"</span>,<span class="keyword">self</span>.class,change);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view from its nib.</span></span><br><span class="line">    Person* one = [Person new];</span><br><span class="line">    Person* two = [Person new];</span><br><span class="line">    Person* three = [Person new];</span><br><span class="line"></span><br><span class="line">    printf(<span class="string">"注册观察者之前\n"</span>);</span><br><span class="line">    PrintDescription(<span class="string">@"one"</span>,one);</span><br><span class="line">    PrintDescription(<span class="string">@"two"</span>,two);</span><br><span class="line">    PrintDescription(<span class="string">@"three"</span>,three);</span><br><span class="line">    PrintMethodImp(<span class="string">@"one"</span>,one, <span class="keyword">@selector</span>(setUserName:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"two"</span>,two, <span class="keyword">@selector</span>(setUserName:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"three"</span>,three, <span class="keyword">@selector</span>(setUserName:));</span><br><span class="line"></span><br><span class="line">    [one addObserver:one forKeyPath:<span class="string">@"age"</span></span><br><span class="line">             options:<span class="built_in">NSKeyValueObservingOptionNew</span></span><br><span class="line">             context:<span class="literal">nil</span>];</span><br><span class="line">    [two addObserver:two forKeyPath:<span class="string">@"height"</span></span><br><span class="line">             options:<span class="built_in">NSKeyValueObservingOptionNew</span></span><br><span class="line">             context:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">    printf(<span class="string">"注册观察者之后\n"</span>);</span><br><span class="line">    Class cls=  object_getClass(one);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"\n\t父类：%@"</span>,cls.superclass);</span><br><span class="line"></span><br><span class="line">    PrintDescription(<span class="string">@"one"</span>,one);</span><br><span class="line">    PrintDescription(<span class="string">@"two"</span>,two);</span><br><span class="line">    PrintDescription(<span class="string">@"three"</span>,three);</span><br><span class="line">    PrintMethodImp(<span class="string">@"one"</span>,one, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"two"</span>,two, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"three"</span>,three, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line"></span><br><span class="line">    one.age=<span class="number">18</span>;</span><br><span class="line">    two.age=<span class="number">25</span>;</span><br><span class="line">    three.age=<span class="number">43</span>;</span><br><span class="line">    printf(<span class="string">"赋值观察者之后\n"</span>);</span><br><span class="line">    PrintDescription(<span class="string">@"one"</span>,one);</span><br><span class="line">    PrintDescription(<span class="string">@"two"</span>,two);</span><br><span class="line">    PrintDescription(<span class="string">@"three"</span>,three);</span><br><span class="line">    PrintMethodImp(<span class="string">@"one"</span>,one, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"two"</span>,two, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line">    PrintMethodImp(<span class="string">@"three"</span>,three, <span class="keyword">@selector</span>(setAge:));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark--打印函数</span></span><br><span class="line"><span class="comment">/** 获取类的方法列表*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="built_in">NSArray</span> *classMethodList(Class aclass) &#123;</span><br><span class="line">    <span class="built_in">NSMutableArray</span>* array = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    Method* methodList = class_copyMethodList(aclass, &amp;count);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">        SEL sel = method_getName(*(methodList+i));</span><br><span class="line">        [array addObject:<span class="built_in">NSStringFromSelector</span>(sel)];</span><br><span class="line">    &#125;</span><br><span class="line">    free(methodList);</span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 打印对象的信息*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="built_in">NSString</span> *PrintDescription(<span class="built_in">NSString</span> *name,<span class="keyword">id</span> obj) &#123;</span><br><span class="line">    <span class="built_in">NSString</span>* string = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"\t%@:%@\n\t表面的类: %@\n\t真实类型: %@\n\t方法列表: %@\n\t方法列表2: %@\n"</span>,</span><br><span class="line">                        name,</span><br><span class="line">                        obj,</span><br><span class="line">                        [obj <span class="keyword">class</span>],</span><br><span class="line">                        object_getClass(obj),</span><br><span class="line">                        [classMethodList(object_getClass(obj)) componentsJoinedByString:<span class="string">@","</span>],</span><br><span class="line">                        [classMethodList([obj <span class="keyword">class</span>]) componentsJoinedByString:<span class="string">@","</span>]</span><br><span class="line">                        ];</span><br><span class="line"></span><br><span class="line">    printf(<span class="string">"%s\n"</span>, [string UTF8String]);</span><br><span class="line">    <span class="keyword">return</span> string;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 打印方法方法实现指针*/</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> PrintMethodImp(<span class="built_in">NSString</span> *name,<span class="keyword">id</span> cls,SEL  sel)</span><br><span class="line">&#123;</span><br><span class="line">    IMP imp1 =class_getMethodImplementation([cls <span class="keyword">class</span>],sel);</span><br><span class="line">    IMP imp11 =class_getMethodImplementation(object_getClass(cls),sel);</span><br><span class="line">    <span class="built_in">NSString</span> *selName=<span class="built_in">NSStringFromSelector</span>(sel);</span><br><span class="line">    printf(<span class="string">"%s方法名%s：Class=%p subClass:%p\n"</span>,[name  UTF8String],[selName  UTF8String],imp1,imp11);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印信息如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">注册观察者之前</span><br><span class="line">	one:&lt;Person: 0x60000002a8a0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: Person</span><br><span class="line">	方法列表: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	two:&lt;Person: 0x6000000296c0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: Person</span><br><span class="line">	方法列表: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	three:&lt;Person: 0x60000002fae0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: Person</span><br><span class="line">	方法列表: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">one方法名setUserName:：Class=0x10f528710 subClass:0x10f528710</span><br><span class="line">two方法名setUserName:：Class=0x10f528710 subClass:0x10f528710</span><br><span class="line">three方法名setUserName:：Class=0x10f528710 subClass:0x10f528710</span><br><span class="line">注册观察者之后</span><br><span class="line">2018-03-26 11:00:57.025622+0800 iOSInterview[3214:356624]</span><br><span class="line">	父类：Person</span><br><span class="line">	one:&lt;Person: 0x60000002a8a0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: NSKVONotifying_Person</span><br><span class="line">	方法列表: setHeight:,setAge:,setUserName:,class,dealloc,_isKVOA</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	two:&lt;Person: 0x6000000296c0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: NSKVONotifying_Person</span><br><span class="line">	方法列表: setHeight:,setAge:,setUserName:,class,dealloc,_isKVOA</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	three:&lt;Person: 0x60000002fae0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: Person</span><br><span class="line">	方法列表: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">one方法名setAge:：Class=0x10f528770 subClass:0x10f886106</span><br><span class="line">two方法名setAge:：Class=0x10f528770 subClass:0x10f886106</span><br><span class="line">three方法名setAge:：Class=0x10f528770 subClass:0x10f528770</span><br><span class="line">2018-03-26 11:00:57.026266+0800 iOSInterview[3214:356624] Person:&#123;</span><br><span class="line">    kind = 1;</span><br><span class="line">    new = 18;</span><br><span class="line">&#125;</span><br><span class="line">赋值观察者之后</span><br><span class="line">	one:&lt;Person: 0x60000002a8a0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: NSKVONotifying_Person</span><br><span class="line">	方法列表: setHeight:,setAge:,setUserName:,class,dealloc,_isKVOA</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	two:&lt;Person: 0x6000000296c0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: NSKVONotifying_Person</span><br><span class="line">	方法列表: setHeight:,setAge:,setUserName:,class,dealloc,_isKVOA</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">	three:&lt;Person: 0x60000002fae0&gt;</span><br><span class="line">	表面的类: Person</span><br><span class="line">	真实类型: Person</span><br><span class="line">	方法列表: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line">	方法列表2: setUserName:,userName,.cxx_destruct,printInfo,observeValueForKeyPath:ofObject:change:context:,height,setHeight:,setAge:,age</span><br><span class="line"></span><br><span class="line">one方法名setAge:：Class=0x10f528770 subClass:0x10f886106</span><br><span class="line">two方法名setAge:：Class=0x10f528770 subClass:0x10f886106</span><br><span class="line">three方法名setAge:：Class=0x10f528770 subClass:0x10f528770</span><br></pre></td></tr></table></figure>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>1、在未添加观察者之前，运行时的类和对象本身的类是一样的。添加KVO后生成NSKVONotifying_Person类，打印NSKVONotifying_Person父类(superclass)为Person，表明<strong>NSKVONotifying_A</strong>为<strong>A</strong>的派生类。</p>
+<p>2、打印方法列表，one,two<code>[obj class]</code>与<code>object_getClass(obj)</code>的方法列表不同，而没有监听属性的three一切正常。可以看到注册KVO后isa指针(<code>object_getClass(obj</code>)对象为NSKVONotifying_Person，并重写了了setHeight，setAge等setter方法,从而利用<code>willChangeValueForKey</code>与<code>didChangevlueForKey</code> 来激活键值通知机制。</p>
+<p>Apple 使用了 isa 混写（isa-swizzling）来实现 KVO 。当观察对象A时，KVO机制动态创建一个新的名为：<strong>NSKVONotifying_A</strong> 的新类，该类继承自对象A的本类，且 KVO 为 <strong>NSKVONotifying_A</strong> 重写观察属性的 setter 方法，setter 方法会负责在调用原 setter 方法之前和之后，通知所有观察对象属性值的更改情况。</p>
+<p>（备注： isa 混写（isa-swizzling）isa：is a kind of ； swizzling：混合，搅合；）</p>
+<p>KVO 的键值观察通知依赖于 NSObject 的两个方法:<code>willChangeValueForKey</code>:和 <code>didChangevlueForKey</code>:，在存取数值的前后分别调用。</p>
+<h4 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h4><p><a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html" target="_blank" rel="noopener">https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#总结："><span class="toc-text">总结：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考文档"><span class="toc-text">参考文档</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/03/22/iOS逆向工程/" rel="next" title="iOS逆向工程">
+          iOS逆向工程
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/03/23/iOS中Class相关方法区别/" rel="prev" title="iOS中Class相关方法区别">
+            iOS中Class相关方法区别
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

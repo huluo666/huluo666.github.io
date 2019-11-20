@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="工具," />
+  
+
+  
+    <meta name="description" content="JSON转模型工具(Mac)" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>JSON转模型工具(Mac) [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        JSON转模型工具(Mac)
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-03-19T04:08:10.000Z">
+        2018-03-19
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工具/">工具</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 3 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>​        工欲善其事，必先利其器，要想不加班、少加班，进行高效率工作，开发辅助工具是必不可少的。JSONToModel就是这样一款将JSON字符转换成model代码的开源工具。虽然网上有很多类似工具，但有个共同特点就是没有代码高亮，不美观，有的不支持网络请求将直接JSON数据生成模型代码。   </p>
+<p>​     其实整个工程主要技术要点在于如何使用Textkit进行代码高亮，模型生成功能就百来行代码，更像一个附加功能，但基本能满足正常开发需求。</p>
+<h4 id="功能及技术点："><a href="#功能及技术点：" class="headerlink" title="功能及技术点："></a>功能及技术点：</h4><h5 id="一、字典转模型代码"><a href="#一、字典转模型代码" class="headerlink" title="一、字典转模型代码"></a>一、字典转模型代码</h5><ul>
+<li>对粘贴JSON字符进行空格过滤处理，减少出现JSON数据不合法情况</li>
+<li>支持网络请求JSON数据进行模型转换</li>
+</ul>
+<h5 id="二、代码高亮"><a href="#二、代码高亮" class="headerlink" title="二、代码高亮"></a>二、代码高亮</h5><ul>
+<li><p>使用正则匹配关键词进行代码高亮</p>
+</li>
+<li><p>使用<a href="https://highlightjs.org/" target="_blank" rel="noopener">highlight.js</a>js库进行代码高亮</p>
+<p>正则匹配与js库2种方式进行进行代码高亮，JavaScript有很多优秀的代码高亮库，以后用到代码高亮功能可以直接用js库来处理，在高亮效率，支持语言数量上都是一个不错的选择。</p>
+<p>​</p>
+<p>具体实现移步代码：<a href="https://github.com/huluo666/JSONToModel" target="_blank" rel="noopener">JSONToModel</a> </p>
+<h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4></li>
+</ul>
+<p><img src="http://7xr7vj.com1.z0.glb.clouddn.com/UC20180319_143233.png" alt="UC20180319_143058.png"></p>
+<h4 id="BugFIX："><a href="#BugFIX：" class="headerlink" title="BugFIX："></a>BugFIX：</h4><p>使用TextKit进行代码高亮时，在iOS上正常，但在Mac OSX上会出现光标错位情况</p>
+<p><a href="https://stackoverflow.com/questions/35522394/nstextstorage-syntax-markdown" target="_blank" rel="noopener">https://stackoverflow.com/questions/35522394/nstextstorage-syntax-markdown</a></p>
+<p><a href="http://christiantietze.de/posts/2017/11/syntax-highlight-nstextstorage-insertion-point-change/" target="_blank" rel="noopener">Why the Selection Changes When You Do Syntax Highlighting in a NSTextView and What You Can Do About It</a></p>
+<h4 id="Thanks"><a href="#Thanks" class="headerlink" title="Thanks:"></a>Thanks:</h4><p><a href="https://github.com/AFNetworking/AFNetworking" target="_blank" rel="noopener">AFNetworking</a></p>
+<p><a href="https://github.com/CoderMJLee/MJExtension" target="_blank" rel="noopener">MJExtension</a></p>
+<p><a href="https://github.com/yichizhang/NSTextView-LineNumberView" target="_blank" rel="noopener">NSTextView-LineNumberView</a></p>
+<p><a href="https://highlightjs.org/" target="_blank" rel="noopener">highlightjs</a></p>
+<h4 id="下版本功能："><a href="#下版本功能：" class="headerlink" title="下版本功能："></a>下版本功能：</h4><p>1、支持Swift模型代码生成</p>
+<p>2、支持GET参数请求，支持POST请求</p>
+<p>3、敬请期待</p>
+<p><strong>Github:</strong><a href="https://github.com/huluo666/JSONToModel" target="_blank" rel="noopener">https://github.com/huluo666/JSONToModel</a></p>
+<h4 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h4><p><a href="https://github.com/objcio/issue-5-textkit" target="_blank" rel="noopener">https://github.com/objcio/issue-5-textkit</a></p>
+<p><a href="https://github.com/objcio/S01E91-rendering-markdown-with-syntax-highlighting" target="_blank" rel="noopener">https://github.com/objcio/S01E91-rendering-markdown-with-syntax-highlighting</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#功能及技术点："><span class="toc-text">功能及技术点：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#一、字典转模型代码"><span class="toc-text">一、字典转模型代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二、代码高亮"><span class="toc-text">二、代码高亮</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#效果"><span class="toc-text">效果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BugFIX："><span class="toc-text">BugFIX：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Thanks"><span class="toc-text">Thanks:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#下版本功能："><span class="toc-text">下版本功能：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考文档"><span class="toc-text">参考文档</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/03/19/CSS转JSON/" rel="next" title="CSS转JSON">
+          CSS转JSON
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/03/22/iOS版本新特性-持续更新/" rel="prev" title="iOS版本新特性(持续更新)">
+            iOS版本新特性(持续更新)
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

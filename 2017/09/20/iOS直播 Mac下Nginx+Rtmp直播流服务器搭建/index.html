@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="工具," />
+  
+
+  
+    <meta name="description" content="iOS直播 Mac下Nginx+Rtmp直播流服务器搭建" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS直播 Mac下Nginx+Rtmp直播流服务器搭建 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS直播 Mac下Nginx+Rtmp直播流服务器搭建
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-09-20T09:48:18.000Z">
+        2017-09-20
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/工具/">工具</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>iOS直播 Mac下Nginx+Rtmp直播流服务器搭建</p>
+<h3 id="1-安装nginx、nginx-rtmp-module"><a href="#1-安装nginx、nginx-rtmp-module" class="headerlink" title="1. 安装nginx、nginx-rtmp-module"></a>1. 安装nginx、nginx-rtmp-module</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1、brew install nginx						 //执行安装nginx </span><br><span class="line">2、brew install nginx-full --with-rtmp-module //执行安装nginx-rtmp-module</span><br></pre></td></tr></table></figure>
+<h3 id="2-nginx-conf配置文件，配置RTMP、HLS"><a href="#2-nginx-conf配置文件，配置RTMP、HLS" class="headerlink" title="2. nginx.conf配置文件，配置RTMP、HLS"></a>2. nginx.conf配置文件，配置RTMP、HLS</h3><p>查找到nginx.conf配置文件（路径<code>/usr/local/etc/nginx/nginx.conf</code>），用文本编辑器配置RTMP、HLS。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在http节点后面加上rtmp配置：</span></span><br><span class="line">rtmp &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">     #监听的端口</span><br><span class="line">      listen 1935;</span><br><span class="line">      # RTMP 直播流配置</span><br><span class="line">      application rtmplive &#123;</span><br><span class="line">          live on;</span><br><span class="line">	      #为 rtmp 引擎设置最大连接数。默认为 off</span><br><span class="line">	      max_connections 1024;</span><br><span class="line">       &#125;</span><br><span class="line"><span class="meta">	  #</span><span class="bash"> HLS 直播流配置</span></span><br><span class="line">      application hls&#123;</span><br><span class="line">          live on;</span><br><span class="line">          hls on;</span><br><span class="line">          hls_path /usr/local/var/www/hls;</span><br><span class="line">          hls_fragment 1s;</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在http中添加 hls 的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location /hls &#123;  </span><br><span class="line">       # Serve HLS fragments  </span><br><span class="line">       types &#123;  </span><br><span class="line">           application/vnd.apple.mpegurl m3u8;  </span><br><span class="line">           video/mp2t ts;  </span><br><span class="line">       &#125;  </span><br><span class="line">       root /usr/local/var/www;  </span><br><span class="line">       #add_header Cache-Controll no-cache;</span><br><span class="line">       expires -1;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-重启nginx服务"><a href="#3-重启nginx服务" class="headerlink" title="3. 重启nginx服务"></a>3. 重启nginx服务</h3><p>重启nginx服务，浏览器中输入 <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080</a>，是否出现欢迎界面确定nginx重启成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+<p>六、直播流转换格式、编码推流</p>
+<p>1.安装 FFmpeg 工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install ffmpeg</span><br></pre></td></tr></table></figure>
+<p>2.推流MP4文件</p>
+<p>视频文件地址：/Users/gao/Desktop/video/test.mp4<br>推流拉流地址：rtmp://localhost:1935/rtmplive/home，rtmp://localhost:1935/rtmplive/home</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//RTMP 协议流</span><br><span class="line">ffmpeg -re -i /Users/gao/Desktop/video/test.mp4 -vcodec libx264 -acodec aac -f flv rtmp://10.14.221.17:1935/rtmplive/home</span><br><span class="line"></span><br><span class="line">//HLS 协议流</span><br><span class="line">ffmpeg -re -i /Users/gao/Desktop/video/test.mp4 -vcodec libx264 -vprofile baseline -acodec aac -ar 44100 -strict -2 -ac 1 -f flv  -q 10 rtmp://10.14.221.17:1935/hls/test</span><br></pre></td></tr></table></figure>
+<p><code>注意</code>： 当我们进行推流之后，可以安装<a href="http://www.pc6.com/mac/112121.html" target="_blank" rel="noopener">VLC</a>、ffplay（支持rtmp协议的视频播放器）本地拉流进行演示</p>
+<p>3.FFmpeg推流命令</p>
+<p>① 视频文件进行直播</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -i /Users/gao/Desktop/video/test.mp4 -vcodec libx264 -vprofile baseline -acodec aac -ar 44100 -strict -2 -ac 1 -f flv  -q 10 rtmp://192.168.1.101:1935/hls/test</span><br><span class="line">ffmpeg -re -i /Users/gao/Desktop/video/test.mp4 -vcodec libx264 -vprofile baseline -acodec aac -ar 44100 -strict -2 -ac 1 -f flv  -q 10 rtmp://10.14.221.17:1935/hls/test</span><br></pre></td></tr></table></figure>
+<p>② 推流摄像头＋桌面+麦克风录制进行直播</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -f avfoundation -framerate 30 -i &quot;1:0&quot; \-f avfoundation -framerate 30 -video_size 640x480 -i &quot;0&quot; \-c:v libx264 -preset ultrafast \-filter_complex &apos;overlay=main_w-overlay_w-10:main_h-overlay_h-10&apos; -acodec libmp3lame -ar 44100 -ac 1  -f flv rtmp://192.168.1.101:1935/hls/test</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.jianshu.com/p/d541b317f71c" target="_blank" rel="noopener">FFmpeg常用推流命令</a></p>
+<p><a href="http://www.jianshu.com/p/ec0e9bc6591d" target="_blank" rel="noopener">在Mac上自己搭建直播服务器</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-安装nginx、nginx-rtmp-module"><span class="toc-text">1. 安装nginx、nginx-rtmp-module</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-nginx-conf配置文件，配置RTMP、HLS"><span class="toc-text">2. nginx.conf配置文件，配置RTMP、HLS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-重启nginx服务"><span class="toc-text">3. 重启nginx服务</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/09/12/appium使用/" rel="next" title="自动化测试APPium使用">
+          自动化测试APPium使用
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/09/22/JavaScript代码编辑器/" rel="prev" title="JavaScript代码编辑器">
+            JavaScript代码编辑器
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

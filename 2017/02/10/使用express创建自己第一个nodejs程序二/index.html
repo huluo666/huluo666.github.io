@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="Node.js," />
+  
+
+  
+    <meta name="description" content="使用express创建自己第一个nodejs程序二" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>使用express创建自己第一个nodejs程序二 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        使用express创建自己第一个nodejs程序二
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-02-10T10:24:12.000Z">
+        2017-02-10
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 8 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>一、添加和安装依赖</p>
+<p><code>package.json</code>这个基本的JSON文件描述了我们的程序以及依赖，比如添加mongodb库，内容如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">"dependencies": &#123;</span><br><span class="line">  "body-parser": "~1.16.0",</span><br><span class="line">  "cookie-parser": "~1.4.3",</span><br><span class="line">  "debug": "~2.6.0",</span><br><span class="line">  "express": "~4.14.1",</span><br><span class="line">  "jade": "~1.11.0",</span><br><span class="line">  "morgan": "~1.7.0",</span><br><span class="line">  "serve-favicon": "~2.3.2",</span><br><span class="line">  "mongodb": "~2.2.31"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note：如何使用npm 查询库信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm view mongodb version  //mongodb库最新版本</span><br><span class="line">npm view mongodb versions //mongodb库所有版本号</span><br><span class="line">npm info mongodb		  //mongodb库详细信息</span><br></pre></td></tr></table></figure>
+<p>二、Mongodb创建数据库并读取数据</p>
+<p>下载地址：<a href="http://www.mongodb.org/downloads" target="_blank" rel="noopener">http://www.mongodb.org/downloads</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install mongodb</span><br><span class="line">mongod -version //验证是否安装了MongoDB</span><br></pre></td></tr></table></figure>
+<p>使用robomongo连接数据库</p>
+<p>下载：<a href="https://robomongo.org/download" target="_blank" rel="noopener">https://robomongo.org/download</a></p>
+<p>打开robomongo，创建<code>localhost:27017</code>连接并connect即可</p>
+<p><a href="http://www.jianshu.com/p/99a92e077660" target="_blank" rel="noopener">Node.js开发笔记-4:MAC安装 mongodb 以及可视化工具</a></p>
+<p>加入数据库链接依赖，monk和mongoose都可以，具体看个人喜好，我选择了mongoose来操作数据，因为对数据库的一些基本操作mongoose也不是很复杂，以后深入学习也有一定的基础。</p>
+<p><a href="https://codeday.me/bug/20170727/47313.html" target="_blank" rel="noopener">https://codeday.me/bug/20170727/47313.html</a></p>
+<p>monk轻量，简单。</p>
+<p>mongoose定位在orm,相对复杂，功能更强。初学者建议使用monk，熟悉后可再用mongoose。</p>
+<h5 id="三、mongoose安装与使用"><a href="#三、mongoose安装与使用" class="headerlink" title="三、mongoose安装与使用"></a>三、mongoose安装与使用</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install mongoose</span><br><span class="line">//建议app的依赖程序放在package.json包里，然后执行npm install安装</span><br></pre></td></tr></table></figure>
+<p>1、创建一个db.js文件来连接数据库`</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*引入mongoose模块*/</span></span><br><span class="line"><span class="keyword">var</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>),</span><br><span class="line">DB_URL = <span class="string">'mongodb://localhost:27017/mongoosesample'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 连接</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">//mongoose.connection.openUri('mongodb://localhost/test')</span></span><br><span class="line">mongoose.connection.openUri(DB_URL)</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 连接成功</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line">mongoose.connection.on(<span class="string">'connected'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'Mongoose connection open to '</span> + DB_URL);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 连接异常</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">mongoose.connection.on(<span class="string">'error'</span>,<span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'Mongoose connection error: '</span> + err);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 连接断开</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">mongoose.connection.on(<span class="string">'disconnected'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'Mongoose connection disconnected'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//导出mongoose对象　</span></span><br><span class="line"><span class="built_in">module</span>.exports = mongoose;</span><br></pre></td></tr></table></figure>
+<p>更多监听事件 <a href="http://mongoosejs.com/docs/api.html#connection_Connection" target="_blank" rel="noopener">http://mongoosejs.com/docs/api.html#connection_Connection</a></p>
+<p>验证是否连接成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node db.js</span><br></pre></td></tr></table></figure>
+<p>输出<code>Mongoose connection open to mongodb://localhost:27017/mongoosesample</code>表示成功</p>
+<p>2、创建一个含Schema的模型，命名为user.js</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**用户信息 */</span><br><span class="line">var mongoose = require('./db.js')</span><br><span class="line"></span><br><span class="line">//1、定义一个Schema，指定字段名和类型</span><br><span class="line">var UserSchema = new mongoose.Schema(&#123;</span><br><span class="line">  //用户账号-定义一个属性name，类型为String,required必须</span><br><span class="line">   username: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    userpwd: &#123; // 密码</span><br><span class="line">      type: String,</span><br><span class="line">      required: true</span><br><span class="line">  &#125;,</span><br><span class="line">	logindate : &#123; type: Date&#125;              //最近登录时间</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//2、将该Schema发布为Model</span><br><span class="line">var userModel = mongoose.model('User',UserSchema);</span><br><span class="line"></span><br><span class="line">// 暴露接口,导出模型提供外部js文件引用</span><br><span class="line">module.exports = userModel;</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://cnodejs.org/topic/504b4924e2b84515770103dd" target="_blank" rel="noopener">Mongoose学习参考文档——基础篇</a></p>
+<p>常用数据库操作</p>
+<p>创建一个test.js文件做一些常用操作演示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 1、引入`user`</span><br><span class="line">var User = require("./user.js");</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 插入</span><br><span class="line"> */</span><br><span class="line">function insert() &#123;</span><br><span class="line"></span><br><span class="line">    var user = new User(&#123;</span><br><span class="line">        username : 'Tracy McGrady',                 //用户账号</span><br><span class="line">        userpwd: 'abcd',                            //密码</span><br><span class="line">        userage: 37,                                //年龄</span><br><span class="line">        logindate : new Date()                      //最近登录时间</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    user.save(function (err, res) &#123;</span><br><span class="line"></span><br><span class="line">        if (err) &#123;</span><br><span class="line">            console.log("Error:" + err);</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            console.log("Res:" + res);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">insert();</span><br></pre></td></tr></table></figure>
+<p>其它操作</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">function update()&#123;</span><br><span class="line">    var wherestr = &#123;'username' : 'Tracy McGrady'&#125;;</span><br><span class="line">    var updatestr = &#123;'userpwd': 'zzzz'&#125;;</span><br><span class="line"></span><br><span class="line">    User.update(wherestr, updatestr, function(err, res)&#123;</span><br><span class="line">        if (err) &#123;</span><br><span class="line">            console.log("Error:" + err);</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            console.log("Res:" + res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function findByIdAndUpdate()&#123;</span><br><span class="line">    var id = '56f2558b2dd74855a345edb2';</span><br><span class="line">    var updatestr = &#123;'userpwd': 'abcd'&#125;;</span><br><span class="line"></span><br><span class="line">    User.findByIdAndUpdate(id, updatestr, function(err, res)&#123;</span><br><span class="line">        if (err) &#123;</span><br><span class="line">            console.log("Error:" + err);</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            console.log("Res:" + res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function del()&#123;</span><br><span class="line">    var wherestr = &#123;'username' : 'Tracy McGrady'&#125;;</span><br><span class="line"></span><br><span class="line">    User.remove(wherestr, function(err, res)&#123;</span><br><span class="line">        if (err) &#123;</span><br><span class="line">            console.log("Error:" + err);</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            console.log("Res:" + res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//update(); 更新</span><br><span class="line">//findByIdAndUpdate(); 根据_id更新</span><br><span class="line">//del(); 删除</span><br></pre></td></tr></table></figure>
+<p>基本流程</p>
+<ul>
+<li>1、引入数据库连接，保证mongodb已经连接成功</li>
+<li>2、引入模型（model）定义文件，即文档（表）结构定义</li>
+<li>3、实例化UserModel，创建user实体</li>
+<li>4、最后通过user实体对数据库进行操作，完成用户注册功能。</li>
+</ul>
+<p><a href="http://www.cnblogs.com/zhongweiv/p/mongoose.html" target="_blank" rel="noopener">http://www.cnblogs.com/zhongweiv/p/mongoose.html</a></p>
+<p><a href="https://i5ting.github.io/wechat-dev-with-nodejs/db/mongoose.html" target="_blank" rel="noopener">https://i5ting.github.io/wechat-dev-with-nodejs/db/mongoose.html</a></p>
+<p><strong>nodejs建立socket.io服务</strong></p>
+<p>通过nodejs的http模块就可以方便的搭建websocket服务器环境，例如下面的代码：</p>
+<h4 id="安装socket-io"><a href="#安装socket-io" class="headerlink" title="安装socket.io"></a>安装socket.io</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install socket.io</span><br></pre></td></tr></table></figure>
+<p>官方示例<a href="https://socket.io/docs/server-api/" target="_blank" rel="noopener">https://socket.io/docs/server-api/</a></p>
+<p>socket.io+express多房间聊天应用<br><a href="http://www.jianshu.com/p/40d8bc17529f" target="_blank" rel="noopener">http://www.jianshu.com/p/40d8bc17529f</a><br><a href="http://www.jianshu.com/p/4ea6fc68f5f8" target="_blank" rel="noopener">利用socket.io+nodejs打造简单聊天室</a><br><a href="http://www.jianshu.com/p/6966f12284b5" target="_blank" rel="noopener">第十二天 长连接(net和socket.io)</a><br><a href="http://js8.in/2011/09/29/%E5%9C%A8express%E5%92%8Csocket-io%E4%B8%AD%E4%BD%BF%E7%94%A8session/" target="_blank" rel="noopener">在Express和Socket.IO中使用session</a><br><a href="http://www.moye.me/2015/01/02/node_socket-io/" target="_blank" rel="noopener">基于Socket.IO 的私聊</a><br><a href="https://github.com/fengli12321/Socket.io-FLSocketIM-iOS" target="_blank" rel="noopener">https://github.com/fengli12321/Socket.io-FLSocketIM-iOS</a><br><a href="https://github.com/HOWIE-CH/-You-guess-I-painted-_socket" target="_blank" rel="noopener">https://github.com/HOWIE-CH/-You-guess-I-painted-_socket</a><br>SRSocket<br><a href="https://github.com/TheBloodElf/SocketIOChatDemo" target="_blank" rel="noopener">https://github.com/TheBloodElf/SocketIOChatDemo</a><br><a href="https://github.com/jingtao910429/PomeloMessageCenterSocketIO" target="_blank" rel="noopener">https://github.com/jingtao910429/PomeloMessageCenterSocketIO</a><br><a href="https://github.com/full-of-fire/Socket.IO_ChatDemo" target="_blank" rel="noopener">https://github.com/full-of-fire/Socket.IO_ChatDemo</a><br><a href="https://github.com/saturngod/Socket.io-with-iOS" target="_blank" rel="noopener">https://github.com/saturngod/Socket.io-with-iOS</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#三、mongoose安装与使用"><span class="toc-text">三、mongoose安装与使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#安装socket-io"><span class="toc-text">安装socket.io</span></a>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/02/07/极客导航/" rel="next" title="极客导航">
+          极客导航
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/02/10/使用express创建自己第一个nodejs程序/" rel="prev" title="使用express创建自己第一个nodejs程序">
+            使用express创建自己第一个nodejs程序
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

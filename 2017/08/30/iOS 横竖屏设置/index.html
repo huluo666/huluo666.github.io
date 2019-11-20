@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="iOS横竖屏设置" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS横竖屏设置 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS横竖屏设置
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-08-30T07:24:35.000Z">
+        2017-08-30
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 7 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>iOS指定页面默认横屏，自由切换</p>
+<ul>
+<li><p>model下，present方式推出界面。</p>
+</li>
+<li><p>push横屏，带tabbar、navigation，且一个item下所有控制器对应的只有一个根navigation。</p>
+</li>
+</ul>
+<p>1、修改工程的info.plist中”Supported interface orientations”的值（一般在工程的Taget-&gt; General -&gt; Deployment Info -&gt; Device Orientation处打钩来选择设备支持）</p>
+<p>2、实现工程的AppDelegate文件中的（application:supportedInterfaceOrientationsForWindow:）方法，在此方法中返回程序支持的方向枚举。</p>
+<p>iOS 横竖屏设置</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIInterfaceOrientationMaskLandscape</span> 	 	支持左右横屏</span><br><span class="line"><span class="built_in">UIInterfaceOrientationMaskAll</span>  				支持四个方向旋转</span><br><span class="line"><span class="built_in">UIInterfaceOrientationMaskAllButUpsideDown</span> 	支持除了UpsideDown以外的旋转</span><br><span class="line"></span><br><span class="line"><span class="comment">//支持旋转</span></span><br><span class="line">-(<span class="built_in">BOOL</span>)shouldAutorotate&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//支持的方向</span></span><br><span class="line">- (<span class="built_in">UIInterfaceOrientationMask</span>)supportedInterfaceOrientations &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskAllButUps</span></span><br></pre></td></tr></table></figure>
+<p>1、先在AppDelegate中重写<code>supportedInterfaceOrientationsForWindow</code>方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">UIInterfaceOrientationMask</span>)application:(<span class="built_in">UIApplication</span>*)application supportedInterfaceOrientationsForWindow:(<span class="built_in">UIWindow</span>*)window&#123;</span><br><span class="line">   <span class="keyword">return</span>	<span class="built_in">UIInterfaceOrientationMaskAll</span>;	<span class="comment">//支持全方向</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、创建一个UINavigationController的子类BaseNaviController，设置self.window的RootViewController为BaseNaviController;</p>
+<p>然后，我们在BaseNaviController.m文件里面也实现着两个方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">BOOL</span>)shouldAutorotate</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span>.topViewController shouldAutorotate];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="built_in">UIInterfaceOrientationMask</span>)supportedInterfaceOrientations</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span>.topViewController supportedInterfaceOrientations];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.在第一个页面写上，支持旋转 但是这个页面只支持竖屏，代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//支持旋转</span></span><br><span class="line">-(<span class="built_in">BOOL</span>)shouldAutorotate&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//支持的方向因为界面A我们只需要支持竖屏</span></span><br><span class="line">- (<span class="built_in">UIInterfaceOrientationMask</span>)supportedInterfaceOrientations &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskPortrait</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.第二个页面我们写上，我们所需要的横屏效果，代码：</p>
+<p>当只需要锁定屏幕的旋转不需要设置屏幕的旋转方向 ( 方向固定是竖直)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 是否支持屏幕旋转</span><br><span class="line">-(BOOL)shouldAutorotate &#123;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开启屏幕旋转并设置屏幕旋转支持的方向</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 是否支持屏幕旋转 (返回 NO 后面俩方法不调用，后面只支持竖直方向)</span></span><br><span class="line">-(<span class="built_in">BOOL</span>)shouldAutorotate &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 支持屏幕旋转的方向</span></span><br><span class="line">- (<span class="built_in">UIInterfaceOrientationMask</span>)supportedInterfaceOrientations &#123;</span><br><span class="line">  <span class="comment">//  通过设置返回的枚举值来改变屏幕旋转支持的方向</span></span><br><span class="line">  <span class="comment">//（iPad上的默认返回值是UIInterfaceOrientationMaskAll，</span></span><br><span class="line">  <span class="comment">//  iPhone上的默认返回值是UIInterfaceOrientationMaskAllButUpsideDown）</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">UIInterfaceOrientationMaskAll</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Returns interface orientation masks. （返回最优先显示的屏幕方向）</span></span><br><span class="line"><span class="comment">// 同时支持Portrait和Landscape方向，但想优先显示Landscape方向，那软件启动的时候就会先显示Landscape，在手机切换旋转方向的时候仍然可以在Portrait和Landscape之间切换；</span></span><br><span class="line"><span class="comment">// 返回现在正在显示的用户界面方向</span></span><br><span class="line"><span class="comment">//此方法也仅有在当前viewController是rootViewController或者是modal模式时才生效.</span></span><br><span class="line">- (<span class="built_in">UIInterfaceOrientation</span>)preferredInterfaceOrientationForPresentation &#123;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>对于非modal模式的viewController:如果不是rootViewController,则重写supportedInterfaceOrientations,preferredInterfaceOrientationForPresentation以及shouldAutorotate方法, 按照当前viewController的需要返回响应的值.如果是rootViewController,则如下重写方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-(NSUInteger)supportedInterfaceOrientations&#123;</span><br><span class="line">        return self.topMostViewController.supportedInterfaceOrientations;</span><br><span class="line">&#125;</span><br><span class="line">-(BOOL)shouldAutorotate&#123;</span><br><span class="line">        return [self.topMostViewController shouldAutorotate];</span><br><span class="line">&#125;</span><br><span class="line">- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation&#123;</span><br><span class="line">return [self.topMostViewController preferredInterfaceOrientationForPresentation];</span><br><span class="line">&#125;</span><br><span class="line">-(UIViewController*)topMostViewController&#123;</span><br><span class="line">//找到当前正在显示的viewController并返回.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>显而易见, 我们巧妙的绕开了UIKit只调用rootViewController的方法的规则. 把决定权交给了当前正在显示的viewController.<br>对于modal模式的viewController. 则按照需要重写<code>supportedInterfaceOrientations</code>,<br><code>preferredInterfaceOrientationForPresentation</code>以及<code>shouldAutorotate</code> 方法即可.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">UIApplication* app = [UIApplication sharedApplication];</span><br><span class="line"></span><br><span class="line">// 判断设备方向状态，做响应的操作</span><br><span class="line">if(app.statusBarOrientation == UIInterfaceOrientationPortrait || app.statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)&#123;</span><br><span class="line"></span><br><span class="line">&#125;else if(app.statusBarOrientation == UIInterfaceOrientationLandscapeLeft || app.statusBarOrientation == UIInterfaceOrientationLandscapeRight)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIInterfaceOrientationPortrait---------按钮在下</span><br><span class="line">UIInterfaceOrientationPortraitUpsideDown---------按钮在上</span><br><span class="line">UIInterfaceOrientationLandscapeLeft---------按钮在左</span><br><span class="line">UIInterfaceOrientationLandscapeRight---------按钮在右</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 通过状态栏电池图标来判断屏幕方向</span><br><span class="line">    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationMaskPortrait) &#123;</span><br><span class="line">        // 竖屏 balabala</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // 横屏 balabala</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>AppDelegate.m中有如下方法可以设置整个app的方向。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window &#123;</span><br><span class="line">      return UIInterfaceOrientationMaskLandscape;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">该方法实质上是制定window的方向，虽然一个app有多个VC，但是window都只有一个，所以这个指定了window的方向，那所有VC的方向就都是统一的。</span><br></pre></td></tr></table></figure>
+<p>已废弃方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shouldAutorotateToInterfaceOrientation //在iOS6之前</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.jianshu.com/p/f917df3e3b2e" target="_blank" rel="noopener">http://www.jianshu.com/p/f917df3e3b2e</a></p>
+<p><a href="http://www.jianshu.com/p/3e7724db8cd6" target="_blank" rel="noopener">视频播放器全屏旋转实现</a></p>
+<p><a href="https://github.com/JR-Dun/iOSRotationScreen" target="_blank" rel="noopener">https://github.com/JR-Dun/iOSRotationScreen</a></p>
+<p><a href="https://github.com/linsyorozuya/AutoRotateControlDemo" target="_blank" rel="noopener">https://github.com/linsyorozuya/AutoRotateControlDemo</a></p>
+<p><a href="https://github.com/Jude309307972/RotateDemo" target="_blank" rel="noopener">https://github.com/Jude309307972/RotateDemo</a></p>
+<p><a href="https://github.com/janicezhw/TestAutoRotation" target="_blank" rel="noopener">https://github.com/janicezhw/TestAutoRotation</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/08/15/mokjson/" rel="next" title="MockJson 在线模拟数据">
+          MockJson 在线模拟数据
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/09/04/iOS 判断是否主线程/" rel="prev" title="判断是否主线程">
+            判断是否主线程
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

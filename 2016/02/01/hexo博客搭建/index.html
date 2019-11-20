@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="hexo," />
+  
+
+  
+    <meta name="description" content="hexo 博客搭建" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>hexo 博客搭建 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        hexo 博客搭建
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-02-01T02:33:55.000Z">
+        2016-02-01
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="一、hexo与相关环境安装"><a href="#一、hexo与相关环境安装" class="headerlink" title="一、hexo与相关环境安装"></a>一、hexo与相关环境安装</h3><p><strong>1）、安装<code>node.js</code>，<code>git</code>环境</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install node  #使用homebrew安装，这个Mac使用者必备吧</span><br><span class="line">brew install git   #如果安装了xcode，那么也就已经安装了git</span><br><span class="line"><span class="meta">#</span><span class="bash"> brew uninstall node 卸载node</span></span><br></pre></td></tr></table></figure>
+<p>查看node安装是否成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node -v #输出版本信息 v6.x.x</span><br></pre></td></tr></table></figure>
+<p><strong>2）、安装hexo</strong></p>
+<p>hexo的安装使用最好查看<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a>，官网很详细，因为版本升级，网上那些信息可能不准确而多走弯路</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash">sudo npm install hexo-cli -g <span class="comment">#全局安装Hexo客户端 3.0后</span></span></span><br></pre></td></tr></table></figure>
+<p>升级</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo v                      <span class="comment">#查看版本信息，检查是否安装成功</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm update hexo-cli -g      <span class="comment">#更新hexo到最新版</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="二、hexo初始化"><a href="#二、hexo初始化" class="headerlink" title="二、hexo初始化"></a>二、hexo初始化</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> xxx.github.io      <span class="comment">#博客目录</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo init  folder     <span class="comment">#folder可不填</span></span></span><br></pre></td></tr></table></figure>
+<p>如果指定 <code>folder</code>，便会在目前的资料夹建立一个名为 <code>folder</code> 的新资料夹；否则会在目前资料夹初始化。</p>
+<p><strong>相关依赖库安装</strong></p>
+<p>本人发现安装 <code>hexo-cli</code>时已安装以下库，如果出现相应错误，则需要安装。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install  #这个命令会把需要的依赖环境都自动装上</span><br><span class="line"><span class="meta">#</span><span class="bash">hexo从 3.0 开始把服务器独立成了个别模块，所以要本地调试的话，还需要安装 hexo-server 才能使用</span></span><br><span class="line">npm install hexo-deployer-git --save  #如果没hexo d 失败则安装</span><br><span class="line">npm install hexo-server --save        #如果没hexo s 失败则安装</span><br></pre></td></tr></table></figure>
+<h3 id="三、创建新博客"><a href="#三、创建新博客" class="headerlink" title="三、创建新博客"></a><strong>三、创建新博客</strong></h3><p>在当前目录<code>xxx.github.io</code></p>
+<p><code>hexo new &quot;Hello World&quot;</code></p>
+<h3 id="四、生成网站-amp-本地调试"><a href="#四、生成网站-amp-本地调试" class="headerlink" title="四、生成网站&amp;本地调试"></a>四、生成网站&amp;本地调试</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean    #清除缓存文件 (db.json) 和已生成的静态文件 (public)。</span><br><span class="line">hexo generate #生成网站静态文件  可缩写为 hexo g</span><br><span class="line">hexo server   #启动服务，     可缩写为 hexo s </span><br><span class="line">hexo deploy   #部署网站 部署前，需要预先生成静态文件 可缩写为 hexo d</span><br></pre></td></tr></table></figure>
+<p>常用组合命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo d -g <span class="comment">#生成部署</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo s -g <span class="comment">#生成预览</span></span></span><br></pre></td></tr></table></figure>
+<p>本地查看调试地址：<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a></p>
+<p>也可以指定端口如<code>hexo s -p 80</code></p>
+<p>出现<code>Branch master set up to track remote branch master from https://github.com/xxxx.github.io.git.</code>表示部署成功</p>
+<p>访问博客: <a href="http://username.github.io/" target="_blank" rel="noopener">http://username.github.io</a></p>
+<ul>
+<li><p>Q：卸载Hexo？<br>A：3.0.0版本执行<code>$ npm uninstall hexo-cli -g</code>，之前版本执行<code>$ npm uninstall hexo -g</code>。</p>
+<p>​</p>
+</li>
+</ul>
+<h2 id="常见错误"><a href="#常见错误" class="headerlink" title="常见错误"></a>常见错误</h2><p><strong>（1）、Cannot find module</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123; [Error: Cannot find module &apos;./build/Release/DTraceProviderBindings&apos;] code: &apos;MODULE_NOT_FOUND&apos; &#125;</span><br><span class="line">&#123; [Error: Cannot find module &apos;./build/default/DTraceProviderBindings&apos;] code: &apos;MODULE_NOT_FOUND&apos; &#125;   </span><br><span class="line">&#123; [Error: Cannot find module &apos;./build/Debug/  DTraceProviderBindings&apos;] code: &apos;MODULE_NOT_FOUND&apos; &#125;</span><br></pre></td></tr></table></figure>
+<p>这个问题烦了好久，最终找到解决办法。<br>$ npm install hexo –no-optional</p>
+<p><strong>（2）、部署不成功</strong></p>
+<p><code>nothing to commit, working directory clean</code><br>解决：3步</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.rm -rf .deploy</span><br><span class="line">2.hexo generater</span><br><span class="line">3.hexo deploy</span><br></pre></td></tr></table></figure>
+<p>建议用safari浏览器打开查看</p>
+<p><strong>（3）、修改config.xml文件</strong></p>
+<p><code>YAMLException: can not read a block mapping entry; a multiline key may not be an implicit key at line 11, column 9:</code></p>
+<p>检查一下是不是 冒号后面没有写空格？</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">https://hexo.io/zh-cn/</a><br>MAC 上 github + hexo 搭建博客教程</p>
+<p><a href="http://www.jianshu.com/p/fd878edb95e7" target="_blank" rel="noopener">http://www.jianshu.com/p/fd878edb95e7</a></p>
+<p>Homebrew简介及安装<br><a href="http://www.cnblogs.com/lzrabbit/p/4032515.html" target="_blank" rel="noopener">http://www.cnblogs.com/lzrabbit/p/4032515.html</a><br>Homebrew官网 <a href="http://brew.sh/index\_zh-cn.html" target="_blank" rel="noopener">http://brew.sh/index\_zh-cn.html</a></p>
+<p>Hexo安装和配置<br>MAC 上 github + hexo 搭建博客教程</p>
+<p><a href="http://www.lovebxm.com/2017/05/30/buildBlog/" target="_blank" rel="noopener">http://www.lovebxm.com/2017/05/30/buildBlog/</a></p>
+<p><a href="http://www.jianshu.com/p/b7886271e21a" target="_blank" rel="noopener">http://www.jianshu.com/p/b7886271e21a</a><br><a href="http://segmentfault.com/q/1010000002565189" target="_blank" rel="noopener">http://segmentfault.com/q/1010000002565189</a></p>
+<p><a href="http://xiaopingblog.cn/2016/04/08/untitled-1460084538799/" target="_blank" rel="noopener">http://xiaopingblog.cn/2016/04/08/untitled-1460084538799/</a></p>
+<p><a href="https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="noopener">手把手教你使用Hexo + Github Pages搭建个人独立博客</a></p>
+<p><a href="https://dreajay.github.io/2014/11/24/hexo+github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/" target="_blank" rel="noopener">https://dreajay.github.io/2014/11/24/hexo+github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%B3%BB%E7%BB%9F/</a></p>
+<p>域名绑定</p>
+<p><a href="http://quantumman.me/blog/setting-up-a-domain-with-gitHub-pages.html" target="_blank" rel="noopener">GitHub Pages 绑定来自阿里云的域名</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、hexo与相关环境安装"><span class="toc-text">一、hexo与相关环境安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、hexo初始化"><span class="toc-text">二、hexo初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、创建新博客"><span class="toc-text">三、创建新博客</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、生成网站-amp-本地调试"><span class="toc-text">四、生成网站&amp;本地调试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见错误"><span class="toc-text">常见错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/01/07/Awesome系列/" rel="next" title="Awesome系列">
+          Awesome系列
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/02/02/hexo主题安装/" rel="prev" title="hexo主题安装">
+            hexo主题安装
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

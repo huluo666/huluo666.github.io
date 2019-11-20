@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS," />
+  
+
+  
+    <meta name="description" content="iOS谓词NSPredicate 筛选过滤" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS谓词NSPredicate 筛选过滤 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS谓词NSPredicate 筛选过滤
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-11-04T07:13:38.000Z">
+        2016-11-04
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 10 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>NSPredicate 筛选过滤</p>
+<p>基本用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1.创建NSPredicate（相当于创建一个过滤条件）</span><br><span class="line">NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;过滤条件&quot;];</span><br><span class="line"></span><br><span class="line">2.判断指定的对象是否满足NSPredicate创建的过滤条件</span><br><span class="line">[predicate evaluateWithObject:person];</span><br><span class="line"></span><br><span class="line">3.过滤出符合条件的对象（返回所有符合条件的对象）</span><br><span class="line">NSArray *persons = [array filteredArrayUsingPredicate:predicate];</span><br></pre></td></tr></table></figure>
+<p><code>+predicateWithFormat:来实际创建谓词。</code>可以使用单引号，双引号需要进行转义</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//基本的查询</span></span><br><span class="line"><span class="built_in">NSPredicate</span> *predicate;</span><br><span class="line"><span class="comment">//方法一：</span></span><br><span class="line">predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"name == 'Herbie'"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法二：</span></span><br><span class="line">predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"name == %@"</span>, <span class="string">@"Herbie"</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法三：%K表示key</span></span><br><span class="line">predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"%K == %@"</span>, <span class="string">@"name"</span>, <span class="string">@"Herbie"</span>];</span><br><span class="line"><span class="built_in">BOOL</span> match = [predicate evaluateWithObject:car];</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%s"</span>, (match) ? <span class="string">"YES"</span> : <span class="string">"NO"</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">以上为对象属性匹配，如果数组中都是字符串如何匹配－－<span class="keyword">self</span></span><br><span class="line"><span class="built_in">NSArray</span> *array=[<span class="built_in">NSArray</span> arrayWithObjects: <span class="string">@"abc"</span>, <span class="string">@"def"</span>, <span class="string">@"ghi"</span>,<span class="string">@"jkl"</span>, <span class="literal">nil</span> <span class="literal">nil</span>];</span><br><span class="line"><span class="built_in">NSPredicate</span> *pre = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF=='abc'"</span>];</span><br><span class="line"><span class="built_in">NSArray</span> *array2 = [array filteredArrayUsingPredicate:pre];</span><br></pre></td></tr></table></figure>
+<h5 id="1-比较运算符-gt-lt-gt-lt"><a href="#1-比较运算符-gt-lt-gt-lt" class="headerlink" title="1.比较运算符(&gt;,&lt;,==,&gt;=,&lt;=,!=)"></a>1.比较运算符(&gt;,&lt;,==,&gt;=,&lt;=,!=)</h5><p>可用于数值及字符串 例：@”number &gt; 100”</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> *array = [<span class="built_in">NSArray</span> arrayWithObjects:@<span class="number">1</span>,@<span class="number">2</span>,@<span class="number">3</span>,@<span class="number">4</span>,@<span class="number">5</span>,@<span class="number">2</span>,@<span class="number">6</span>, <span class="literal">nil</span>];</span><br><span class="line"><span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF &gt;4"</span>];</span><br><span class="line"><span class="built_in">NSArray</span> *fliterArray = [array filteredArrayUsingPredicate:predicate];</span><br><span class="line">[fliterArray enumerateObjectsWithOptions:<span class="built_in">NSEnumerationConcurrent</span> usingBlock:^(<span class="keyword">id</span>  _Nonnull obj, <span class="built_in">NSUInteger</span> idx, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"fliterArray = %@"</span>,obj);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h5 id="2、运算符"><a href="#2、运算符" class="headerlink" title="2、运算符"></a>2、运算符</h5><h5 id="比较和逻辑运算符"><a href="#比较和逻辑运算符" class="headerlink" title="比较和逻辑运算符"></a>比较和逻辑运算符</h5><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>==</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;= (=&gt;)</td>
+<td>大于或等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;= (=&lt;)</td>
+<td>小于或等于</td>
+</tr>
+<tr>
+<td>!= (&lt;&gt;)</td>
+<td>不等于</td>
+</tr>
+</tbody>
+</table>
+<p>括号和逻辑运算AND、OR、NOT或者C样式的等效表达式&amp;&amp;、||、!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//输出完整的信息，在整个数组里寻找匹配的结果</span><br><span class="line">predicate = [NSPredicate predicateWithFormat:@&quot;age &gt; 100&quot;];</span><br><span class="line">NSArray *results = [self.cars filteredArrayUsingPredicate: predicate];</span><br><span class="line">NSLog (@&quot;%@&quot;, results);</span><br><span class="line"></span><br><span class="line">//谓词字符窜还支持C语言中一些常用的运算符</span><br><span class="line">predicate = [NSPredicate predicateWithFormat:@&quot;(age &gt; 50) AND (age &lt; 100)&quot;];</span><br><span class="line">results = [self.cars filteredArrayUsingPredicate: predicate];</span><br><span class="line">NSLog (@&quot;C语言中一些常用的运算符~~~~~~~%@&quot;, results);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//比较字符串的大小</span><br><span class="line">predicate = [NSPredicate predicateWithFormat:@&quot;name &lt; &apos;Newton&apos;&quot;];</span><br></pre></td></tr></table></figure>
+<h6 id="2-1-范围运算符-IN、BETWEEN"><a href="#2-1-范围运算符-IN、BETWEEN" class="headerlink" title="2.1.范围运算符(IN、BETWEEN)"></a>2.1.范围运算符(IN、BETWEEN)</h6><p>@”number BETWEEN {1,5}” @”address IN {‘shanghai’,’beijing’}”</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> *array = [<span class="built_in">NSArray</span> arrayWithObjects:@<span class="number">1</span>,@<span class="number">2</span>,@<span class="number">3</span>,@<span class="number">4</span>,@<span class="number">5</span>,@<span class="number">2</span>,@<span class="number">6</span>, <span class="literal">nil</span>];</span><br><span class="line"><span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF in &#123;2,5&#125;"</span>]; <span class="comment">//找到 in 的意思是array中&#123;2,5&#125;的元素</span></span><br><span class="line"><span class="comment">//NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF BETWEEN &#123;2,5&#125;"];</span></span><br><span class="line"><span class="built_in">NSArray</span> *fliterArray = [array filteredArrayUsingPredicate:predicate];</span><br><span class="line">[fliterArray enumerateObjectsWithOptions:<span class="built_in">NSEnumerationConcurrent</span> usingBlock:^(<span class="keyword">id</span>  _Nonnull obj, <span class="built_in">NSUInteger</span> idx, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"fliterArray = %@"</span>,obj);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h5 id="3-字符串本身-SELF"><a href="#3-字符串本身-SELF" class="headerlink" title="3.字符串本身(SELF)"></a>3.字符串本身(SELF)</h5><blockquote>
+<p>类似于SQL语句<br>NOT 不是<br>SELF 代表字符串本身<br>IN 范围运算符<br>那么NOT (SELF IN %@) 意思就是：不是这里所指定的字符串的值</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSArray</span> *placeArray = [<span class="built_in">NSArray</span> arrayWithObjects:<span class="string">@"Shanghai"</span>,<span class="string">@"Hangzhou"</span>,<span class="string">@"Beijing"</span>,<span class="string">@"Macao"</span>,<span class="string">@"Taishan"</span>, <span class="literal">nil</span>];</span><br><span class="line"><span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF == 'Beijing'"</span>];</span><br><span class="line"><span class="built_in">NSArray</span> *tempArray = [placeArray filteredArrayUsingPredicate:predicate];</span><br><span class="line">[tempArray enumerateObjectsUsingBlock:^(<span class="keyword">id</span>  _Nonnull obj, <span class="built_in">NSUInteger</span> idx, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"obj == %@"</span>,obj);</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSPredicate</span> * filterPredicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:@”NOT (SELF IN %@)”,filteredArray];</span><br><span class="line"><span class="comment">//    //过滤数组</span></span><br><span class="line"><span class="built_in">NSArray</span> * reslutFilteredArray = [dataArray filteredArrayUsingPredicate:filterPredicate];</span><br><span class="line"><span class="built_in">NSLog</span>(@”Reslut Filtered Array = %@”,reslutFilteredArray);</span><br></pre></td></tr></table></figure>
+<h5 id="4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）"><a href="#4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）" class="headerlink" title="4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）"></a>4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）</h5><blockquote>
+<p>@”name CONTAIN[cd] ‘ang’”       //包含某个字符串<br>@”name BEGINSWITH[c] ‘sh’”     //以某个字符串开头<br>@”name ENDSWITH[d] ‘ang’”      //以某个字符串结束</p>
+</blockquote>
+<p><code>注:[c]不区分大小写[d]不区分发音符号即没有重音符号[cd]既不区分大小写，也不区分发音符号。</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSArray *placeArray = [NSArray arrayWithObjects:@&quot;Shanghai&quot;,@&quot;Hangzhou&quot;,@&quot;Beijing&quot;,@&quot;Macao&quot;,@&quot;Taishan&quot;, nil];</span><br><span class="line">//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;SELF CONTAINS [cd] &apos;an&apos; &quot;];</span><br><span class="line">    NSPredicate *predicate1 = [NSPredicate predicateWithFormat:@&quot;SELF Beginswith [cd] &apos;sh&apos; &quot;];</span><br><span class="line"> NSArray *tempArray = [placeArray filteredArrayUsingPredicate:predicate1];</span><br><span class="line">    [tempArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</span><br><span class="line">        NSLog(@&quot;obj == %@&quot;,obj);</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<h5 id="5通配符：LIKE"><a href="#5通配符：LIKE" class="headerlink" title="5通配符：LIKE"></a>5通配符：LIKE</h5><blockquote>
+<p>@”name LIKE[cd] ‘er’” //代表通配符,Like也接受[cd]. @”name LIKE[cd] ‘???er’”</p>
+<p>“*”：表示任意多个字符匹配</p>
+<p>“?”：表示一个字符匹配</p>
+</blockquote>
+<figure class="highlight plain"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSArray *placeArray = [NSArray arrayWithObjects:@&quot;Shanghai&quot;,@&quot;Hangzhou&quot;,@&quot;Beijing&quot;,@&quot;Macao&quot;,@&quot;Taishan&quot;, nil];</span><br><span class="line">    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;SELF  like &apos;*ai*&apos; &quot;];</span><br><span class="line"></span><br><span class="line">NSArray *tempArray = [placeArray filteredArrayUsingPredicate:predicate];</span><br><span class="line">[tempArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) &#123;</span><br><span class="line">    NSLog(@&quot;obj == %@&quot;,obj);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h5 id="6正则表达式"><a href="#6正则表达式" class="headerlink" title="6正则表达式"></a>6正则表达式</h5><p>MATCHES例：</p>
+<p>NSString *regex = @”^A.+e$”; //以A开头，e结尾</p>
+<p> @”name MATCHES %@”,regex (还是用于其他的正则表达式)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSString *regex = @&quot;^A.+e$&quot;;   //以A开头，e结尾  @&quot;name MATCHES %@&quot;,regex</span><br><span class="line">  NSPredicate *presdicate =[NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, regex];</span><br><span class="line">  NSString *content = @&quot;Alkdjflse&quot;;</span><br><span class="line"> BOOL result = [presdicate evaluateWithObject:content];</span><br><span class="line">  NSLog(@&quot;%d&quot;,result);</span><br><span class="line"></span><br><span class="line"> NSPredicate *exists = [NSPredicate predicateWithFormat:</span><br><span class="line">                         @&quot;%K MATCHES[c] %@&quot;, key, value];</span><br></pre></td></tr></table></figure>
+<p>其它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 判断首个字符是否为字母</span><br><span class="line">- (BOOL)isStartWithWord &#123;</span><br><span class="line">  NSString *regex = @&quot;[A-Za-z]+&quot;;</span><br><span class="line">  NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, regex];</span><br><span class="line">  return [predicate evaluateWithObject:aString];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//用户名是否为字母和数字组成</span><br><span class="line">- (BOOL)isUserName</span><br><span class="line">&#123;</span><br><span class="line">  NSString *regex = @&quot;(^[A-Za-z0-9]&#123;3,20&#125;$)&quot;;</span><br><span class="line">  NSPredicate *pred = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, regex];</span><br><span class="line">  return [pred evaluateWithObject:self];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//密码是否合法</span><br><span class="line">NSString *regex = @&quot;(^[A-Za-z0-9]&#123;6,20&#125;$)&quot;;</span><br><span class="line">//邮箱是否合法</span><br><span class="line">NSString *regex = @&quot;[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]&#123;2,4&#125;&quot;;</span><br><span class="line">//url是否合法</span><br><span class="line">NSString *regex = @&quot;http(s)?:\\/\\/([\\w-]+\\.)+[\\w-]+(\\/[\\w- .\\/?%&amp;=]*)?&quot;;</span><br></pre></td></tr></table></figure>
+<p>多规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isTelephone</span><br><span class="line">&#123;</span><br><span class="line">    NSString * MOBILE = @&quot;^1(3[0-9]|5[0-35-9]|8[025-9])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    NSString * CM = @&quot;^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d&#123;7&#125;$&quot;;</span><br><span class="line">    NSString * CU = @&quot;^1(3[0-2]|5[256]|8[56])\\d&#123;8&#125;$&quot;;</span><br><span class="line">    NSString * CT = @&quot;^1((33|53|8[09])[0-9]|349)\\d&#123;7&#125;$&quot;;</span><br><span class="line">    NSString * PHS = @&quot;^0(10|2[0-5789]|\\d&#123;3&#125;)\\d&#123;7,8&#125;$&quot;;</span><br><span class="line">    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, MOBILE];</span><br><span class="line">    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CM];</span><br><span class="line">    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CU];</span><br><span class="line">    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, CT];</span><br><span class="line">    NSPredicate *regextestphs = [NSPredicate predicateWithFormat:@&quot;SELF MATCHES %@&quot;, PHS];</span><br><span class="line"></span><br><span class="line">    return  [regextestmobile evaluateWithObject:self]   ||</span><br><span class="line">            [regextestphs evaluateWithObject:self]      ||</span><br><span class="line">            [regextestct evaluateWithObject:self]       ||</span><br><span class="line">            [regextestcu evaluateWithObject:self]       ||</span><br><span class="line">            [regextestcm evaluateWithObject:self];</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>查询字字典，模型属性</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1 字符串中查出保函某个字节</span></span><br><span class="line">   <span class="built_in">NSArray</span>  *array =@[<span class="string">@"123"</span>, <span class="string">@"234"</span> , <span class="string">@"345"</span>];</span><br><span class="line">   <span class="built_in">NSPredicate</span> *predicate = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"SELF contains [cd] %@"</span>, <span class="string">"2"</span>];</span><br><span class="line">   <span class="built_in">NSArray</span> *filterdArray1 = [array filteredArrayUsingPredicate:predicate];</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, filterdArray1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="comment">//2.查找封装model对象的数组，根据model的一个属性</span></span><br><span class="line">   <span class="built_in">NSPredicate</span> *predicate2 = [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"fileName == %@"</span>, <span class="string">"Ansel"</span>];</span><br><span class="line">   <span class="built_in">NSArray</span> *filteredArray2 = [array filteredArrayUsingPredicate:predicate2];</span><br><span class="line">   <span class="built_in">NSLog</span>(<span class="string">@"filteredArray2：%@"</span>, filteredArray2);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//3.查询数组中字典莫一个Key的值</span></span><br><span class="line">   <span class="built_in">NSArray</span> *array3 = @[ @&#123; <span class="string">@"lastName"</span> : <span class="string">@"Turner"</span> &#125;,</span><br><span class="line">                        @&#123; <span class="string">@"firstName"</span> : <span class="string">@"Ben"</span>, <span class="string">@"lastName"</span> : <span class="string">@"Ballard"</span>,</span><br><span class="line">                           <span class="string">@"birthday"</span>: <span class="string">@"1972-03-24 10:45:32 +0600"</span></span><br><span class="line">                           &#125;</span><br><span class="line">                   ];</span><br><span class="line">   <span class="built_in">NSPredicate</span> *predicate3 =</span><br><span class="line">   [<span class="built_in">NSPredicate</span> predicateWithFormat:<span class="string">@"firstName like %@"</span>, <span class="string">@"firstName"</span>];</span><br><span class="line">   <span class="built_in">NSArray</span> *filteredArray3 = [array3 filteredArrayUsingPredicate:predicate3];</span><br></pre></td></tr></table></figure>
+<p>谓词去重</p>
+<figure class="highlight plain"><figcaption><span>c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSMutableSet *seenDates = [NSMutableSet set];</span><br><span class="line">NSPredicate *dupDatesPred = [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind) &#123;</span><br><span class="line">    Event *e = (Event*)obj;</span><br><span class="line">    BOOL seen = [seenDates containsObject:e.date];</span><br><span class="line">    if (!seen) &#123;</span><br><span class="line">        [seenDates addObject:e.date];</span><br><span class="line">    &#125;</span><br><span class="line">    return !seen;</span><br><span class="line">&#125;];</span><br><span class="line">NSArray *events = ... // This is your array which needs to be filtered</span><br><span class="line">NSArray *filtered = [events filteredArrayUsingPredicate:dupDatesPred];</span><br></pre></td></tr></table></figure>
+<p>参考文档</p>
+<p><a href="http://nshipster.cn/nspredicate/" target="_blank" rel="noopener">http://nshipster.cn/nspredicate/</a></p>
+<p><a href="https://stackoverflow.com/questions/805547/how-to-sort-an-nsmutablearray-with-custom-objects-in-it?rq=1" target="_blank" rel="noopener">https://stackoverflow.com/questions/805547/how-to-sort-an-nsmutablearray-with-custom-objects-in-it?rq=1</a></p>
+<p><a href="https://stackoverflow.com/questions/111866/best-way-to-remove-from-nsmutablearray-while-iterating?rq=1" target="_blank" rel="noopener">https://stackoverflow.com/questions/111866/best-way-to-remove-from-nsmutablearray-while-iterating?rq=1</a></p>
+<p><a href="https://stackoverflow.com/questions/19373936/how-do-i-get-unique-values-from-an-array、" target="_blank" rel="noopener">https://stackoverflow.com/questions/19373936/how-do-i-get-unique-values-from-an-array、</a></p>
+<p><a href="https://stackoverflow.com/questions/1025674/the-best-way-to-remove-duplicate-values-from-nsmutablearray-in-objectivec" target="_blank" rel="noopener">https://stackoverflow.com/questions/1025674/the-best-way-to-remove-duplicate-values-from-nsmutablearray-in-objectivec</a></p>
+<p><a href="https://stackoverflow.com/questions/4007427/removing-duplicates-from-array-in-objectivec" target="_blank" rel="noopener">https://stackoverflow.com/questions/4007427/removing-duplicates-from-array-in-objectivec</a></p>
+<p><a href="https://stackoverflow.com/questions/19865936/finding-a-duplicate-numbers-in-an-array-and-then-counting-the-number-of-duplicat" target="_blank" rel="noopener">https://stackoverflow.com/questions/19865936/finding-a-duplicate-numbers-in-an-array-and-then-counting-the-number-of-duplicat</a></p>
+<p><a href="https://stackoverflow.com/questions/5978574/removing-duplicates-from-nsmutablearray" target="_blank" rel="noopener">https://stackoverflow.com/questions/5978574/removing-duplicates-from-nsmutablearray</a></p>
+<p><a href="https://stackoverflow.com/questions/20909709/removing-duplicate-profiles-loaded-from-an-xml-file-using-nspredicate" target="_blank" rel="noopener">https://stackoverflow.com/questions/20909709/removing-duplicate-profiles-loaded-from-an-xml-file-using-nspredicate</a></p>
+<p><a href="https://stackoverflow.com/questions/43798167/to-get-duplicate-as-well-as-original-items-from-an-array-in-ios" target="_blank" rel="noopener">https://stackoverflow.com/questions/43798167/to-get-duplicate-as-well-as-original-items-from-an-array-in-ios</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-比较运算符-gt-lt-gt-lt"><span class="toc-text">1.比较运算符(&gt;,&lt;,==,&gt;=,&lt;=,!=)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2、运算符"><span class="toc-text">2、运算符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#比较和逻辑运算符"><span class="toc-text">比较和逻辑运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-1-范围运算符-IN、BETWEEN"><span class="toc-text">2.1.范围运算符(IN、BETWEEN)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-字符串本身-SELF"><span class="toc-text">3.字符串本身(SELF)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）"><span class="toc-text">4字符串相关（BEGINSWITH、ENDSWITH、CONTAINS）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5通配符：LIKE"><span class="toc-text">5通配符：LIKE</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6正则表达式"><span class="toc-text">6正则表达式</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/11/03/Alfred web搜索配置/" rel="next" title="Alfred web搜索配置">
+          Alfred web搜索配置
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/11/12/文字闪烁效果/" rel="prev" title="文字闪烁效果">
+            文字闪烁效果
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="CocoaPods," />
+  
+
+  
+    <meta name="description" content="CocoaPods创建和发布" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>CocoaPods创建和发布 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        CocoaPods创建和发布
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-04-13T06:42:14.000Z">
+        2016-04-13
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CocoaPods/">CocoaPods</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="一、创建私有pod"><a href="#一、创建私有pod" class="headerlink" title="一、创建私有pod"></a>一、创建私有pod</h3><p><strong>1.克隆项目到本地</strong></p>
+<p>cd进入本地某个目录 ，从github上clone下项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd xxx/xxx/file</span><br><span class="line">$ git clone https://github.com/huluo666/HJDefaultsCache.git</span><br></pre></td></tr></table></figure>
+<p>cd进入项目目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd xxx/xxx/HJDefaultsCache</span><br></pre></td></tr></table></figure>
+<p><strong>2.打tag</strong></p>
+<p>本地项目是没有tag的，给项目加入一个tag。以便pod能自动识别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git tag 1.0.0  //git tag -m &quot;注释&quot; 0.0.2﻿</span><br><span class="line">git push --tags</span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p><strong>3.创建podspec文件</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pod spec create  https://github.com/huluo666/HJDefaultsCache</span><br></pre></td></tr></table></figure>
+<p>编辑<code>.podspec</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Pod::Spec.new do |s|</span><br><span class="line"><span class="meta">  #</span><span class="bash">项目名称</span></span><br><span class="line">  s.name         = "HJDefaultsCache"</span><br><span class="line"><span class="meta">  #</span><span class="bash">版本号</span></span><br><span class="line">  s.version      = "1.0.0"			  //版本号</span><br><span class="line"><span class="meta">  #</span><span class="bash">对开源项目的描述</span></span><br><span class="line">  s.summary      = "为NSUserDefaults设置默认值"</span><br><span class="line">  s.description  = &lt;&lt;-DESC</span><br><span class="line">   					为NSUserDefaults设置默认值</span><br><span class="line">                   DESC</span><br><span class="line"><span class="meta">  #</span><span class="bash">开源项目的首页</span></span><br><span class="line">  s.homepage     = "https://github.com/huluo666/HJDefaultsCache"</span><br><span class="line"><span class="meta">  #</span><span class="bash">开源协议</span></span><br><span class="line">  s.license = &#123; :type =&gt; 'MIT', :text =&gt; &lt;&lt;-LICENSE</span><br><span class="line">                   Copyright 2016</span><br><span class="line">                   Permission is granted to...</span><br><span class="line">                 LICENSE</span><br><span class="line">               &#125;</span><br><span class="line">               </span><br><span class="line">  s.author             = &#123; "H罗" =&gt; "huluo666@126.com" &#125;</span><br><span class="line"><span class="meta">  #</span><span class="bash">适用于ios7及以上版本</span></span><br><span class="line">  s.platform     = :ios, "7.0" </span><br><span class="line">  s.source       = &#123; :git =&gt; "https://github.com/huluo666/HJDefaultsCache.git", :tag =&gt; "#&#123;s.version&#125;" &#125;</span><br><span class="line"><span class="meta">  #</span><span class="bash">源文件，这个就是供第三方使用的源文件</span></span><br><span class="line">  s.source_files  = "Classes", "HJDefaultsCache/**/*.&#123;h,m&#125;"</span><br><span class="line">  s.exclude_files = "Classes/Exclude"</span><br><span class="line"><span class="meta">  #</span><span class="bash">使用的是ARC</span></span><br><span class="line">  s.requires_arc = true</span><br><span class="line"><span class="meta">  #</span><span class="bash"> s.resources = <span class="string">"Resources/*.png"</span></span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> s.dependency <span class="string">"JSONKit"</span>, <span class="string">"~&gt; 1.4"</span></span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>注意: </p>
+<ul>
+<li>1、s.version应和tag的版本一致.先push该文件之后,再push –tags</li>
+</ul>
+<ul>
+<li>2、将源代码放置在固定的文件夹下,同时修改s.source</li>
+</ul>
+<p>修改好的<code>podspec</code>文件记得上传同步</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git add HJDefaultsCache.podspec</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git commit -am <span class="string">"add HJDefaultsCache.podspec 注释”</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git push -u origin master</span></span><br></pre></td></tr></table></figure>
+<p>最后，在你项目的Podfile里面加入这个第三方库的地址 <code>pod install</code>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod 'HJDefaultsCache', :git =&gt; 'https://github.com/huluo666/HJDefaultsCache.git'</span><br></pre></td></tr></table></figure>
+<h3 id="二、使用Trunk创建官方CocoaPod"><a href="#二、使用Trunk创建官方CocoaPod" class="headerlink" title="二、使用Trunk创建官方CocoaPod"></a>二、使用Trunk创建官方CocoaPod</h3><p>要想使用Trunk服务，首先你需要注册自己的电脑。这很简单，只要你指明你的邮箱地址（spec文件中的）和名称即可。</p>
+<ul>
+<li><p>1.第一次使用,注册  <code>$ pod trunk register 793633193@qq.com &#39;huluo666&#39;</code></p>
+</li>
+<li><p>2.收到邮件激活后，检查是否注册成功 <code>pod trunk me</code></p>
+</li>
+</ul>
+<p>ps:当然，如果你的pod是由多人维护的，你也可以添加其他维护者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pod trunk add-owner ARAnalytics kyle@cocoapods.org</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>3 .验证podspec文件是否有误 <code>pod spec lint Test.podspec</code></p>
+<p>   成功 <code>Test.podspec passed validation</code>.</p>
+</li>
+<li><p>4.push pod spec文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pod trunk push Test.podspec</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>等待部署成功。</p>
+<h3 id="三-、踩过的一些坑备忘"><a href="#三-、踩过的一些坑备忘" class="headerlink" title="三 、踩过的一些坑备忘"></a>三 、踩过的一些坑备忘</h3><p><code>-WARN  | [iOS] license: Unable to find a license file</code></p>
+<p>参考官网 <a href="https://guides.cocoapods.org/syntax/podspec.html#license" target="_blank" rel="noopener">https://guides.cocoapods.org/syntax/podspec.html#license</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s.license = &#123; :type =&gt; &apos;MIT&apos;, :text =&gt; &lt;&lt;-LICENSE</span><br><span class="line">                  Copyright 2016</span><br><span class="line">                  Permission is granted to...</span><br><span class="line">                LICENSE</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+<p><code>WARN  | source: The version should be included in the Git tag.</code></p>
+<p>本地podspec文件和github上的tag要一致</p>
+<p>其它命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//删除Tag</span><br><span class="line">git tag -d v1.0.0</span><br><span class="line">git push origin :refs/tags/v1.0.0</span><br></pre></td></tr></table></figure>
+<h3 id="大体流程"><a href="#大体流程" class="headerlink" title="大体流程"></a>大体流程</h3><p><strong>1、创建描述文件</strong></p>
+<p><code>pod spec create  https://github.com/huluo666/NetWorkMonitorView</code></p>
+<ul>
+<li>若没有设置tag会有提示,执行下面命令，重新进行第一步即可</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">​</span><br></pre></td></tr></table></figure>
+<p>$ git tag -a 1.0.0 -m “Tag release 1.0.0”<br>$ git push –tags<br>​<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">**2.验证描述文件**</span><br><span class="line"></span><br><span class="line">```shell</span><br><span class="line">pod spec lint yourPodName.podspec</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.trunk 发布</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk push  //如果有警告  pod trunk push --allow-warnings</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://guides.cocoapods.org/making/private-cocoapods.html" target="_blank" rel="noopener">https://guides.cocoapods.org/making/private-cocoapods.html</a></p>
+<p><a href="http://www.voidcn.com/blog/bluefish89/article/p-3673616.html" target="_blank" rel="noopener">http://www.voidcn.com/blog/bluefish89/article/p-3673616.html</a></p>
+<p><a href="http://useyourloaf.com/blog/creating-a-cocoapod/" target="_blank" rel="noopener">http://useyourloaf.com/blog/creating-a-cocoapod/</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、创建私有pod"><span class="toc-text">一、创建私有pod</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、使用Trunk创建官方CocoaPod"><span class="toc-text">二、使用Trunk创建官方CocoaPod</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三-、踩过的一些坑备忘"><span class="toc-text">三 、踩过的一些坑备忘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#大体流程"><span class="toc-text">大体流程</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/04/12/CocoaPods安装和使用教程/" rel="next" title="CocoaPods安装和使用教程">
+          CocoaPods安装和使用教程
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/04/14/m3u8文件下载/" rel="prev" title="Mac 网页视频下载">
+            Mac 网页视频下载
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

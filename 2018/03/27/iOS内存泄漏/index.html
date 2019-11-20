@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="iOS内存泄漏" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS内存泄漏 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS内存泄漏
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2018-03-27T07:44:38.000Z">
+        2018-03-27
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h4 id="Instrument-—-Leaks，Allocations，Analyze"><a href="#Instrument-—-Leaks，Allocations，Analyze" class="headerlink" title="Instrument — Leaks，Allocations，Analyze"></a>Instrument — Leaks，Allocations，Analyze</h4><p><strong>Analyze</strong>-静态分析工具</p>
+<p>Product-&gt;Analyze(<code>command+shift+B</code>)</p>
+<p>可以找出代码潜在错误,如内存泄露,未使用函数和变量等,还可以检测出一些内存泄漏问题，比如一些比较明显的循环引用，CF库对象未release等相对简单的问题，通常是在进行其他方式检测之前就使用的方式，把一些简单的问题先发现并处理了。</p>
+<p>主要分析以下四种问题</p>
+<ul>
+<li>逻辑错误：访问空指针或为初始化的变量等；</li>
+<li>内存管理错误：如内存泄漏等；</li>
+<li>声明错误：从未使用过的变量</li>
+<li>Api调用错误：未包含使用库和框架</li>
+</ul>
+<p> Allocations工具是一个跟踪由应用程序分配的对象内存的工具。可以用来在疑似内存泄露的地方，通过反复操作，查看某些对象内存是否有被正常的释放，从而得知是否发生内存泄露。</p>
+<p><strong>Instruments</strong>-动态分析工具（product -&gt; profile）</p>
+<p>内存泄漏检测工具-Leaks</p>
+<p>Instruments工具(<code>command+I</code>)-选择Leaks选项</p>
+<p>选择Target，在右下角Display Setting面板的Call Tree，勾选Invert Call Tree和Hide System Libraries，方便接下来我们迅速查找有内存问题的代码段。</p>
+<h4 id="第三方工具"><a href="#第三方工具" class="headerlink" title="第三方工具"></a>第三方工具</h4><p>相对于系统工具，方便快速多了</p>
+<h4 id="一、MLeaksFinder"><a href="#一、MLeaksFinder" class="headerlink" title="一、MLeaksFinder"></a>一、MLeaksFinder</h4><p>精准 iOS 内存泄露检测工具</p>
+<p><a href="https://github.com/Tencent/MLeaksFinder" target="_blank" rel="noopener">https://github.com/Tencent/MLeaksFinder</a></p>
+<p>直接拖入<code>MLeaksFinder</code>文件夹到工程即可</p>
+<p><strong>MLeaksFinder 新特性</strong> <a href="https://wereadteam.github.io/2016/07/20/MLeaksFinder2/" target="_blank" rel="noopener">https://wereadteam.github.io/2016/07/20/MLeaksFinder2/</a></p>
+<p>MLeaksFinder的原理：</p>
+<p>使用runtime方法交换，它swizzle了NavigationController的Push和Pop相关方法来管理viewController和view的生命周期, 在你Pop掉viewController的时候, 会执行这么一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak id weakSelf = self;</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        [weakSelf assertNotDealloc];</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>3秒后执行 [weakSelf assertNotDealloc]; 如果这个时候view和viewController已经释放了, 那么weakSelf应该为nil, 所以将不会触发断言, 否则将会打印日志, 触发断言.</p>
+<p>MLeaksFinder的原理还是很简单的, 它swizzle了NavigationController的Push和Pop相关方法来管理viewController和view的生命周期, 在你Pop掉viewController的时候, 会执行这么一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__weak id weakSelf = self;</span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        [weakSelf assertNotDealloc];</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>3秒后执行 [weakSelf assertNotDealloc]; 如果这个时候view和viewController已经释放了, 那么weakSelf应该为nil, 所以将不会触发断言, 否则将会打印日志, 触发断言.</p>
+<p><strong>OOMDetector</strong></p>
+<p><a href="https://github.com/Tencent/OOMDetector" target="_blank" rel="noopener">https://github.com/Tencent/OOMDetector</a></p>
+<p>同样来自腾讯，OOMDetector是一个iOS内存监控组件，应用此组件可以帮助你轻松实现OOM监控、大内存分配监控、内存泄漏检测等功能。</p>
+<p><a href="https://juejin.im/post/5a58f1a76fb9a01cab283392" target="_blank" rel="noopener">【腾讯开源】iOS爆内存问题解决方案-OOMDetector组件</a></p>
+<h4 id="二、PLeakSniffer"><a href="#二、PLeakSniffer" class="headerlink" title="二、PLeakSniffer"></a>二、PLeakSniffer</h4><p>iOS内存泄漏自动检测工具</p>
+<p><a href="https://github.com/music4kid/PLeakSniffer" target="_blank" rel="noopener">https://github.com/music4kid/PLeakSniffer</a></p>
+<p><a href="http://mrpeak.cn/blog/leak/" target="_blank" rel="noopener">http://mrpeak.cn/blog/leak/</a></p>
+<p>在<code>AppDelegate.m</code>加入</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#if DEBUG</span></span><br><span class="line">[[PLeakSniffer sharedInstance] installLeakSniffer];</span><br><span class="line">[[PLeakSniffer sharedInstance] addIgnoreList:@[<span class="string">@"MySingletonController"</span>]];<span class="comment">//需要忽略的文件</span></span><br><span class="line">[[PLeakSniffer sharedInstance]  alertLeaks];<span class="comment">//使用弹出框提示</span></span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<h4 id="三、使用Facebook开源检查工具FBRetainCycleDetector"><a href="#三、使用Facebook开源检查工具FBRetainCycleDetector" class="headerlink" title="三、使用Facebook开源检查工具FBRetainCycleDetector"></a>三、使用Facebook开源检查工具FBRetainCycleDetector</h4><p>使用的是MRC机制的文件，需要设置对应文件的Compiler Flags为<code>-fno-objc-arc</code>。</p>
+<p>如何使用，使用<code>FBRetainCycleDetector</code>，需要将以上4个文件改成<code>-fno-objc-arc</code></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FBBlockStrongLayout</span><br><span class="line">FBAssociationManager</span><br><span class="line">FBBlockStrongRelationDetector</span><br><span class="line">FBClassStrongLayoutHelpers</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Instrument-—-Leaks，Allocations，Analyze"><span class="toc-text">Instrument — Leaks，Allocations，Analyze</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#第三方工具"><span class="toc-text">第三方工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一、MLeaksFinder"><span class="toc-text">一、MLeaksFinder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、PLeakSniffer"><span class="toc-text">二、PLeakSniffer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、使用Facebook开源检查工具FBRetainCycleDetector"><span class="toc-text">三、使用Facebook开源检查工具FBRetainCycleDetector</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2018/03/27/iOS网络请求NSURLSession/" rel="next" title="[object Object]">
+          [object Object]
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2018/03/29/优雅的使用Sublime-Text3/" rel="prev" title="优雅的使用Sublime-Text3">
+            优雅的使用Sublime-Text3
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

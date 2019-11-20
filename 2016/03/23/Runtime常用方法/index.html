@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="Runtime,模板,小书匠," />
+  
+
+  
+    <meta name="description" content="Runtime常用方法" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>Runtime常用方法 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Runtime常用方法
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-03-23T08:16:07.000Z">
+        2016-03-23
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Runtime-模板-小书匠/">Runtime,模板,小书匠</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 5 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>新建NSObject Category<br>如<code>#import &quot;NSObject+Propertys.h&quot;</code></p>
+<h3 id="1-获取对象的所有属性"><a href="#1-获取对象的所有属性" class="headerlink" title="1.获取对象的所有属性"></a>1.获取对象的所有属性</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 获取对象的所有属性 */</span></span><br><span class="line">- (<span class="built_in">NSArray</span> *)getAllProperties</span><br><span class="line">&#123;</span><br><span class="line">    Class subclass = [<span class="keyword">self</span> <span class="keyword">class</span>];</span><br><span class="line">    <span class="keyword">if</span> (subclass == [<span class="built_in">NSObject</span> <span class="keyword">class</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Get the list of properties</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> propertyCount;</span><br><span class="line">    <span class="comment">//如果没有属性，则propertyCount为0，properties为nil</span></span><br><span class="line">    objc_property_t *properties = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>],</span><br><span class="line">                                                         &amp;propertyCount);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *result = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; propertyCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">        objc_property_t property = properties[i];</span><br><span class="line">        <span class="comment">// 获取属性名称</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *propertyName = property_getName(property);</span><br><span class="line">        <span class="built_in">NSString</span> *key = @(propertyName);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Add to array</span></span><br><span class="line">        [result addObject:key];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 注意，这里properties是一个数组指针，是C的语法，</span></span><br><span class="line">    <span class="comment">// 我们需要使用free函数来释放内存，否则会造成内存泄露</span></span><br><span class="line">    free(properties);</span><br><span class="line">    <span class="keyword">return</span> result.count ? [result <span class="keyword">copy</span>] : <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-获取对象的所有属性和属性值"><a href="#2-获取对象的所有属性和属性值" class="headerlink" title="2.获取对象的所有属性和属性值"></a>2.获取对象的所有属性和属性值</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 获取对象的所有属性和属性值 */</span></span><br><span class="line">- (<span class="built_in">NSDictionary</span> *)getAllPropertiesAndVaules</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    Class currentClass = [self class];</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *propertyDic = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    <span class="comment">//属性个数</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> outCount;</span><br><span class="line">    <span class="comment">//属性数组</span></span><br><span class="line">    objc_property_t *property = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//循环取出属性并存在字典中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; outCount; i++) &#123;</span><br><span class="line">        objc_property_t property_t = property[i];</span><br><span class="line">        <span class="comment">//获得属性的名称</span></span><br><span class="line">        <span class="built_in">NSString</span> *propertyName = [<span class="built_in">NSString</span> stringWithCString:property_getName(property_t) encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">        <span class="comment">//从对象中获得指定属性名的属性值</span></span><br><span class="line">        <span class="keyword">id</span> propertyValue = [<span class="keyword">self</span> valueForKey:propertyName];</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//属性值不为空时，就封装进字典中</span></span><br><span class="line">        <span class="keyword">if</span> (propertyValue &amp;&amp; propertyValue != <span class="literal">nil</span>) &#123;</span><br><span class="line">            [propertyDic setObject:propertyValue forKey:propertyName];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//释放掉属性数组</span></span><br><span class="line">    free(property);</span><br><span class="line">    <span class="keyword">return</span> propertyDic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-获取对象的所有方法"><a href="#3-获取对象的所有方法" class="headerlink" title="3.获取对象的所有方法"></a>3.获取对象的所有方法</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 获取对象的所有方法 */</span></span><br><span class="line">-(<span class="keyword">void</span>)getAllMethods</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> mothCout_f =<span class="number">0</span>;</span><br><span class="line">    Method* mothList_f = class_copyMethodList([<span class="keyword">self</span> <span class="keyword">class</span>],&amp;mothCout_f);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mothCout_f;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        Method temp_f = mothList_f[i];</span><br><span class="line">        <span class="comment">//        IMP imp_f = method_getImplementation(temp_f);</span></span><br><span class="line">        <span class="comment">//        SEL name_f = method_getName(temp_f);</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span>* name_s =sel_getName(method_getName(temp_f));</span><br><span class="line">        <span class="keyword">int</span> arguments = method_getNumberOfArguments(temp_f);</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span>* encoding =method_getTypeEncoding(temp_f);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"方法名：%@,参数个数：%d,编码方式：%@"</span>,[<span class="built_in">NSString</span> stringWithUTF8String:name_s], arguments,              [<span class="built_in">NSString</span> stringWithUTF8String:encoding]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//释放内存</span></span><br><span class="line">    free(mothList_f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">NSDictionary</span> *)getAllPropertyNameAndAttributes&#123;</span><br><span class="line">    u_int count;</span><br><span class="line">    <span class="comment">//获取到的类的属性列表</span></span><br><span class="line">    objc_property_t *properties  = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *propertyNameArray = [<span class="built_in">NSMutableArray</span> arrayWithCapacity:count];</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *propertyAttributesArray = [<span class="built_in">NSMutableArray</span> arrayWithCapacity:count];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        objc_property_t property = properties[i];</span><br><span class="line">        <span class="comment">//拿到属性名字</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *propertyName =property_getName(property);</span><br><span class="line">        <span class="comment">//属性的是属性的特性（weak,readonly等等）</span></span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *propertyAttributes = property_getAttributes(property);</span><br><span class="line">        </span><br><span class="line">        [propertyNameArray addObject: [<span class="built_in">NSString</span> stringWithUTF8String: propertyName]];</span><br><span class="line">        [propertyAttributesArray addObject:[<span class="built_in">NSString</span> stringWithUTF8String: propertyAttributes]];</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">NSDictionary</span> *propertiesDictionary = [<span class="built_in">NSDictionary</span> dictionaryWithObjects:propertyAttributesArray forKeys:propertyNameArray];</span><br><span class="line">     free(properties);</span><br><span class="line">    <span class="keyword">return</span> propertiesDictionary;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark---- 以下内容适用于成员变量 ivars</span></span><br><span class="line">-(<span class="built_in">NSArray</span> *)allMemberVariables &#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    Ivar *ivars = class_copyIvarList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *result = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">NSUInteger</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">        Ivar variable = ivars[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *name = ivar_getName(variable);</span><br><span class="line">        <span class="built_in">NSString</span> *varName = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">        </span><br><span class="line">        [result addObject:varName];</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">    <span class="keyword">return</span> result.count ? [result <span class="keyword">copy</span>] : <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ (<span class="built_in">NSArray</span> *)protocols &#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> outCount;</span><br><span class="line">    Protocol * <span class="keyword">const</span> *protocols = class_copyProtocolList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableArray</span> *result = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; outCount; i++) &#123;</span><br><span class="line">        <span class="keyword">unsigned</span> <span class="keyword">int</span> adoptedCount;</span><br><span class="line">        Protocol * <span class="keyword">const</span> *adotedProtocols = protocol_copyProtocolList(protocols[i], &amp;adoptedCount);</span><br><span class="line">        <span class="built_in">NSString</span> *protocolName = [<span class="built_in">NSString</span> stringWithCString:protocol_getName(protocols[i]) encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">NSMutableArray</span> *adoptedProtocolNames = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> idx = <span class="number">0</span>; idx &lt; adoptedCount; idx++) &#123;</span><br><span class="line">            [adoptedProtocolNames addObject:[<span class="built_in">NSString</span> stringWithCString:protocol_getName(adotedProtocols[idx]) encoding:<span class="built_in">NSUTF8StringEncoding</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">NSString</span> *protocolDescription = protocolName;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (adoptedProtocolNames.count) &#123;</span><br><span class="line">            protocolDescription = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@ &lt;%@&gt;"</span>, protocolName, [adoptedProtocolNames componentsJoinedByString:<span class="string">@", "</span>]];</span><br><span class="line">        &#125;</span><br><span class="line">        [result addObject:protocolDescription];</span><br><span class="line">        <span class="comment">//free(adotedProtocols);</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//free((__bridge void *)(*protocols));</span></span><br><span class="line">    <span class="keyword">return</span> result.count ? [result <span class="keyword">copy</span>] : <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-获取对象的所有属性"><span class="toc-text">1.获取对象的所有属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-获取对象的所有属性和属性值"><span class="toc-text">2.获取对象的所有属性和属性值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-获取对象的所有方法"><span class="toc-text">3.获取对象的所有方法</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/03/18/UITableViewCell 间距/" rel="next" title="UITableViewCell 间距设置">
+          UITableViewCell 间距设置
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/03/23/简单封装新浪提示框/" rel="prev" title="简单封装新浪提示框">
+            简单封装新浪提示框
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

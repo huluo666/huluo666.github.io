@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="直播," />
+  
+
+  
+    <meta name="description" content="EasyRTC" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>EasyRTC [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        EasyRTC
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-10-10T10:24:12.000Z">
+        2017-10-10
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/直播/">直播</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 3 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>EasyRTC是什么</p>
+<p>EasyRTC是WebRTC标准的一个实现。</p>
+<p>它包括：</p>
+<ul>
+<li><p>服务器端，nodejs实现的</p>
+</li>
+<li><p>Web端javascript api，相当于是对WebRTC API的封装和简化</p>
+</li>
+<li><p>iOS和Android本地API，这个应该是付费版本才有</p>
+<p>​</p>
+</li>
+</ul>
+<p>他们开源了服务器端和Web端的javascript api，见<a href="https://github.com/priologic/easyrtc" target="_blank" rel="noopener">GitHub</a>。</p>
+<p>EasyRTC使用</p>
+<p>1、安装nodejs，安装npm （没安装自行谷歌）</p>
+<p>2、安装运行easyrtc需要的js包（js框架），package.json 中的依赖库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/priologic/easyrtc.git</span><br><span class="line">cd   easyrtc/server_example 目录</span><br><span class="line">npm install  //安装package.json中的依赖库</span><br></pre></td></tr></table></figure>
+<p>3、启动easyrtc server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> npm start</span><br><span class="line">或</span><br><span class="line"> node  server.js</span><br><span class="line">//端口预设在 port 8080 LISTEN</span><br></pre></td></tr></table></figure>
+<p>4、浏览器中测试</p>
+<p>打开<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> </p>
+<p>2、引入必要的依赖库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AudioToolbox.framework</span><br><span class="line">VideoToolbox.framework</span><br><span class="line">QuartzCore.framework</span><br><span class="line">OpenGLES.framework</span><br><span class="line">CoreGraphics.framework</span><br><span class="line">CoreVideo.framework</span><br><span class="line">CoreMedia.framework</span><br><span class="line">CoreAudio.framework</span><br><span class="line">AVFoundation.framework</span><br><span class="line">GLKit.framework</span><br><span class="line">CFNetwork.framework</span><br><span class="line">Security.framework</span><br><span class="line">libsqlite3.tbd</span><br><span class="line">libicucore.tbd</span><br><span class="line">libc.tbd</span><br><span class="line">libc++.dylib </span><br><span class="line">libstdc++.6.0.9.tbd</span><br></pre></td></tr></table></figure>
+<p>错误解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Undefined symbols for architecture x86_64:</span><br><span class="line">  &quot;_OBJC_CLASS_$_RTCEAGLVideoView&quot;, referenced from:</span><br><span class="line">      objc-class-ref in VideoChatViewController.o</span><br><span class="line">  &quot;_OBJC_CLASS_$_RTCSessionDescription&quot;, referenced from:</span><br></pre></td></tr></table></figure>
+<p>重新导入对于库文件</p>
+<ul>
+<li>framework文件没有导入</li>
+<li>静态库编译时往往需要一些库的支持，查看你是否有没有导入的库文件<br>同样是在<code>Build Phases</code>里的<code>Link Binary With Libraries</code>中添加相应的framework。</li>
+</ul>
+<p>1、注意真机关闭<code>bitcode</code></p>
+<p>2、注意添加相关权限</p>
+<p><a href="http://www.jianshu.com/p/83db0b4f0bfe" target="_blank" rel="noopener">iOS10 权限崩溃问题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;    </span><br><span class="line">&lt;string&gt;cameraDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSContactsUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;contactsDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSMicrophoneUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;microphoneDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;photoLibraryDesciption&lt;/string&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.zaomaiwang.com/html/9125204.html" target="_blank" rel="noopener">WebRTC各种资料集合</a></p>
+<p><a href="http://www.pffair.com/blog/2016/06/29/webrtcshi-jian/" target="_blank" rel="noopener">Webrtc实践</a></p>
+<p><a href="http://www.cnblogs.com/fulianga/p/5869208.html" target="_blank" rel="noopener">WebRTC iOS平台的基本实现</a></p>
+<p><a href="http://www.jianshu.com/p/c49da1d93df4" target="_blank" rel="noopener">iOS下音视频通信-基于WebRTC</a></p>
+<p><a href="http://www.enkichen.com/2017/05/12/webrtc-ios-build/" target="_blank" rel="noopener">WebRTC iOS&amp;OSX 库的编译</a></p>
+<p><a href="http://www.kadia-china.com/?p/435753014d47" target="_blank" rel="noopener">iOS音视频开源框架WebRTC入门-编译(前序-授人鱼不如授人以渔)</a></p>
+<p><a href="http://www.jianshu.com/p/994f9f6c9874" target="_blank" rel="noopener">WebRTC入门：iOS工程</a></p>
+<p><a href="http://www.cnblogs.com/hrhguanli/p/3781385.html" target="_blank" rel="noopener">WebRTC学习笔记_Demo收集</a></p>
+<p><a href="https://github.com/AnyRTC/anyRTC-RTMP-OpenSource" target="_blank" rel="noopener">https://github.com/AnyRTC/anyRTC-RTMP-OpenSource</a></p>
+<p><a href="https://github.com/qq3200341/FLWebRTCDemo" target="_blank" rel="noopener">https://github.com/qq3200341/FLWebRTCDemo</a></p>
+<p><a href="https://github.com/Haley-Wong/WebRTC_iOS" target="_blank" rel="noopener">https://github.com/Haley-Wong/WebRTC_iOS</a></p>
+<p><a href="https://github.com/hiroeorz/PeerObjectiveC" target="_blank" rel="noopener">https://github.com/hiroeorz/PeerObjectiveC</a></p>
+<p><a href="http://blog.csdn.net/csdnhaoren13/article/details/51023814" target="_blank" rel="noopener">http://blog.csdn.net/csdnhaoren13/article/details/51023814</a></p>
+<p><a href="https://www.zhihu.com/question/22301898" target="_blank" rel="noopener">WebRTC有前途吗？</a></p>
+<p>服务器</p>
+<p><a href="https://naurudao.blogspot.hk/2016/07/webrtc.html" target="_blank" rel="noopener">https://naurudao.blogspot.hk/2016/07/webrtc.html</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/10/10/GPUImage/" rel="next" title="ios 美颜">
+          ios 美颜
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/10/14/iOS直播 音视频采集/" rel="prev" title="iOS直播 音视频采集">
+            iOS直播 音视频采集
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

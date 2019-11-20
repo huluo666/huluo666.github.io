@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="iOS基础知识" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS基础知识 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS基础知识
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-03-30T07:17:51.000Z">
+        2017-03-30
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 11 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>NSString为何要用copy，而不是strong？</p>
+<p>NSString、NSArray、NSDictionary等等经常使用copy关键字，是因为他们有对应的<code>可变类型</code>：NSMutableString、NSMutableArray、NSMutableDictionary，为确保对象中的属性值不会无意间变动，应该在设置新属性值时拷贝一份，保护其封装性</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>) <span class="built_in">NSString</span> *str_strong;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">copy</span>)   <span class="built_in">NSString</span> *str_copy;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    <span class="keyword">self</span>.str_strong=<span class="string">@"iOS"</span>;</span><br><span class="line">    <span class="keyword">self</span>.str_copy=<span class="string">@"iOS"</span>;</span><br><span class="line">    <span class="built_in">NSMutableString</span> *mstr=[[<span class="built_in">NSMutableString</span> alloc]initWithString:<span class="string">@"iOS"</span>];</span><br><span class="line">    <span class="keyword">self</span>.str_strong=mstr;</span><br><span class="line">    <span class="keyword">self</span>.str_copy=mstr;</span><br><span class="line">    <span class="comment">//修改NSMutableString字符串</span></span><br><span class="line">    [mstr appendString:<span class="string">@"开发"</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"str_strong=%@"</span>,<span class="keyword">self</span>.str_strong);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"str_copy=%@"</span>,<span class="keyword">self</span>.str_copy);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//NSLog信息</span></span><br><span class="line"><span class="number">11</span>:<span class="number">34</span>:<span class="number">43.062460</span>+<span class="number">0800</span> iOSInterview[<span class="number">3915</span>:<span class="number">356342</span>] str_strong=iOS开发</span><br><span class="line"><span class="number">11</span>:<span class="number">34</span>:<span class="number">43.063298</span>+<span class="number">0800</span> iOSInterview[<span class="number">3915</span>:<span class="number">356342</span>] str_copy=iOS</span><br></pre></td></tr></table></figure>
+<p>算法</p>
+<p>二分查找(也叫折半查找)，是至今应用比较多的一种搜索算法。速度快，比较次数少。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 代码执行时间*/</span></span><br><span class="line"><span class="built_in">CGFloat</span> TIME_BLOCKWithkey (<span class="built_in">NSString</span> *key,<span class="keyword">void</span> (^block)(<span class="keyword">void</span>)) &#123;</span><br><span class="line">    <span class="built_in">NSTimeInterval</span> startTime = <span class="built_in">CACurrentMediaTime</span>();</span><br><span class="line">    block ();</span><br><span class="line">    <span class="built_in">CFTimeInterval</span> elapsedTime = <span class="built_in">CACurrentMediaTime</span>() - startTime;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@ executionTime = %f ms"</span>,key,elapsedTime *<span class="number">1000.0</span>);</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">CGFloat</span>)elapsedTime / <span class="built_in">NSEC_PER_SEC</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view, typically from a nib.</span></span><br><span class="line">    <span class="built_in">NSMutableArray</span> *sortedArray=[<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">1000000</span>; i++) &#123;</span><br><span class="line">        [sortedArray addObject:@(i)];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">id</span> searchObject =@<span class="number">88888</span>;</span><br><span class="line"></span><br><span class="line">    TIME_BLOCKWithkey(<span class="string">@"普通查找"</span>, ^&#123;</span><br><span class="line">        <span class="built_in">NSUInteger</span> findIndex=[sortedArray indexOfObject:searchObject];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"findIndex=%zd"</span>,findIndex);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    TIME_BLOCKWithkey(<span class="string">@"二分查找"</span>, ^&#123;</span><br><span class="line">        <span class="built_in">NSRange</span> searchRange = <span class="built_in">NSMakeRange</span>(<span class="number">0</span>, [sortedArray count]);</span><br><span class="line">        <span class="built_in">NSUInteger</span> findIndex = [sortedArray indexOfObject:searchObject</span><br><span class="line">                                            inSortedRange:searchRange</span><br><span class="line">                                                  options:<span class="built_in">NSBinarySearchingFirstEqual</span></span><br><span class="line">                                          usingComparator:^(<span class="keyword">id</span> obj1, <span class="keyword">id</span> obj2)</span><br><span class="line">                                &#123;</span><br><span class="line">                                    <span class="keyword">return</span> [obj1 compare:obj2];</span><br><span class="line">                                &#125;];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"findIndex=%zd"</span>,findIndex);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//NSLog信息</span></span><br><span class="line"><span class="number">13</span>:<span class="number">59</span>:<span class="number">23.806081</span>+<span class="number">0800</span> iOSInterview[<span class="number">5087</span>:<span class="number">608690</span>] 普通查找 executionTime = <span class="number">8.262457</span> ms</span><br><span class="line"><span class="number">13</span>:<span class="number">59</span>:<span class="number">23.806208</span>+<span class="number">0800</span> iOSInterview[<span class="number">5087</span>:<span class="number">608690</span>] findIndex=<span class="number">88888</span></span><br><span class="line"><span class="number">13</span>:<span class="number">59</span>:<span class="number">23.806340</span>+<span class="number">0800</span> iOSInterview[<span class="number">5087</span>:<span class="number">608690</span>] 二分查找 executionTime = <span class="number">0.136384</span> ms</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.jianshu.com/p/8a54c26a9349" target="_blank" rel="noopener">https://www.jianshu.com/p/8a54c26a9349</a></p>
+<p><a href="http://c.biancheng.net/cpp/html/2744.html" target="_blank" rel="noopener">C语言二分查找（折半查找）算法及代码</a></p>
+<p>一，在程序里，交换2个数，我使用了异或来处理。这个可以根据个人喜好。为了避免产生临时变量，可以使用如下几种方式来交换2个数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 1.中间变量</span><br><span class="line">void swap(int a, int b) &#123;</span><br><span class="line">	int temp;</span><br><span class="line"> 	temp= a;</span><br><span class="line">	  a = b;</span><br><span class="line">	  b = temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 2.加法</span><br><span class="line">void swap(int a, int b) &#123;</span><br><span class="line">	a = a + b;</span><br><span class="line">	b = a - b;</span><br><span class="line">	a = a - b;</span><br><span class="line"></span><br><span class="line">	or</span><br><span class="line">	a = a+b-(b=a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 3.异或（相同为0，不同为1. 可以理解为不进位加法）</span><br><span class="line">void swap(int a, int b) &#123;</span><br><span class="line">	a = a ^ b;</span><br><span class="line">	b = a ^ b;</span><br><span class="line">	a = a ^ b;</span><br><span class="line">	或</span><br><span class="line">    a^=b;</span><br><span class="line">    b^=a;</span><br><span class="line">    a^=b</span><br><span class="line"></span><br><span class="line">    或</span><br><span class="line">     a ^= b ^= a ^= b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">std libs</span><br><span class="line">std::swap(a,b);</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><strong>设计模式是什么？ 你知道哪些设计模式，并简要叙述？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">设计模式是一种编码经验，就是用比较成熟的逻辑去处理某一种类型的事情。</span><br><span class="line">1). MVC模式：Model View Control，把模型 视图 控制器 层进行解耦合编写。</span><br><span class="line">2). MVVM模式：Model View ViewModel 把模型 视图 业务逻辑 层进行解耦和编写。</span><br><span class="line">3). 单例模式：通过static关键词，声明全局变量。在整个进程运行期间只会被赋值一次。</span><br><span class="line">4). 观察者模式：KVO是典型的通知模式，观察某个属性的状态，状态发生变化时通知观察者。</span><br><span class="line">5). 委托模式：代理+协议的组合。实现1对1的反向传值操作。</span><br><span class="line">6). 工厂模式：通过一个类方法，批量的根据已有模板生产对象。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>2、MVC 和 MVVM 的区别</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1). MVVM是对胖模型进行的拆分，其本质是给控制器减负，将一些弱业务逻辑放到VM中去处理。</span><br><span class="line">2). MVC是一切设计的基础，所有新的设计模式都是基于MVC进行的改进。</span><br></pre></td></tr></table></figure>
+<p>一、非集合类对象的copy与mutableCopy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> 在非集合类对象中，对不可变对象进行copy操作，是指针复制，mutableCopy操作是内容复制；</span><br><span class="line"> 对可变对象进行copy和mutableCopy都是内容复制。用代码简单表示如下：</span><br><span class="line">NSString *str = @&quot;hello word!&quot;;</span><br><span class="line">NSString *strCopy = [str copy] // 指针复制，strCopy与str的地址一样</span><br><span class="line">NSMutableString *strMCopy = [str mutableCopy] // 内容复制，strMCopy与str的地址不一样</span><br><span class="line"></span><br><span class="line">NSMutableString *mutableStr = [NSMutableString stringWithString: @&quot;hello word!&quot;];</span><br><span class="line">NSString *strCopy = [mutableStr copy] // 内容复制</span><br><span class="line">NSMutableString *strMCopy = [mutableStr mutableCopy] // 内容复制</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">只有对不可变对象进行copy操作是指针复制（浅复制），其它情况都是内容复制（深复制）！</span><br></pre></td></tr></table></figure>
+<p><strong>什么是 KVO 和 KVC？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1). KVC(Key-Value-Coding)：键值编码 是一种通过字符串间接访问对象的方式（即给属性赋值）</span><br><span class="line">   	举例说明：</span><br><span class="line">   	stu.name = @&quot;张三&quot; // 点语法给属性赋值</span><br><span class="line">   	[stu setValue:@&quot;张三&quot; forKey:@&quot;name&quot;]; // 通过字符串使用KVC方式给属性赋值</span><br><span class="line">   	stu1.nameLabel.text = @&quot;张三&quot;;</span><br><span class="line">   	[stu1 setValue:@&quot;张三&quot; forKey:@&quot;nameLabel.text&quot;]; // 跨层赋值</span><br><span class="line">2). KVO(key-Value-Observing)：键值观察机制 他提供了观察某一属性变化的方法，极大的简化了代码。</span><br><span class="line">     KVO只能被KVC触发，包括使用setValue:forKey:方法和点语法。</span><br><span class="line">   // 通过下方方法为属性添加KVO观察</span><br><span class="line">   - (void)addObserver:(NSObject *)observer</span><br><span class="line">                     forKeyPath:(NSString *)keyPath</span><br><span class="line">                     options:(NSKeyValueObservingOptions)options</span><br><span class="line">                     context:(nullable void *)context;</span><br><span class="line">   // 当被观察的属性发送变化时，会自动触发下方方法</span><br><span class="line">   - (void)observeValueForKeyPath:(NSString *)keyPath</span><br><span class="line">                              ofObject:(id)object</span><br><span class="line">                                  change:(NSDictionary *)change</span><br><span class="line">                                 context:(void *)context&#123;&#125;</span><br><span class="line"></span><br><span class="line">KVC 和 KVO 的 keyPath 可以是属性、实例变量、成员变量。</span><br></pre></td></tr></table></figure>
+<p><strong>ViewController生命周期</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">按照执行顺序排列：</span><br><span class="line">1. initWithCoder：通过nib文件初始化时触发。</span><br><span class="line">2. awakeFromNib：nib文件被加载的时候，会发生一个awakeFromNib的消息到nib文件中的每个对象。</span><br><span class="line">3. loadView：开始加载视图控制器自带的view。</span><br><span class="line">4. viewDidLoad：视图控制器的view被加载完成。</span><br><span class="line">5. viewWillAppear：视图控制器的view将要显示在window上。</span><br><span class="line">6. updateViewConstraints：视图控制器的view开始更新AutoLayout约束。</span><br><span class="line">7. viewWillLayoutSubviews：视图控制器的view将要更新内容视图的位置。</span><br><span class="line">8. viewDidLayoutSubviews：视图控制器的view已经更新视图的位置。</span><br><span class="line">9. viewDidAppear：视图控制器的view已经展示到window上。</span><br><span class="line">10. viewWillDisappear：视图控制器的view将要从window上消失。</span><br><span class="line">11. viewDidDisappear：视图控制器的view已经从window上消失。</span><br></pre></td></tr></table></figure>
+<p><a href="http://www.cnblogs.com/bossren/p/6401067.html" target="_blank" rel="noopener">http://www.cnblogs.com/bossren/p/6401067.html</a></p>
+<p><strong>iOS多线程技术有哪几种方式？</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">答：pthread、NSThread、GCD、NSOperation</span><br></pre></td></tr></table></figure>
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/03/30/iOS开发辅助/" rel="next" title="iOS开发辅助">
+          iOS开发辅助
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/03/31/myapp/" rel="prev" title="MyAPPPMacApp">
+            MyAPPPMacApp
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

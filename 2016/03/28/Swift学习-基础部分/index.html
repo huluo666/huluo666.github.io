@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="Swift学习-基础部分" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>Swift学习-基础部分 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Swift学习-基础部分
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-03-28T01:09:25.000Z">
+        2016-03-28
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 7 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p>与Swift最新版同步，当前代码版本Swift4.0</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//http://www.swift51.com/swift4.0/chapter2/01_The_Basics.html</span></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="comment">//#MARK:- 常量与变量</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">"Hello, playground"</span></span><br><span class="line"><span class="keyword">let</span> a=<span class="number">1</span> <span class="comment">//声明常量</span></span><br><span class="line"><span class="keyword">var</span> b=<span class="number">2</span> <span class="comment">//声明变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//声明多个常量或者多个变量</span></span><br><span class="line"><span class="keyword">let</span> x1 = <span class="number">0.0</span>, y1 = <span class="number">0.0</span>, z1 = <span class="number">0.0</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">0.0</span>, y = <span class="number">0.0</span>, z = <span class="number">0.0</span></span><br><span class="line"><span class="keyword">var</span> <span class="built_in">c</span>:<span class="type">String</span> <span class="comment">//声明变量类型</span></span><br><span class="line"><span class="built_in">c</span>=<span class="string">"hello"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 常量和变量的命名*/</span></span><br><span class="line"><span class="comment">//你可以用任何你喜欢的字符作为常量和变量名，包括 Unicode 字符：</span></span><br><span class="line"><span class="keyword">let</span> π = <span class="number">3.14159</span></span><br><span class="line"><span class="keyword">let</span> 你好 = <span class="string">"你好世界"</span></span><br><span class="line"><span class="keyword">let</span> 🐶🐮 = <span class="string">"dogcow"</span></span><br><span class="line"><span class="keyword">let</span> dogcat = <span class="string">"🐶🐹"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> friendlyWelcome = <span class="string">"Hello!"</span></span><br><span class="line">friendlyWelcome = <span class="string">"Bonjour!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> languageName = <span class="string">"Swift"</span></span><br><span class="line"><span class="comment">//languageName = "Swift++"</span></span><br><span class="line"><span class="comment">// 这会报编译时错误 - languageName 不可改变</span></span><br><span class="line"><span class="built_in">print</span>(friendlyWelcome)</span><br><span class="line"><span class="built_in">print</span>(languageName)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"friendlyWelcome is \(friendlyWelcome)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> message = <span class="string">"\(3) times 2.5 is \(Double(5) * 2.5)"</span> <span class="comment">//字符串插值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"friendlyWelcome is \(message)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"friendlyWelcome is \(friendlyWelcome)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//分号-与其他大部分编程语言不同，Swift 并不强制要求你在每条语句的结尾处使用分号（;），当然，你也可以按照你自己的习惯添加分号。有一种情况下必须要用分号，即你打算在同一行内写多条独立的语句：</span></span><br><span class="line"><span class="keyword">let</span> cat = <span class="string">"🐱"</span>; <span class="built_in">print</span>(cat)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> meaningOfLife = <span class="number">42</span></span><br><span class="line"><span class="keyword">let</span> meaningOfLife2 = <span class="number">42.000</span></span><br><span class="line">type(of: meaningOfLife) <span class="comment">//int类型</span></span><br><span class="line">type(of: meaningOfLife2)   <span class="comment">//double类型</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//#MARK:- 整数和浮点数转换</span></span><br><span class="line"><span class="keyword">let</span> three = <span class="number">3</span></span><br><span class="line"><span class="keyword">let</span> pointOneFourOneFiveNine = <span class="number">0.14159</span></span><br><span class="line"><span class="keyword">let</span> pi = <span class="type">Double</span>(three) + pointOneFourOneFiveNine</span><br><span class="line"><span class="comment">//pi 等于 3.14159，所以被推测为 Double 类型</span></span><br><span class="line"><span class="keyword">let</span> integerPi = <span class="type">Int</span>(pi)</span><br><span class="line"><span class="keyword">let</span> floatPi = <span class="type">Float</span>(pi)</span><br><span class="line"><span class="keyword">let</span> i = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> i == <span class="number">1</span> &#123;</span><br><span class="line">    <span class="comment">// 这个例子会编译成功</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//let i1 = 1</span></span><br><span class="line"><span class="comment">//if i1 &#123;</span></span><br><span class="line"><span class="comment">//    // 这个例子不会通过编译，会报错</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//#MARK:- 元组</span></span><br><span class="line"><span class="keyword">let</span> http404Error = (<span class="number">404</span>, <span class="string">"Not Found"</span>)</span><br><span class="line"><span class="comment">// http404Error 的类型是 (Int, String)，值是 (404, "Not Found")</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> (statusCode, statusMessage) = http404Error</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status code is \(statusCode)"</span>)</span><br><span class="line"><span class="comment">// 输出 "The status code is 404"</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status message is \(statusMessage)"</span>)</span><br><span class="line"><span class="comment">// 输出 "The status message is Not Found"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果你只需要一部分元组值，分解的时候可以把要忽略的部分用下划线（_）标记：</span></span><br><span class="line"><span class="keyword">let</span> (justTheStatusCode, <span class="number">_</span>) = http404Error</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status code is \(justTheStatusCode)"</span>)</span><br><span class="line"><span class="comment">// 输出 "The status code is 404"</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status code is \(http404Error.0)"</span>)</span><br><span class="line"><span class="comment">// 输出 "The status code is 404"</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status message is \(http404Error.1)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义元组的时候给单个元素命名：</span></span><br><span class="line"><span class="keyword">let</span> http200Status = (statusCode: <span class="number">200</span>, description: <span class="string">"OK"</span>,otherInfo:<span class="string">"http"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status code is \(http200Status.statusCode)"</span>)</span><br><span class="line"><span class="comment">// 输出 "The status code is 200"</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"The status message is \(http200Status.description)"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//String-&gt;Int Int-&gt;String</span></span><br><span class="line"><span class="keyword">let</span> possibleNumber = <span class="string">"123"</span></span><br><span class="line"><span class="keyword">let</span> convertedNumber = <span class="type">Int</span>(possibleNumber)</span><br><span class="line"><span class="keyword">let</span> aNumber = <span class="number">5</span></span><br><span class="line"><span class="keyword">let</span> aNumberString = <span class="type">String</span>(aNumber);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> number = <span class="type">NSNumber</span>(value: aNumber)</span><br><span class="line"><span class="keyword">let</span> formatter = <span class="type">NumberFormatter</span>()</span><br><span class="line">formatter.minimumIntegerDigits = <span class="number">2</span></span><br><span class="line"><span class="keyword">let</span> strValue3 = formatter.string(from: number)</span><br><span class="line"><span class="keyword">let</span> strValue4 = <span class="type">String</span>(format:<span class="string">"%03d"</span>,aNumber) <span class="comment">//保留3位整数，不足补0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//#MARK:- 可选类型</span></span><br><span class="line"><span class="keyword">var</span> serverResponseCode: <span class="type">Int</span>? = <span class="number">404</span></span><br><span class="line"><span class="comment">// serverResponseCode 包含一个可选的 Int 值 404</span></span><br><span class="line">serverResponseCode = <span class="literal">nil</span></span><br><span class="line"><span class="comment">// serverResponseCode 现在不包含值</span></span><br><span class="line"><span class="comment">//nil不能用于非可选的常量和变量。如果你的代码中有常量或者变量需要处理值缺失的情况，请把它们声明成对应的可选类型。</span></span><br><span class="line"><span class="keyword">var</span> surveyAnswer: <span class="type">String</span>?</span><br><span class="line"><span class="comment">//如果你声明一个可选常量或者变量但是没有赋值，它们会自动被设置为 nil：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//当你确定可选类型确实包含值之后，你可以在可选的名字后面加一个感叹号（!）来获取值。这个惊叹号表示“我知道这个可选有值，请使用它。”这被称为可选值的强制解析（forced unwrapping）：</span></span><br><span class="line"><span class="keyword">if</span> convertedNumber != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"convertedNumber has an integer value of \(convertedNumber!)."</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> possibleString: <span class="type">String</span>? = <span class="string">"An optional string."</span></span><br><span class="line"><span class="keyword">let</span> forcedString: <span class="type">String</span> = possibleString! <span class="comment">// 需要感叹号来获取值</span></span><br><span class="line"><span class="keyword">let</span> assumedString: <span class="type">String</span>! = <span class="string">"An implicitly unwrapped optional string."</span></span><br><span class="line"><span class="keyword">let</span> implicitString: <span class="type">String</span> = assumedString  <span class="comment">// 不需要感叹号</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可选类型表示允许常量或者变量没有值，即nil，可选类型用？表明</span></span><br><span class="line"><span class="keyword">var</span> d: <span class="type">String</span>?    <span class="comment">// 可选变量，会自动将其值设置为nil</span></span><br><span class="line"><span class="keyword">var</span> e: <span class="type">Int</span>? = <span class="number">404</span> <span class="comment">// 可选变量，这样可以把nil赋值给该变量</span></span><br><span class="line"><span class="built_in">print</span>(d ?? <span class="number">7</span>)</span><br><span class="line"><span class="built_in">print</span>(e!)  <span class="comment">// 需要!来获取值</span></span><br><span class="line"><span class="comment">// 隐式解析可选类型，用!声明，表明强制要求该变量一定有值。一个隐式解析可选类型其实就是一个普通的可选类型，只是可以被当作非可选类型来使用，如果该变量没有值，那么去获取的时候就会报错</span></span><br><span class="line"><span class="keyword">let</span> f: <span class="type">String</span>? = <span class="string">"test"</span></span><br><span class="line"><span class="built_in">print</span>(f <span class="keyword">as</span> <span class="type">Any</span>)    <span class="comment">// 不需要!</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/03/24/简单快速实现UIProgressView进度条圆角/" rel="next" title="简单快速实现UIProgressView进度条圆角">
+          简单快速实现UIProgressView进度条圆角
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/03/30/iOS 全部访问权限设置/" rel="prev" title="iOS访问权限设置">
+            iOS访问权限设置
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

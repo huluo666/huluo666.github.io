@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS," />
+  
+
+  
+    <meta name="description" content="iOS 手势之滑动清屏等" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS 手势之滑动清屏等 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS 手势之滑动清屏等
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-09-30T03:54:58.000Z">
+        2016-09-30
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <p><code>translationInView</code>:（获取当前拖拽位置）<br><code>translationInView</code> 返回父视图系统当中，返回横坐标，纵坐标上拖动了多少像素</p>
+<p>可以判断拖动方向</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGPoint</span> translantion = [<span class="built_in">UIPanGestureRecognizer</span> translationInView:<span class="built_in">UIView</span>];</span><br><span class="line">ABS(translantion.x)/ABS(translantion.y) &gt; <span class="number">1</span></span><br><span class="line"><span class="comment">//即判断是否水平移动(x轴拖动距离大于y轴拖动距离)</span></span><br></pre></td></tr></table></figure>
+<p><code>velocityInView</code>:（设置拖拽速度，单位：像素/秒）<br><code>velocityInView</code> 返回指定坐标系统当中拖动的速度，x,y分别代表x轴y轴的拖动速度(矢量)</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGPoint</span> velocity = [<span class="built_in">UIPanGestureRecognizer</span> velocityInView:<span class="built_in">UIView</span>];</span><br><span class="line">velocity.x &gt; <span class="number">0</span> <span class="comment">//向右 x,y正负值 判断上下左右</span></span><br></pre></td></tr></table></figure>
+<p>实例应用</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 枚举值，包含水平移动方向和垂直移动方向</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, PanDirection)&#123;</span><br><span class="line">    PanDirectionHorizontalMoved, <span class="comment">//横向移动</span></span><br><span class="line">    PanDirectionVerticalMoved    <span class="comment">//纵向移动</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> PanDirection panDirection;</span><br><span class="line">- (<span class="keyword">void</span>)panGestureOnMainVC2:(<span class="built_in">UIPanGestureRecognizer</span> *)sender&#123;</span><br><span class="line">    <span class="keyword">if</span> (sender.numberOfTouches == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"手指离开屏幕"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//根据在view上Pan的位置，确定是跳音量、亮度</span></span><br><span class="line">    <span class="comment">// CGPoint locationPoint = [pan locationInView:self];</span></span><br><span class="line">    <span class="comment">// 我们要响应水平移动和垂直移动</span></span><br><span class="line">    <span class="comment">// 根据上次和本次移动的位置，算出一个速率的point</span></span><br><span class="line">    <span class="built_in">CGPoint</span> veloctyPoint = [sender velocityInView:<span class="keyword">self</span>.view];</span><br><span class="line">    <span class="built_in">CGPoint</span> transPoint = [sender translationInView:<span class="keyword">self</span>.view];</span><br><span class="line">    <span class="keyword">switch</span> (sender.state) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateBegan</span>:&#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"x:%f  y:%f   aaa:%f,bbb:%f"</span>,veloctyPoint.x, veloctyPoint.y,transPoint.x,transPoint.y);</span><br><span class="line">            <span class="comment">// 使用绝对值来判断移动的方向</span></span><br><span class="line">            <span class="built_in">CGFloat</span> x = fabs(veloctyPoint.x);</span><br><span class="line">            <span class="built_in">CGFloat</span> y = fabs(veloctyPoint.y);</span><br><span class="line">            <span class="keyword">if</span> (x &gt; y) &#123; <span class="comment">// 水平移动</span></span><br><span class="line">                panDirection = PanDirectionHorizontalMoved;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (x &lt; y)&#123; <span class="comment">// 垂直移动</span></span><br><span class="line">                panDirection = PanDirectionVerticalMoved;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateChanged</span>:&#123;</span><br><span class="line">            <span class="keyword">switch</span> (panDirection) &#123;</span><br><span class="line">                <span class="keyword">case</span> PanDirectionHorizontalMoved:&#123;</span><br><span class="line"></span><br><span class="line">                    [<span class="keyword">self</span> horizontalMoved:veloctyPoint.x]; <span class="comment">// 水平移动的方法只要x方向的值</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">case</span> PanDirectionVerticalMoved:&#123;</span><br><span class="line">                    [<span class="keyword">self</span> verticalMoved:veloctyPoint.y]; <span class="comment">// 垂直移动方法只要y方向的值</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">UIGestureRecognizerStateEnded</span>:&#123;</span><br><span class="line">            <span class="comment">// 移动结束也需要判断垂直或者平移</span></span><br><span class="line">            <span class="comment">// 比如水平移动结束时，要快进到指定位置，如果这里没有判断，当我们调节音量完之后，会出现屏幕跳动的bug</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"UIGestureRecognizerStateEnded"</span>);</span><br><span class="line">            <span class="keyword">switch</span> (panDirection) &#123;</span><br><span class="line">                <span class="keyword">case</span> PanDirectionHorizontalMoved:&#123;<span class="comment">//快进结束</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> PanDirectionVerticalMoved:&#123; <span class="comment">//垂直移动结束后，隐藏音量控件 且，把状态改为不再控制音量</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置最小滑动距离，相比用屏幕宽度*0.5为或滑动方向为标准判断是否清屏体验要好。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIView</span> *bottomView;</span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    <span class="keyword">self</span>.view.backgroundColor=[<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIView</span> *panview =[[<span class="built_in">UIView</span> alloc]initWithFrame:<span class="keyword">self</span>.view.bounds];</span><br><span class="line">    panview.backgroundColor=[<span class="built_in">UIColor</span> orangeColor];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:panview];</span><br><span class="line">    bottomView=panview;</span><br><span class="line">    [<span class="keyword">self</span>.view addGestureRecognizer:[[<span class="built_in">UIPanGestureRecognizer</span> alloc] initWithTarget:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(panGestureOnMainVC:)]];</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#pragma mark---滑动清屏幕功能</span></span><br><span class="line"><span class="comment">//最小滑动间距</span></span><br><span class="line"><span class="keyword">static</span> <span class="built_in">CGFloat</span> <span class="keyword">const</span> MIN_SPACE_VALUE= <span class="number">50.0</span>;</span><br><span class="line">-(<span class="keyword">void</span>)panGestureOnMainVC:(<span class="built_in">UIPanGestureRecognizer</span> *)sender</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  获取平移值(//这个是获取手指从初始位置移动的偏移量)</span></span><br><span class="line">    <span class="built_in">CGPoint</span> translation = [sender translationInView:<span class="keyword">self</span>.view];</span><br><span class="line">    <span class="keyword">if</span> (sender.state == <span class="built_in">UIGestureRecognizerStateBegan</span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIView</span> *panView= bottomView;</span><br><span class="line">    panView.transform = <span class="built_in">CGAffineTransformTranslate</span>(panView.transform, translation.x, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 清零移动叠加</span></span><br><span class="line">    <span class="comment">//再把形变设置为0，不然会因为不断调用这个方法，值会不断叠加，，</span></span><br><span class="line">    <span class="comment">//例如从0 - 3的距离应该只移动3，但是却变1+2+3 = 6，移动了6的距离</span></span><br><span class="line">    [sender setTranslation:<span class="built_in">CGPointZero</span> inView:<span class="keyword">self</span>.view];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//获取右边极限位置</span></span><br><span class="line">    <span class="built_in">CGAffineTransform</span>  rightScopeTransform=<span class="built_in">CGAffineTransformMakeTranslation</span>(<span class="keyword">self</span>.view.frame.size.width, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">//右边极限位置</span></span><br><span class="line">    <span class="keyword">if</span> (panView.transform.tx &gt; rightScopeTransform.tx) &#123;</span><br><span class="line">        panView.transform = rightScopeTransform;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (panView.transform.tx &lt; <span class="number">0.0</span>)&#123;</span><br><span class="line">    <span class="comment">//左边极限位置</span></span><br><span class="line">        panView.transform=<span class="built_in">CGAffineTransformMakeTranslation</span>(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CGPoint</span> veloctyPoint = [sender velocityInView:<span class="keyword">self</span>.view];</span><br><span class="line">    <span class="comment">//    当托拽手势结束时执行</span></span><br><span class="line">    <span class="keyword">if</span> (sender.state == <span class="built_in">UIGestureRecognizerStateEnded</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="built_in">UIView</span> animateWithDuration:<span class="number">0.2</span> delay:<span class="number">0</span> options:<span class="built_in">UIViewAnimationOptionCurveEaseIn</span> animations:^&#123;</span><br><span class="line">            <span class="keyword">if</span> (veloctyPoint.x&gt;<span class="number">0</span>) &#123;<span class="comment">//向右</span></span><br><span class="line">                <span class="keyword">if</span> (panView.transform.tx&lt;MIN_SPACE_VALUE) &#123;</span><br><span class="line">                    panView.transform = <span class="built_in">CGAffineTransformIdentity</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    panView.transform=rightScopeTransform;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;<span class="comment">//向左</span></span><br><span class="line">                <span class="keyword">if</span> (panView.transform.tx&gt;(<span class="keyword">self</span>.view.frame.size.width-MIN_SPACE_VALUE)) &#123;</span><br><span class="line">                    panView.transform=rightScopeTransform;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    panView.transform = <span class="built_in">CGAffineTransformIdentity</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; completion:^(<span class="built_in">BOOL</span> finished) &#123;</span><br><span class="line"></span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/09/28/Java学习 类型转换与运算 02/" rel="next" title="Java学习 类型转换与运算 02">
+          Java学习 类型转换与运算 02
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/10/01/iOS 常用计算/" rel="prev" title="iOS常用计算">
+            iOS常用计算
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

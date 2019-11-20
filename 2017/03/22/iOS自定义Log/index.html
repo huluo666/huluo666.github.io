@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS," />
+  
+
+  
+    <meta name="description" content="iOS开发自定义NSLog" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>iOS开发自定义NSLog [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        iOS开发自定义NSLog
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2017-03-22T09:06:56.000Z">
+        2017-03-22
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 4 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h5 id="屏蔽Xcode烦人Log"><a href="#屏蔽Xcode烦人Log" class="headerlink" title="屏蔽Xcode烦人Log"></a>屏蔽Xcode烦人Log</h5><p>Xcode8之后，会打印一些烦人的Log信息</p>
+<p>解决方法：1- Xcode菜单按钮: <code>Product &gt; Scheme &gt; Edit Scheme</code>&gt;<code>Run</code>&gt;<code>Arguments</code>或者直接按 <code>command + shift + &lt;</code> 快捷键</p>
+<p>​           2- <strong>Environment Variables</strong> 设置为 <code>OS_ACTIVITY_MODE</code> = <code>disable</code></p>
+<p>stackoverflow:<a href="http://stackoverflow.com/questions/37800790/hide-strange-unwanted-xcode-8-logs" target="_blank" rel="noopener">hide-strange-unwanted-xcode-8-logs</a></p>
+<h5 id="C语言宏定义"><a href="#C语言宏定义" class="headerlink" title="C语言宏定义"></a>C语言宏定义</h5><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__FILE__</code></td>
+<td>String</td>
+<td>当前文件的绝对路径</td>
+</tr>
+<tr>
+<td><code>__LINE__</code></td>
+<td>Int</td>
+<td>展开该宏时在文件中的行数</td>
+</tr>
+<tr>
+<td><code>__COLUMN__</code></td>
+<td>Int</td>
+<td>展开该宏时在文件中的列</td>
+</tr>
+<tr>
+<td><code>__FUNCTION__</code></td>
+<td>String</td>
+<td>包含这个符号的函数名称</td>
+</tr>
+<tr>
+<td><code>__COUNTER__</code></td>
+<td>Int</td>
+<td>无重复的计数器，从程序启动开始每次调用都会++，常用语宏中定义无重复的参数名称</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSLog(@&quot;%s %d %s %s&quot;, __FILE__, __LINE__, __PRETTY_FUNCTION__, __FUNCTION__);</span><br></pre></td></tr></table></figure>
+<p><code>printf()</code>和<code>fprintf()</code>这些输出函数的参数是可变的</p>
+<p>C99中规定宏可以像函数一样带有可变参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define LOG(format, ...) fprintf(stdout, format, __VA_ARGS__)</span><br></pre></td></tr></table></figure>
+<p>其中，<code>...</code>表示参数可变，<code>__VA_ARGS__</code>在预处理中为实际的参数集所替换</p>
+<p>GCC中同时支持如下的形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define LOG(format, args...) fprintf(stdout, format, args)</span><br></pre></td></tr></table></figure>
+<p>其用法和上面的基本一致，只是参数符号有变化</p>
+<p>“<code>##</code>“的作用是对token进行连接，在上例中，<code>format</code>、<code>__VA_ARGS__</code>、<code>args</code>即是token，</p>
+<p>如果token为空，那么不进行连接，所以允许省略可变参数(<strong>VA_ARGS</strong>和args)，对上述变参宏做如下修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define LOG(format, ...)     fprintf(stdout, format, ##__VA_ARGS__)</span><br><span class="line">#define LOG(format, args...) fprintf(stdout, format, ##args)</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//关键字</span></span><br><span class="line">...:可变参数</span><br><span class="line"> __VA_ARGS__ :宏定义中的...中的所有剩余参数</span><br><span class="line"> <span class="meta">##:连接符号</span></span><br><span class="line"> <span class="meta">#:原样输出</span></span><br><span class="line">/:换行符</span><br></pre></td></tr></table></figure>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define K_AAAAA(aaa,...) aaa</span></span><br><span class="line"><span class="meta">#define K_BBBBB(...) K_AAAAA(__VA_ARGS__)</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">//调用示例：</span></span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"outPut :%@"</span>,K_BBBBB(<span class="string">@"this is string"</span>));</span><br><span class="line"> <span class="built_in">NSLog</span>(<span class="string">@"outPut2 :%d"</span>,K_BBBBB(<span class="number">100</span>));</span><br><span class="line"> <span class="comment">//输出： outPut :this is string</span></span><br><span class="line">        outPut2 :<span class="keyword">this</span> is <span class="number">100</span></span><br></pre></td></tr></table></figure>
+<h5 id="Xcode8后的自定义Log"><a href="#Xcode8后的自定义Log" class="headerlink" title="Xcode8后的自定义Log"></a>Xcode8后的自定义Log</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define NNSLog00(format,...) NSLog(format,__VA_ARGS__);</span></span><br><span class="line"><span class="meta">#define NNSLog0(fmt, ...) NSLog((fmt), ##__VA_ARGS__);</span></span><br><span class="line"><span class="meta">#define NNSLog(...) fprintf(stderr,<span class="meta-string">"%s\n"</span>,[[NSString stringWithFormat:__VA_ARGS__] UTF8String]);</span></span><br><span class="line"><span class="meta">#define NNSLog1(FORMAT,...) fprintf(stderr,<span class="meta-string">"%s\n"</span>,[[NSString stringWithFormat:FORMAT,##__VA_ARGS__] UTF8String]);</span></span><br><span class="line"><span class="meta">#define NNSLog2(...) fprintf(<span class="meta-string">"%s %s Line %d: %s\n"</span>,[[NSString stringWithFormat:@<span class="meta-string">"%s"</span>, __FILE__].lastPathComponent UTF8String], __PRETTY_FUNCTION__, __LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);</span></span><br></pre></td></tr></table></figure>
+<h5 id="格式化宏"><a href="#格式化宏" class="headerlink" title="格式化宏"></a>格式化宏</h5><p>可以/换行符格式化宏，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define NSLog(format, ...) \</span><br><span class="line">    do &#123; \</span><br><span class="line">        NSLog(@&quot;&lt;%@ : %d : %s&gt;-: %@&quot;, \</span><br><span class="line">        [[NSString stringWithUTF8String:__FILE__] lastPathComponent], \</span><br><span class="line">        __LINE__, \</span><br><span class="line">        __FUNCTION__, \</span><br><span class="line">        [NSString stringWithFormat:format, ##__VA_ARGS__]); \</span><br><span class="line">    &#125; while(0)</span><br></pre></td></tr></table></figure>
+<h5 id="控制Log输出"><a href="#控制Log输出" class="headerlink" title="控制Log输出"></a>控制Log输出</h5><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifdef DEBUG</span></span><br><span class="line"><span class="meta">#define NSLog(fmt, ...) NSLog((fmt), ##__VA_ARGS__);</span></span><br><span class="line"><span class="meta">#else</span></span><br><span class="line"><span class="meta">#define NSLog(...) &#123;&#125;</span></span><br><span class="line"><span class="comment">//#define NSLog(format, ...) do&#123; &#125; while(0)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<p>如果在项目中log信息太多，可以屏蔽共用log，使用自定义log，便于局部测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define NSLog(...) &#123;&#125;//屏蔽共用log</span><br><span class="line">#define NNSLog(...) fprintf(stderr,&quot;%s\n&quot;,[[NSString stringWithFormat:__VA_ARGS__] UTF8String]);//使用自定义log</span><br></pre></td></tr></table></figure>
+<p>参考</p>
+<p><a href="https://onevcat.com/2014/01/black-magic-in-macro/" target="_blank" rel="noopener">https://onevcat.com/2014/01/black-magic-in-macro/</a></p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#屏蔽Xcode烦人Log"><span class="toc-text">屏蔽Xcode烦人Log</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#C语言宏定义"><span class="toc-text">C语言宏定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Xcode8后的自定义Log"><span class="toc-text">Xcode8后的自定义Log</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#格式化宏"><span class="toc-text">格式化宏</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#控制Log输出"><span class="toc-text">控制Log输出</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2017/03/20/正则表达式使用/" rel="next" title="正则表达式使用">
+          正则表达式使用
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2017/03/28/Swift转换OBJECTIVE C/" rel="prev" title="OC与Swift代码转换工具">
+            OC与Swift代码转换工具
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>

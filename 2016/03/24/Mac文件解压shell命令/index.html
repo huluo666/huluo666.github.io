@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="iOS," />
+  
+
+  
+    <meta name="description" content="Mac文件解压shell命令" />
+  
+  
+  
+  <link rel="icon" type="image/x-icon" href="/images/footer-logo.png">
+  
+  <title>Mac文件解压shell命令 [ Kyren DevBlog ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+</head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    
+    <span class="title" style="text-transform:none">Kyren DevBlog</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            
+              <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item pure-menu-has-children pure-menu-allow-hover">
+            
+              <a href="#" id="post" class="pure-menu-link">文章</a>
+              <ul class="pure-menu-children">
+              
+                  
+                    <li class="pure-menu-item"><a href="/categories" style="color:#202020;" class="pure-menu-link">分类</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/archives" style="color:#202020;" class="pure-menu-link">归档</a></li>
+                  
+              
+                  
+                    <li class="pure-menu-item"><a href="/tags" style="color:#202020;" class="pure-menu-link">标签</a></li>
+                  
+              
+              </ul>
+            </li>
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/paper" class="pure-menu-link">Papers</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/project" class="pure-menu-link">项目</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/activity" class="pure-menu-link">动态</a></li>
+            
+          
+      
+          
+            
+              <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+            
+          
+      
+  </ul>
+   
+</nav>
+
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        Mac文件解压shell命令
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2016-03-24T07:32:19.000Z">
+        2016-03-24
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 11 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h4 id="一、文件解压相关格式"><a href="#一、文件解压相关格式" class="headerlink" title="一、文件解压相关格式"></a>一、文件解压相关格式</h4><p> Windows 平台-最常用的格式是 zip 和 rar，国内大多数是用 rar，国外大多数是用 zip。<br>类 Unix 平台而言-常用的格式是 tar 和 tar.gz，zip 比较少一些，rar 则几乎没有。<br>zip格式:Mac默认压缩格式，缺点:就是它的压缩率并不是很高，不如 rar及 tar.gz 等格式。</p>
+<p><strong>ZIP</strong><br>压缩 zip 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zip -r archive_name.zip file_to_compress</span><br><span class="line">zip -r archive_name.zip directory_to_compress/</span><br></pre></td></tr></table></figure>
+<p>解压 zip 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip archive_name.zip</span><br></pre></td></tr></table></figure>
+<p><strong>TAR</strong><br>tar 只是一种打包格式，并不对文件进行压缩，主要是为了便于文件的管理，所以打包后的文档大小一般远远大于 zip 和 tar.gz，优点:打包速度非常快，打包时 CPU 占用率低(因为不需要压缩嘛)。<br>将文件或文件夹打包为 tar 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf archive_name.tar file_to_compress</span><br><span class="line">tar -cvf archive_name.tar directory_to_compress</span><br></pre></td></tr></table></figure>
+<p>解包一个 tar 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf archive_name.tar</span><br></pre></td></tr></table></figure>
+<p><strong>TAR.GZ</strong><br>tar.gz 可以说是对于 tar 的一个补充，它会对文件进行压缩，且压缩率略优于 zip，而对于 CPU 的占用率却不怎么高。Linux 平台下的大多数开源软件或源代码都是采用这种格式。<br>将文件或文件夹打包压缩为 tar.gz 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf archive_name.tar.gz file_to_compress</span><br><span class="line">tar -zcvf archive_name.tar.gz directory_to_compress</span><br></pre></td></tr></table></figure>
+<p>解压一个 tar.gz 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf archive_name.tar.gz</span><br></pre></td></tr></table></figure>
+<p><strong>TAR.BZ2</strong><br>相比以上几种格式，tar.gz2 拥有最高的压缩率，但是压缩的时候所需要的时间也最长，CPU 占用率也最高。将文件或文件夹压缩为 tar.bz2 的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -jcvf archive_name.tar.bz2 file_to_compress</span><br><span class="line">tar -jcvf archive_name.tar.bz2 directory_to_compress</span><br></pre></td></tr></table></figure>
+<p>解压一个 tar.bz2 文件的命令是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jxvf archive_name.tar.bz2</span><br></pre></td></tr></table></figure>
+<p><strong>Com From</strong>：<a href="https://libuchao.com/2013/04/21/linux-zip-tar-tar-gz-tar-bz2" target="_blank" rel="noopener">https://libuchao.com/2013/04/21/linux-zip-tar-tar-gz-tar-bz2</a></p>
+<h4 id="tar命令详解"><a href="#tar命令详解" class="headerlink" title="tar命令详解"></a>tar命令详解</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-c: 建立压缩档案</span><br><span class="line">-x：解压</span><br><span class="line">-t：查看内容</span><br><span class="line">-r：向压缩归档文件末尾追加文件</span><br><span class="line">-u：更新原压缩包中的文件</span><br></pre></td></tr></table></figure>
+<p>这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。<br>下面的参数是根据需要在压缩或解压档案时可选的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-z：有gzip属性的,表明创建zip压缩文件，后面的后缀一定要是tar.gz</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-Z：有compress属性的</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-O：将文件解开到标准输出</span><br><span class="line">参数-f是必须的</span><br><span class="line">-f: 使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</span><br></pre></td></tr></table></figure>
+<p><strong>查看</strong><br>tar -tf aaa.tar.gz               在不解压的情况下查看压缩包的内容</p>
+<p><strong>压缩</strong><br><code>tar –cvf jpg.tar *.jpg</code>     //将目录里所有jpg文件打包成tar.jpg<br><code>tar –czf jpg.tar.gz *.jpg</code>     //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz<br>tar –cjf jpg.tar.bz2 <em>.jpg         //将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名为jpg.tar.bz2<br>tar –cZf jpg.tar.Z </em>.jpg           //将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名为jpg.tar.Z</p>
+<p><strong>二、gzip压缩文件的生成</strong><br><code>tar -zcvf &lt;压缩文件名&gt;.tar.gz &lt;要压缩的文件夹或者文件名&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-z表明创建zip压缩文件，后面的后缀一定要是tar.gz</span><br><span class="line">-c创建打包文件</span><br><span class="line">-v显示压缩过程</span><br><span class="line">-f归档名</span><br></pre></td></tr></table></figure>
+<p>文件分卷压缩<br><code>split -b &lt;分卷大小&gt; &lt;要拆分的文件名&gt; &lt;分卷名前缀&gt;</code><br><code>split -b 900k test.tar.gz splt.tar.gz.</code></p>
+<p>将建立的test.tar.gz 拆分为数个大小不超过900k的文件<br>注意后面的 split.tar.gz. 以”.”结尾的，这样拆分的文件就得到 split.tar.gz.aa split.tar.gz.ab….否则得到的是 xaa, xab, xac这样的文件<br>如果先建立一个压缩文件，再进行拆分的话，虽然可行，但是多少有些不方便。现在用 “ | “通道将两个命令一同执行<br><code>tar -zcvf - User_Guide.pdf  | split -b 900k - splt.tar.gz.</code><br>如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、压缩</span><br><span class="line">tar -zcf creatName.tar.gz living.jpg(单个文件)</span><br><span class="line">tar –zcf creatName.tar.gz *.jpg (通配所有jpg文件)</span><br><span class="line">2、分卷</span><br><span class="line">split -b 900k creatName.tar.gz  splt.tar.gz.</span><br><span class="line">生成名字splt.tar.gz.aa，splt.tar.gz.ab</span><br><span class="line">3、解压</span><br><span class="line">cat splt.tar.gz.a* | tar -jx</span><br></pre></td></tr></table></figure>
+<p>压缩framework</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar -cjf creatName.tar.bz2 *.framework</span><br><span class="line">split -b 1500k creatName.tar.bz2  a.tx.libs.tar.bz2.</span><br><span class="line">cat a.tx.libs.tar.bz2.a* | tar -jx</span><br><span class="line">tar -jcvf - *.jpg  | split -b 100k - a.tx.libs.tar.bz2.</span><br><span class="line">tar -jcvf - libs  | split -b 10000k - a.tx.libs.tar.bz2.</span><br></pre></td></tr></table></figure>
+<p>分卷压缩文件的合并<br>十分简单，用cat命令合并文件（cat也可用于文本文件的合并），用通配符指定要合并的文件即可<br>接上例。生成了 splt.tar.gz.aa ~~~~ splt.tar.gz.ad 共四个文件，同样将终端定位到桌面目录下复制内容到剪贴板代码:<code>cat split.tar.gz.a*&gt;new.tar.gz</code>执行后即可看到桌面多出一个new.tar.gz 的压缩文件<br>类似3.当中提到的，这条合并命令一样可以用 | 在一条命令内实现“合并+解压”的任务。复制内容到剪贴板代码:<code>cat split.tar.gz.a* | tar -zxv</code>注意这里两步执行的时候同样用到了类似上面的缓存操作，所以并不需要指定合并后的压缩文件的具体名称，后面的tar命令也不需要加上-f参数指定名称了。<br>转自：<a href="http://mac.pcbeta.com/thread-112623-1-1.html" target="_blank" rel="noopener">http://mac.pcbeta.com/thread-112623-1-1.html</a><br>示例<br>使用 zip 命令压缩文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip - largefile | split -b 500k</span><br></pre></td></tr></table></figure>
+<p>将文件 <em>largefile</em> 压缩成 zip 包并分卷成不超过 500k 的文件，分解后文件名默认是 <code>x*</code> ，后缀为 2 位 <code>a-z</code> 字母，如 aa、ab。<br>要合并已分解的文件，可使用cat命令恢复成 <em>zip</em> 文件后使用 <code>unzip</code> 或其它主流解压软件解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat x* &gt; file.zip</span><br></pre></td></tr></table></figure>
+<p>tar 命令压缩文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czvf - largefile | split -b 500k</span><br></pre></td></tr></table></figure>
+<p>使用 <code>tar</code> 解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat x* | tar xzvf -</span><br></pre></td></tr></table></figure>
+<p><strong>相关压缩文件解压命令</strong><br>| 压缩文件格式       | 解压命令               |<br>| ———— | —————— |<br>| <em>.tar        | tar –xvf           |<br>| </em>.gz         | gzip -d或者gunzip    |<br>| .tar.gz和.tgz | tar –xzf           |<br>| <em>.bz2        | bzip2 -d或者用bunzip2 |<br>| </em>.tar.bz2    | tar –xjf           |<br>| <em>.Z          | uncompress         |<br>| </em>.tar.Z      | tar –xZf           |</p>
+
+    </div>
+
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、文件解压相关格式"><span class="toc-text">一、文件解压相关格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tar命令详解"><span class="toc-text">tar命令详解</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2016/03/23/简单封装新浪提示框/" rel="next" title="简单封装新浪提示框">
+          简单封装新浪提示框
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2016/03/24/自定义搜索框/" rel="prev" title="自定义搜索框">
+            自定义搜索框
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://github.com/fooying" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="/links">友情链接</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/fooying/hexo-theme-xoxo-plus" target="_blank">Theme xoxo-plus</a> |
+        <a class="bottom-item" href="/atom.xml">RSS</a>
+    </div>
+</footer>
+
+  
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+
+
+
+  
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+</body>
+</html>
