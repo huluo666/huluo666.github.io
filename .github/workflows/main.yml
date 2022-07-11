@@ -2,7 +2,7 @@ name: gitee_deploy
 
 on:
   push:
-    - master
+    branches: [master,main]
   workflow_dispatch:
 
 jobs:
