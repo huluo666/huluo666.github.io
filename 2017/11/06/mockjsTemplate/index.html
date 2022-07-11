@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="http://mockjs.com/dist/mock.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- 代码高亮插件 -->
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+
+<script>hljs.initHighlightingOnLoad();</script>
+<script>//js自动刷新
+	function reloadPage()
+	{		
+		hljs.initHighlighting.called = false;
+		hljs.initHighlighting();
+	}</script>
+</head>
+<body>
+<center><h3 id="mockjs">Mockjs使用示例</h3></center>
+<div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+Mockjs： <a href="http://mockjs.com/" target="_blank">http://mockjs.com/</a><br>
+JSON验证：<a href="https://www.json.cn/" target="_blank">https://www.json.cn</a><br>
+JS清除注释(压缩)： <a href="http://tool.chinaz.com/js.aspx" target="_blank">http://tool.chinaz.com/js.aspx</a><br>
+</div>
+<div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+<pre><code class="javascript" id="templateCode">//Mockjs模板示例-JSON格式
+&#123;
+"total": 20,
+"pageNo": 1,
+"code": 0,
+"message": "@cparagraph()",
+"result|1-20": [//随机生成1-20条数据
+  &#123;
+	"id|+1": 1,//自增id--初始值为1 
+	"title": "@ctitle",//加c表示Chinese 中文标题
+	"subtitle|1-6": "我是副标题 ",//模拟名称
+	"content": "@cparagraph()",//模拟文本
+	"phone"  : "@phone",
+	"date": "@date('yyyy-MM-dd')",//模拟时间
+	"image": "@image('200x100', '#894FC4', '#FFF','png','')",//模拟图片-//image( size, background, foreground, format, text )
+	"userName": "@cname",//加c表示中文名字
+	"usersNum": "@integer(0,100)",//数量-Random.integer(min,max)
+	"color": "@color",//模拟色值
+	"city": "@city(true)",   //中国城市
+	"age|1-100": 100,//模拟1~100随机整数,100只是用来确定类型
+	"isMale|1": true,  // 布尔值
+	"url": "@url()",//模拟url
+	"guid": "@guid",//唯一id
+	"time": "@time",//时间
+	"now": "@now",//当前时间
+	"brother|1": ["Alice", "kimi"], // 随机选取 1 个元素
+	"sister|+1": ["Alice", "kimi", "lily"], // array中顺序选取元素作为结果
+	"friends|2": ["Alice", "kimi"], // 重复2次属性值生成一个新数组
+	"string|3": "★"//3表示后面属性值重复次数
+  &#125;
+]
+&#125;</code></pre> 
+ <center><button type="button" class="btn btn-success" id="button_id">生成模拟数据</button></center>
+<div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+	 </br>
+	 <pre><code class="json" id="mycode">#code#</code></pre> 
+</div>
+
+
+
+<script type="text/javascript">
+	var	content = $('#templateCode').text(); // 欲处理的文本  
+	var mockTemplate;
+	var	uncommentStr= content.replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, '$1');
+	try {
+		mockTemplate=JSON.parse(uncommentStr);
+	} catch(e) {
+		console.log("非法JSON"+e);
+	}
+	console.log(uncommentStr);
+
+//	$("#templateCode").text(JSON.stringify(mockTemplate,null,2));
+//	Mock.mock( rurl, rtype(默认get), template ) 当拦截到匹配 rurl 和 rtype 的 Ajax 请求时，	
+//	将根据数据模板 template 生成模拟数据，并作为响应数据返回。
+	Mock.mock(
+		'http://mockjs.com/',mockTemplate);
+	//ajax请求
+	$("#button_id").click(function(){	
+		$.ajax({
+			url        : "http://mockjs.com/",    //请求的url地址
+			dataType   : "json",   //返回格式为json
+			async      : true, //请求是否异步，默认为异步，这也是ajax重要特性
+			data       : {},    //参数值
+			type       : "GET",   //请求方式
+			beforeSend : function(req) {
+				//请求前的处理
+				console.log("开始请求");
+			},
+
+		   success: function(data, status, xhr) {
+				console.log("请求成功");
+				$("#mycode").text(JSON.stringify(data,null,2));
+				reloadPage();
+			},
+				
+			complete: function() {
+				//请求完成处理
+				console.log("请求完成");
+			},
+			error: function() {
+				//请求出错处理
+				console.log("请求出错");
+			}
+		});
+	});
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <!-- 本地js文件    -->
+        <script type="text/javascript" src="/js/my/mock.js"></script>
+        <script type="text/javascript" src="/js/my/codemirror.min.js"></script>
+
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- codemirror 必须依赖库 -->
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/codemirror.min.css" rel="stylesheet">
+
+
+        <!-- 高亮插件 -->
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/clike/clike.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/http/http.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/htmlmixed/htmlmixed.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/swift/swift.js"></script>
+        <!--注释插件 -->
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/comment/comment.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/keymap/sublime.min.js"></script>
+
+        <!-- 搜索插件 -->
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/search.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/jump-to-line.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/searchcursor.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/dialog/dialog.min.js"></script>
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/addon/dialog/dialog.min.css" rel="stylesheet">
+
+
+        <!--格式验证，括号匹配-->
+        <script src="http://ajax.aspnetcdn.com/ajax/jshint/r07/jshint.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/hint/javascript-hint.min.js"></script>
+
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/lint/lint.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/lint/javascript-lint.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/lint/json-lint.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/addon/lint/css-lint.min.js"></script>
+
+
+        <script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+        <script src="https://cdn.bootcss.com/codemirror/5.30.0/mode/css/css.min.js"></script>
+        <script src="http://csslint.net/js/csslint.js"></script>
+        <link href="https://cdn.bootcss.com/codemirror/5.30.0/addon/lint/lint.min.css" rel="stylesheet">
+
+        <!-- 编辑器主题 -->
+        <link type="text/css" rel="stylesheet" href="/css/my/mdn-like.min.css" />
+        <link rel="stylesheet" type="text/css" href="/css/my/solarized.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/solarized.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/seti.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/base16-light.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/eclipse.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/dracula.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/cobalt.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/my/duotone-light.min.css">
+
+
+        <style type="text/css">
+            /*            p {*/
+            /*            }*/
+
+            #codemodelselect {
+                margin-left: 20px;
+            }
+
+            #copyright {
+                text-align: center;
+                margin:10px 0 10px 0;
+            }
+            #modelist {
+                position: absolute;
+                right: 20px;
+                /*                top: 0px;*/
+                z-index: 25;
+            }
+
+            #inputTextFieldDIV {
+                padding-right:20px;
+                padding-left: 20px;
+                margin-right: auto;margin-left: auto;
+            }
+
+            #helpTextDIV {
+              padding-right:20px;
+              padding-left: 20px;
+              margin-right: auto;margin-left: auto;
+            }
+
+        /*编辑框*/
+        .container-fluid {
+            padding-right:20px;
+            padding-left: 20px;
+            margin-right: auto;margin-left: auto;
+        }
+
+        /*             .CodeMirror {*/
+        /*                      border: 1px solid #eee;*/
+        /*                      width: 99%;*/
+        /*                      height: auto;*/
+        /*                    }*/
+      </style>
+        </head>
+    <body>
+        <script>
+          function getEditorText()
+          {
+              var editor = $('.CodeMirror')[1].CodeMirror;
+              //You can then use it as you wish
+              var selectval = editor.getValue();
+              console.log("selectval: "+selectval);
+              return selectval;
+          }
+
+        function replaceContent(contentCode)
+        {
+            var editor = $('.CodeMirror')[0].CodeMirror;
+            var jsonOBJ=JSON.parse(contentCode);
+            console.log("stringify0:"+JSON.stringify(jsonOBJ,null,2));
+            editor.setValue(JSON.stringify(jsonOBJ,null,2));
+        }
+
+        function fillInpInputText(contentCode)
+        {
+            $("#inputtextId1")[0].value=contentCode;
+        }
+
+        function getInpInputText()
+        {
+             var inputtextIdValue = $("#inputtextId1")[0].value;
+             return inputtextIdValue;
+        }
+
+        function selectMode() {
+            var input = document.getElementById("modelist");
+            var editor = $('.CodeMirror')[0].CodeMirror;
+            var theme = input.options[input.selectedIndex].value;
+            console.log("mode:"+theme);
+            editor.setOption("mode", theme);
+        }
+
+          function printHelloWorld(){
+            console.log("printHelloWorld");
+          }
+
+        </script>
+
+        <script>// 使用 Mock
+            var editorReusult;
+            var mockjsObj= {
+                "total": 20,
+                "pageNo": 1,
+                "code": 0,
+                "message": "@cparagraph()",
+                "result|1-20": [	// 属性 result 的值是一个数组，随机生成1-20条数据
+                  {
+                    "id|+1": 1,//自增id-从1开始
+                    "title": "@ctitle",//加c表示Chinese 中文标题
+                    "subtitle|1-6": "我是副标题 ",//模拟名称
+                    "content": "@cparagraph()",//模拟文本
+                    "date": "@date('yyyy-MM-dd')",//模拟时间
+                    "image": "@image()",//模拟图片
+                    "color": "@color",//模拟色值
+                    "userName": "@cname",//加c表示中文名字
+                    "image": "@image('200x100', '#894FC4', '#FFF','png','')",//图片-//image( size, background, foreground, format, text )
+                    "age|1-100": 100,//模拟年龄(1-100)
+                    "url": "@url()",//模拟url
+                    "guid": "@guid"//唯一ID
+                  }
+                ]
+              };
+
+        function mockreloadPage()
+        {
+            /*获取代码编辑器的值*/
+            var editor = $('.CodeMirror')[0].CodeMirror;
+            //You can then use it as you wish
+            var selectval = editor.getValue();
+            console.log("selectval: "+selectval);
+            try {
+                mockjsObj=JSON.parse(selectval);
+            } catch(e) {
+                console.log("非法JSON"+e);
+                return;
+            }
+
+            //回调给OC
+            var   mockjsStingTest=JSON.stringify(mockjsObj,null,0);
+            printHelloWorld(mockjsStingTest);
+
+            var data = Mock.mock(
+                                 mockjsObj
+                             );
+             // 输出结果
+             editorReusult.setValue(JSON.stringify(data,null,2));
+        }
+        </script>
+        <div style="margin-left:30px;">
+            <h4>模拟规则（可修改）</h4>
+        </div>
+        <div class="input-group" id="inputTextFieldDIV">
+            <span class="input-group-addon">模拟API地址</span>
+            <input type="text" id="inputtextId1" class="form-control" placeholder="https://jsonblob.com/api/jsonBlob/xxx" value="">
+        </div>
+        <br>
+        <div id="codemodelselect">
+            <span class="label label-info" margin-left:="" 10px="">选择主题:</span>
+            <select id="select" onchange="selectTheme()">
+                <option selected>default</option>
+                <option>eclipse</option>
+                <option>seti</option>
+                <option>base16-light</option>
+                <option>dracula</option>
+                <option>duotone-light</option>
+                <option>mdn-like</option>
+                <option>cobalt</option>
+                <option>solarized</option>
+            </select>
+            <!-- 语言列表 http://codemirror.net/mode/index.html -->
+            <select id="modelist" onchange="selectMode()">
+                <option value="text/javascript">Default</option>
+                <option value="text/x-objectivec">objectivec</option>
+                <option value="text/x-swift">swift</option>
+                <option value="message/http">HTTP</option>
+                <option value="application/json">text/html</option>
+                <option value="application/json">application/json</option>
+                <option value="text/javascript">text/javascript</option>
+            </select>
+        </div>
+        <br>
+        <div class="container-fluid" id="mycode"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+            <textarea id="runcode_mock" name="runcode_mock" class="comments">#code#</textarea>
+        </div>
+        <script>$("textarea#runcode_mock").val(JSON.stringify(mockjsObj,null,2));</script>
+        <br>
+        <center><button type="button" class="btn btn-success" id="button_id">生成模拟数据>></button>
+        <button type="button" class="btn btn-success" id="button_id2">生成在线API>></button>
+        </center>
+        <br>
+        <div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                        href="#collapseTwo">模拟结果----点击展开，再次点击我进行折叠</a>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <textarea id="runcode_result" name="runcode_result">#code#</textarea>
+                </div>
+            </div>
+        </div>
+         <div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <a data-toggle="collapse" data-parent="#accordion"
+                href="#collapseHelp">使用帮助----点击展开，再次点击我进行折叠</a>
+            </div>
+            <div id="collapseHelp" class="panel-collapse collapse">
+                <div  id="helpTextDIV">
+                    如何使用<br />
+                    演示GIF：<a href="http://7xr7vj.com1.z0.glb.clouddn.com/mockjson.gif" target="_blank"> http://7xr7vj.com1.z0.glb.clouddn.com/mockjson.gif</a><br />
+                    一、编写好mockjs数据模板<br />
+                    二、点下方“生成（更新）在线API”,按钮生成或更新jsonapi<br />
+                    mockjs使用教程  <a href="http://mockjs.com/" target="_blank">http://mockjs.com/</a><br />
+                    JSON校验  <a href="http://mockjs.com/" target="_blank"> https://www.json.cn/</a><br />
+                    说明：左侧API列表，鼠标右键可弹出添加删除等功能菜单
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+        <script type="text/javascript">
+            $(function () { $('#collapseTwo').collapse('show')});
+        </script>
+
+        <script>
+            function selectMode() {
+                var input = document.getElementById("modelist");
+                var editor = $('.CodeMirror')[0].CodeMirror;
+                var theme = input.options[input.selectedIndex].value;
+                console.log("mode:"+theme);
+                editor.setOption("mode", theme);
+            };
+        //调用mock方法模拟数据
+        $("#button_id").click(function(){
+                              mockreloadPage();
+//                              printHelloWorld("uuuuuuuuu");
+                          });
+            </script>
+        <script>
+            var codeMirrorConfig0= {
+                //Java高亮显示
+                lineNumbers: true, /* 定义是否显示行号 */
+                lineWrapping: true, /*自动换行*/
+                styleActiveLine: true, // 当前行背景高亮
+                matchBrackets: true, // 括号匹配
+                gutters: ["CodeMirror-lint-markers"],
+                lint: true,
+                readOnly: true,
+                mode: "javascript",
+                extraKeys: {
+                    "Cmd-J": "toMatchingTag",
+                    "Cmd-/": "toggleComment",
+                }
+            };
+        var codeMirrorConfig = codeMirrorConfig0;
+        codeMirrorConfig.readOnly = false;
+
+        var editor0 = CodeMirror.fromTextArea(document.getElementById("runcode_mock"),codeMirrorConfig0);
+        var editor = CodeMirror.fromTextArea(document.getElementById("runcode_result"),codeMirrorConfig);
+        editorReusult=editor;
+        editor0.on("change",function(instance, changeObj){
+            console.log("编辑文本事件"+changeObj.origin);
+                   mockreloadPage();
+        });
+
+        var input = document.getElementById("select");
+        function selectTheme() {
+            var theme = input.options[input.selectedIndex].textContent;
+            editor.setOption("theme", theme);
+            editor0.setOption("theme", theme);
+            location.hash = "#" + theme;
+        }
+        var choice = (location.hash && location.hash.slice(1)) ||
+        (document.location.search &&
+         decodeURIComponent(document.location.search.slice(1)));
+         if (choice) {
+             input.value = choice;
+             editor.setOption("theme", choice);
+             editor0.setOption("theme", choice);
+         }
+        CodeMirror.on(window, "hashchange", function() {
+                      var theme = location.hash.slice(1);
+                      if (theme) { input.value = theme; selectTheme(); }
+                      });
+            </script>
+
+
+      <script type="text/javascript">
+          //ajax请求
+          $("#button_id2").click(function(){
+            if ($("#inputtextId1").val()=="" ) {
+              doJSONblobRequest("POST","https://jsonblob.com/api/jsonBlob");
+            }else {
+              doJSONblobRequest("PUT",$("#inputtextId1").val());
+            }
+          });
+
+          function doJSONblobRequest(requestType,requestURL)
+          {
+              var result = new Object();
+              var editor = $('.CodeMirror')[1].CodeMirror;
+              //You can then use it as you wish
+              var selectval = editor.getValue();
+               try {
+                result=JSON.parse(selectval);
+              } catch(e) {
+                alert("JSON数据不合法");
+                console.log("非法JSON"+e);
+                return;
+              }
+            //回调给OC
+            var saveData = JSON.stringify(result);
+            console.log(requestType+saveData);
+
+          $.ajax({
+            url        :  requestURL,    //请求的url地址
+            dataType   : "json",   //返回格式为json
+            async      : true, //请求是否异步，默认为异步，这也是ajax重要特性
+            data       : saveData,    //参数值
+            type       : requestType,   //请求方式
+            beforeSend : function() {
+              //请求前的处理
+            },
+
+            beforeSend : function(req) {
+                  req.setRequestHeader('Content-Type', 'application/json');  ///加这一行解决问题
+                },
+
+              success: function(data, status, xhr) {
+              //请求成功时处理
+//              $("#mycode").text(JSON.stringify(data,null,2));
+                var  location=xhr.getResponseHeader('Location');
+                console.log("location="+location);
+               if(!location){ // "",null,undefined,NaN
+                  console.log("为空");
+                }else {
+                  $("#inputtextId1")[0].value=xhr.getResponseHeader('Location');
+                }
+            },
+
+            complete: function() {
+              //请求完成的处理
+              console.log("请求完成");
+            },
+            error: function() {
+              //请求出错处理
+              console.log("请求出错");
+            }
+          });
+        }
+      </script>
+    </body>
+</html>
