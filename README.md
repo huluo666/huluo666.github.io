@@ -13,7 +13,7 @@ hexo server
 
 快捷命令
 
-```
+```sh
 一键本地启动：hexo clean && hexo g && hexo s
 一键部署：hexo clean && hexo g && hexo d
 $ hexo deploy --generate  或 hexo g -d or hexo d -g
@@ -48,12 +48,55 @@ $ npm install hexo-deployer-git --save
 
 
 
+### Hexo设置跳过渲染某个文件或文件夹
+
+`_config.yml`有提供一个配置项skip_render来设置跳过渲染的文件及文件夹
+
+```
+// 跳过单个文件
+skip_render: test.html
+
+// 跳过所有的html的文件
+skip_render: '*.html'
+
+跳过某个目录下的所有文件的渲染
+skip_render: test/*
+
+跳过某一目录下的所有文件和子目录的渲染
+skip_render: test/**
+
+跳过多个目录，或者多个文件的渲染
+skip_render: ['*.html', demos/**, test/*]
+```
+
+
+
+如果要忽略多个路径的文件或目录，可以这样配置：
+
+```
+
+skip_render:
+  - "README.md"
+  - ".github/**/**"
+  - test.html
+  - '*.html'
+  - test/**
+  - test/*
+```
+
+or
+
+```
+skip_render: [README.md, '.github/**/**', test/**, test/*]
+```
+
+
+
 ### 自动化部署
 
 https://knktc.com/2021/06/26/hexo-use-github-actions-to-submit-sitemap/
 
-
-
 `Error: Need phone captcha validation, please follow wechat official account "Gitee" to bind account to turn off authentication.`
 
 微信公众号关注Gitee，绑定Gitee账号就可以了。
+
