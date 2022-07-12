@@ -50,6 +50,8 @@ $ npm install hexo-deployer-git --save
 
 ### Hexo设置跳过渲染某个文件或文件夹
 
+https://github.com/hexojs/hexo/issues/1146
+
 `_config.yml`有提供一个配置项skip_render来设置跳过渲染的文件及文件夹
 
 ```
