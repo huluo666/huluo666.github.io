@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="正则表达式"><meta name="keywords" content="正则"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>正则表达式 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">正则表达式基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%B8%B8%E8%A7%81%E5%AD%97%E7%AC%A6"><span class="toc-number">1.1.</span> <span class="toc-text">1、正则表达式常见字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">2、正则表达式特殊字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%95%B0%E9%87%8F%E8%AF%8D%EF%BC%88%E9%87%8D%E5%A4%8D%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">3、正则表达式数量词（重复）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%80%BB%E8%BE%91%E6%88%96%E5%88%86%E7%BB%84"><span class="toc-number">1.4.</span> <span class="toc-text">4、正则表达式逻辑或分组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E5%AE%9A%E4%BD%8D%E7%82%B9%EF%BC%88%E9%94%9A%E5%AD%97%E7%AC%A6%E3%80%81%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5、定位点（锚字符、边界）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%B7%A5%E5%85%B7"><span class="toc-number">1.5.1.</span> <span class="toc-text">正则工具</span></a></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">正则表达式</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2016-09-04</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E6%AD%A3%E5%88%99/">正则</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>微博，朋友圈常用正则匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">匹配粗体中括号间的内容（也带上两边的粗体中括号）</span><br><span class="line">【[^】]+】</span><br><span class="line"></span><br><span class="line">匹配粗体中括号间的内容（不带两边的粗体中括号）的正则表达式：</span><br><span class="line">(?&lt;=【)([^】]+)(?=】)</span><br><span class="line"></span><br><span class="line">匹配书名号之间的内容（不带两边的书名号）的正则表达式：</span><br><span class="line">(?&lt;=《)([^》]+)(?=》)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(?&lt;=xxx)是以xxx开头的字符串, 但不包含xxx本身。</span><br><span class="line"></span><br><span class="line">(?=xxx)就匹配以xxx结尾的字符串, 但不包含xxx本身。</span><br><span class="line"></span><br><span class="line">(?&lt;=《)即以《开头, 但不包含《</span><br><span class="line"></span><br><span class="line">(?=》)即以》结尾，但不包含》</span><br></pre></td></tr></table></figure>
+
+
+
+<p>转义字符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">正斜杠（/）与反斜杠（\）</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th><strong>转义序列</strong></th>
+<th><strong>字符</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>\’</td>
+<td>单引号</td>
+</tr>
+<tr>
+<td>\”</td>
+<td>双引号</td>
+</tr>
+<tr>
+<td>\</td>
+<td>反斜杠</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>空</td>
+</tr>
+<tr>
+<td>\a</td>
+<td>警告</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>退格</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>换页</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>换行</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>加车</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>水平制表符</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>垂直制表符</td>
+</tr>
+</tbody></table>
+<p>正斜杠&#x2F;，网址、Url地址。</p>
+<p>正则表达式-问号的用法</p>
+<p>1、匹配问号</p>
+<p>因为<code>?</code>在正则表达式中有特殊的含义，所以如果想匹配?本身，则需要转义，<code>\?</code></p>
+<p>2、有无量词</p>
+<p>问号可以表示重复前面内容的0次或一次，也就是要么不出现，要么出现一次。</p>
+<p>3、贪婪\非贪婪匹配</p>
+<p>在满足匹配时，匹配尽可能长的字符串，默认情况下，采用贪婪匹配</p>
+<p>示例：匹配字符串abcabcabc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.*c     结果：abcabcabc</span><br><span class="line">a.*c     结果：abc</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、 预见匹配</p>
+<p>   简单说，就是匹配时考虑预见匹配的那一部分，不符合的不能算匹配上，但匹配的结果部分(变量$&amp;)要除去预见匹配部分，又分两种。</p>
+<p>1）肯定预见匹配  &#x2F;pattern(?&#x3D;string)&#x2F;;匹配时，要考虑符合string</p>
+<p><strong>遇见功能，”?&#x3D;”，意识说目标串中肯定存在什么，比如：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var str=&quot;ab45555&quot;;</span><br><span class="line">正则 ab(?=\d)</span><br><span class="line">结果： ab(yes) </span><br></pre></td></tr></table></figure>
+
+
+
+<p>2 否定预见匹配  &#x2F;pattern(?!string)&#x2F;;匹配时，要考虑不符合string的才行，结果$&amp;仍然只是取patern部分，不包括string<br><strong>“?!”，意思说目标串中不应该存在什么</strong>var str&#x3D;”ab1”;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var str=&quot;ab45555&quot;;</span><br><span class="line">正则 ab(?!\d)</span><br><span class="line">//结果为false</span><br><span class="line"></span><br><span class="line">var str=&quot;abccc&quot;;</span><br><span class="line">//结果为 ab(yes) </span><br><span class="line">意思是目标串中的第三位不应该是数字</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>(?=p)</code> ：零宽正向先行断言，要求接下来的字符串都与 <code>p</code> 匹配，但不能包含匹配 <code>p</code> 的那些字符</p>
+<p><code>(?!p)</code> ：零宽负向先行断言，要求接下来的字符串不与 <code>p</code> 匹配</p>
+<p>（出自《JavaScript权威指南》）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(?&lt;=xxx)是以xxx开头的字符串, 但不包含xxx本身。  </span><br><span class="line">(?=xxx)就匹配以xxx结尾的字符串, 但不包含xxx本身。</span><br><span class="line">(?!xxx)就匹配不以xxx结尾的字符串, 但不包含xxx本身</span><br><span class="line"></span><br><span class="line">匹配内容 abccdd</span><br><span class="line">正则 (?&lt;=ab)[a-z]*(?=dd) </span><br><span class="line">输出：cc </span><br><span class="line">解释：1、(?&lt;=ab)以ab开头 2、[a-z]* a到z重复任意次  3、(?=dd) 以dd结尾</span><br></pre></td></tr></table></figure>
+
+<p>几个常用的非贪婪匹配Pattern</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- *? 重复任意次，但尽可能少重复</span><br><span class="line">- +? 重复1次或更多次，但尽可能少重复</span><br><span class="line">- ?? 重复0次或1次，但尽可能少重复</span><br><span class="line">- &#123;n,m&#125;? 重复n到m次，但尽可能少重复</span><br><span class="line">- &#123;n,&#125;? 重复n次以上，但尽可能少重复</span><br></pre></td></tr></table></figure>
+
+
+
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#([^@]+?)#   #不以@开头字符重复1次或更多#</span><br><span class="line">话题 (例如#奇葩说#哈哈#天天向上#节目):</span><br><span class="line">\[([^\[]*?)]</span><br><span class="line">表情 (例如[哈哈]and[呵呵]):</span><br><span class="line"></span><br><span class="line"> At (例如 @王思聪 ):</span><br><span class="line"> @([\x&#123;4e00&#125;-\x&#123;9fa5&#125;A-Za-z0-9_\-]+)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="正则表达式基本语法"><a href="#正则表达式基本语法" class="headerlink" title="正则表达式基本语法"></a>正则表达式基本语法</h3><h4 id="1、正则表达式常见字符"><a href="#1、正则表达式常见字符" class="headerlink" title="1、正则表达式常见字符"></a>1、正则表达式常见字符</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">test            # 匹配包含test的字符串</span><br><span class="line">.               # 匹配除换行符外任意字符</span><br><span class="line">\               # 转义字符</span><br><span class="line">[abc]或[a-c]    # 匹配字符类，如例子匹配a,b,c中的任何一个</span><br><span class="line">[^x] 			# 匹配除了x以外的任意字符</span><br><span class="line">[^abc]          # 匹配除了a,b,c以外的所有字符</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2、正则表达式特殊字符"><a href="#2、正则表达式特殊字符" class="headerlink" title="2、正则表达式特殊字符"></a>2、正则表达式特殊字符</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\d                  # 数字，等同于[0-9]</span><br><span class="line">\D                  # 非数字</span><br><span class="line">\s                  # 空白字符（包括换行、Tab等）</span><br><span class="line">\S                  # 非空白字符</span><br><span class="line">\w                  # 单词，等用于[a-zA-Z0-9_]</span><br><span class="line">\W                  # 非单词</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3、正则表达式数量词（重复）"><a href="#3、正则表达式数量词（重复）" class="headerlink" title="3、正则表达式数量词（重复）"></a>3、正则表达式数量词（重复）</h4><p>贪婪量词<code>*</code>和<code>+</code><br>惰性(非贪婪)（最少重复匹配）量词<code>?</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c*                  # 匹配字符&quot;c&quot; 0或无限次    	*=重复0次或更多次</span><br><span class="line">c+                  # 匹配字符&quot;c&quot; 1次以上		 +=重复1次或更多次</span><br><span class="line">c?                  # 匹配字符&quot;c&quot; 0或1次 		  ?=重复0次或1次</span><br><span class="line">c&#123;3&#125;                # 匹配字符&quot;c&quot; 3次 		 &#123;n&#125;=重复n次</span><br><span class="line">c&#123;3,5&#125;              # 匹配字符&quot;c&quot; 3到5次 	  &#123;n,m&#125;=重复n到m次</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4、正则表达式逻辑或分组"><a href="#4、正则表达式逻辑或分组" class="headerlink" title="4、正则表达式逻辑或分组"></a>4、正则表达式逻辑或分组</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c|b                 # 匹配&quot;c&quot;或&quot;b&quot;</span><br><span class="line">(ab|cd)             # 匹配&quot;ab&quot;或&quot;cd&quot;</span><br><span class="line">(?P&lt;name&gt;abc)       # 匹配&quot;abc&quot;并命名为name</span><br><span class="line">(?P=name)           # 前文中的name组</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="5、定位点（锚字符、边界）"><a href="#5、定位点（锚字符、边界）" class="headerlink" title="5、定位点（锚字符、边界）"></a>5、定位点（锚字符、边界）</h4><p><code>^</code> 匹配开始的位置。将 <code>^</code> 用作括号<code>[]</code>表达式中的第一个字符，则会对字符集求反。<br><code>$</code> 匹配结尾的位置。<br><code>\b</code> 与一个字边界匹配，如er\b 与“never”中的“er”匹配，但与“verb”中的“er”不匹配。<br><code>\B</code> 非边界字匹配。</p>
+<p>正则在OC中，在遇到<code>\d</code>，<code>\.</code>等情况需要转义 <code>\\d</code> ，<code>\\.</code> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">匹配手机号--手机号以13，14-18开头，9个 \d 数字字符</span><br><span class="line">单独字符串验证  		 # ^1[34578]\d&#123;9&#125;$ </span><br><span class="line">全文匹配	   	  	   # 1[34578]\d&#123;9&#125;</span><br><span class="line">用户名(英文+数字) 		 # ^[A-Za-z0-9]&#123;6,20&#125;+$</span><br><span class="line">密码					# ^[a-zA-Z0-9]&#123;6,20&#125;+$</span><br><span class="line">昵称					# ^[u4e00-u9fa5]&#123;4,8&#125;$</span><br><span class="line">QQ号					 # [1-9][0-9]&#123;4,14&#125;</span><br><span class="line">@用户名 				# @\w+  或 @[\u4e00-\u9fa5a-zA-Z0-9_-]&#123;2,30&#125;  或@[0-9a-zA-Z\\u4e00-\\u9fa5]+   </span><br><span class="line">#话题#  					# #[^#]+#</span><br><span class="line">标签&lt;id&gt;content&lt;/id&gt;中间的内容	 #	(?&lt;=&lt;id&gt;).*?(?=&lt;/id&gt;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>注意</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. \w 匹配包括下划线的任何单词字符，但不包含标点符号如&#x27;,&#x27;,它等价于[A-Za-z0-9_]；(也即字母，数字，下划线)</span><br><span class="line">2. [\w,]除了能匹配\w能匹配的所有单词字符外，还能匹配&#x27;,&#x27;, 它等价于[A-Za-z0-9_,];</span><br><span class="line">3. [\w-] 除了能匹配\w能匹配的所有单词字符外，还能匹配&#x27;,&#x27;,常见于匹配URL链接</span><br></pre></td></tr></table></figure>
+
+
+
+<p>示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">^[\u4e00-\u9fa5]&#123;0,&#125;$   全中文</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="正则工具"><a href="#正则工具" class="headerlink" title="正则工具"></a>正则工具</h5><p><a target="_blank" rel="noopener" href="http://regex.zjmainstay.cn/">http://regex.zjmainstay.cn/</a></p>
+<p><a target="_blank" rel="noopener" href="http://regexr.com/">http://regexr.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://regex101.com/">https://regex101.com/</a></p>
+<p><a target="_blank" rel="noopener" href="http://myregexp.com/">http://myregexp.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.debuggex.com/">https://www.debuggex.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.regextester.com/">https://www.regextester.com/</a>  正则错误有提示</p>
+<p>可视化，用来验证正则是否正确</p>
+<p><a target="_blank" rel="noopener" href="https://jex.im/regulex/">https://jex.im/regulex/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.regexplanet.com/support/similar.html">https://www.regexplanet.com/support/similar.html</a></p>
+<p>生成代码</p>
+<p><a target="_blank" rel="noopener" href="http://tools.guardui.net/regex/create_reg.html">http://tools.guardui.net/regex/create_reg.html</a></p>
+<p>参考</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/aloisdg/awesome-regex">https://github.com/aloisdg/awesome-regex</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/cca5519a9367">http://www.jianshu.com/p/cca5519a9367</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/hustskyking/archive/2014/01/18/how-regular-expressions-work.html">http://www.cnblogs.com/hustskyking/archive/2014/01/18/how-regular-expressions-work.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.qcloud.com/community/article/675364001489391659?fromSource=gwzcw.92887.92887.92887">https://www.qcloud.com/community/article/675364001489391659?fromSource=gwzcw.92887.92887.92887</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/48219401">https://www.zhihu.com/question/48219401</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/a3dd72eadfa3">iOS开发——正则表达式验证手机号、密码</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/1a641056853d">iOS 正则匹配手机号和固定电话</a></p>
+<p><a target="_blank" rel="noopener" href="https://aotu.io/notes/2016/11/17/regexp-theory/index.html">正则表达式理论篇</a></p>
+<p><a target="_blank" rel="noopener" href="https://aotu.io/notes/2016/12/07/regexp-practice/">正则表达式实践篇</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jb51.net/tools/regex.htm">http://www.jb51.net/tools/regex.htm</a></p>
+<p>[正则表达式<a target="_blank" rel="noopener" href="http://blog.csdn.net/sinat_34719507/article/details/54434312">\w]+,\w+,[\w+] 三者区别？ [],[ABC]+,[\w.&#x2F;-]+ 表达什么？</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions">mozilla正则表达式</a></p>
+<p>escapeRegExp</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url">https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript">https://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript</a></p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex">https://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2016/09/04/正则表达式/">http://huluo666.github.io/2016/09/04/正则表达式/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%AD%A3%E5%88%99/">正则</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2016/09/04/iOS%E7%9B%B4%E6%92%AD%20%E7%BE%8E%E9%A2%9C/"><i class="fa fa-chevron-left">  </i><span>iOS直播-美颜</span></a></div><div class="next-post pull-right"><a href="/2016/08/15/iOS%E5%AE%9E%E7%8E%B0%E6%A8%A1%E7%B3%8A%E6%95%88%E6%9E%9C/"><span>iOS  模糊效果实现方式</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

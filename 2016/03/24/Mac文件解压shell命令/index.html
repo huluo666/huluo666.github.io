@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Mac文件解压shell命令"><meta name="keywords" content="iOS"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>Mac文件解压shell命令 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E7%9B%B8%E5%85%B3%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">一、文件解压相关格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tar%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">tar命令详解</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">Mac文件解压shell命令</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2016-03-24</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h4 id="一、文件解压相关格式"><a href="#一、文件解压相关格式" class="headerlink" title="一、文件解压相关格式"></a>一、文件解压相关格式</h4><p> Windows 平台-最常用的格式是 zip 和 rar，国内大多数是用 rar，国外大多数是用 zip。<br>类 Unix 平台而言-常用的格式是 tar 和 tar.gz，zip 比较少一些，rar 则几乎没有。<br>zip格式:Mac默认压缩格式，缺点:就是它的压缩率并不是很高，不如 rar及 tar.gz 等格式。</p>
+<p><strong>ZIP</strong><br>压缩 zip 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zip -r archive_name.zip file_to_compress</span><br><span class="line">zip -r archive_name.zip directory_to_compress/</span><br></pre></td></tr></table></figure>
+<p>解压 zip 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip archive_name.zip</span><br></pre></td></tr></table></figure>
+
+<p><strong>TAR</strong><br>tar 只是一种打包格式，并不对文件进行压缩，主要是为了便于文件的管理，所以打包后的文档大小一般远远大于 zip 和 tar.gz，优点:打包速度非常快，打包时 CPU 占用率低(因为不需要压缩嘛)。<br>将文件或文件夹打包为 tar 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf archive_name.tar file_to_compress</span><br><span class="line">tar -cvf archive_name.tar directory_to_compress</span><br></pre></td></tr></table></figure>
+<p>解包一个 tar 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf archive_name.tar</span><br></pre></td></tr></table></figure>
+
+<p><strong>TAR.GZ</strong><br>tar.gz 可以说是对于 tar 的一个补充，它会对文件进行压缩，且压缩率略优于 zip，而对于 CPU 的占用率却不怎么高。Linux 平台下的大多数开源软件或源代码都是采用这种格式。<br>将文件或文件夹打包压缩为 tar.gz 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf archive_name.tar.gz file_to_compress</span><br><span class="line">tar -zcvf archive_name.tar.gz directory_to_compress</span><br></pre></td></tr></table></figure>
+
+<p>解压一个 tar.gz 文档的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf archive_name.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p><strong>TAR.BZ2</strong><br>相比以上几种格式，tar.gz2 拥有最高的压缩率，但是压缩的时候所需要的时间也最长，CPU 占用率也最高。将文件或文件夹压缩为 tar.bz2 的命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -jcvf archive_name.tar.bz2 file_to_compress</span><br><span class="line">tar -jcvf archive_name.tar.bz2 directory_to_compress</span><br></pre></td></tr></table></figure>
+
+<p>解压一个 tar.bz2 文件的命令是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jxvf archive_name.tar.bz2</span><br></pre></td></tr></table></figure>
+<p><strong>Com From</strong>：<a target="_blank" rel="noopener" href="https://libuchao.com/2013/04/21/linux-zip-tar-tar-gz-tar-bz2">https://libuchao.com/2013/04/21/linux-zip-tar-tar-gz-tar-bz2</a></p>
+<h4 id="tar命令详解"><a href="#tar命令详解" class="headerlink" title="tar命令详解"></a>tar命令详解</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-c: 建立压缩档案</span><br><span class="line">-x：解压</span><br><span class="line">-t：查看内容</span><br><span class="line">-r：向压缩归档文件末尾追加文件</span><br><span class="line">-u：更新原压缩包中的文件</span><br></pre></td></tr></table></figure>
+
+<p>这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。<br>下面的参数是根据需要在压缩或解压档案时可选的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-z：有gzip属性的,表明创建zip压缩文件，后面的后缀一定要是tar.gz</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-Z：有compress属性的</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-O：将文件解开到标准输出</span><br><span class="line">参数-f是必须的</span><br><span class="line">-f: 使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看</strong><br>tar -tf aaa.tar.gz   			在不解压的情况下查看压缩包的内容</p>
+<p><strong>压缩</strong><br><code>tar –cvf jpg.tar *.jpg</code> 	&#x2F;&#x2F;将目录里所有jpg文件打包成tar.jpg<br><code>tar –czf jpg.tar.gz *.jpg</code> 	&#x2F;&#x2F;将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz<br>tar –cjf jpg.tar.bz2 *.jpg	 	&#x2F;&#x2F;将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名为jpg.tar.bz2<br>tar –cZf jpg.tar.Z *.jpg   		&#x2F;&#x2F;将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名为jpg.tar.Z</p>
+<p><strong>二、gzip压缩文件的生成</strong><br><code>tar -zcvf &lt;压缩文件名&gt;.tar.gz &lt;要压缩的文件夹或者文件名&gt;</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-z表明创建zip压缩文件，后面的后缀一定要是tar.gz</span><br><span class="line">-c创建打包文件</span><br><span class="line">-v显示压缩过程</span><br><span class="line">-f归档名</span><br></pre></td></tr></table></figure>
+
+<p>文件分卷压缩<br><code>split -b &lt;分卷大小&gt; &lt;要拆分的文件名&gt; &lt;分卷名前缀&gt;</code><br><code>split -b 900k test.tar.gz splt.tar.gz.</code></p>
+<p>将建立的test.tar.gz 拆分为数个大小不超过900k的文件<br>注意后面的 split.tar.gz. 以”.”结尾的，这样拆分的文件就得到 split.tar.gz.aa split.tar.gz.ab….否则得到的是 xaa, xab, xac这样的文件<br>如果先建立一个压缩文件，再进行拆分的话，虽然可行，但是多少有些不方便。现在用 “ | “通道将两个命令一同执行<br><code>tar -zcvf - User_Guide.pdf  | split -b 900k - splt.tar.gz.</code><br>如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1、压缩</span><br><span class="line">tar -zcf creatName.tar.gz living.jpg(单个文件)</span><br><span class="line">tar –zcf creatName.tar.gz *.jpg (通配所有jpg文件)</span><br><span class="line">2、分卷</span><br><span class="line">split -b 900k creatName.tar.gz  splt.tar.gz.</span><br><span class="line">生成名字splt.tar.gz.aa，splt.tar.gz.ab</span><br><span class="line">3、解压</span><br><span class="line">cat splt.tar.gz.a* | tar -jx</span><br></pre></td></tr></table></figure>
+
+<p>压缩framework</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar -cjf creatName.tar.bz2 *.framework</span><br><span class="line">split -b 1500k creatName.tar.bz2  a.tx.libs.tar.bz2.</span><br><span class="line">cat a.tx.libs.tar.bz2.a* | tar -jx</span><br><span class="line">tar -jcvf - *.jpg  | split -b 100k - a.tx.libs.tar.bz2.</span><br><span class="line">tar -jcvf - libs  | split -b 10000k - a.tx.libs.tar.bz2.</span><br></pre></td></tr></table></figure>
+
+<p>分卷压缩文件的合并<br>十分简单，用cat命令合并文件（cat也可用于文本文件的合并），用通配符指定要合并的文件即可<br>接上例。生成了 splt.tar.gz.aa ~~~~ splt.tar.gz.ad 共四个文件，同样将终端定位到桌面目录下复制内容到剪贴板代码:<code>cat split.tar.gz.a*&gt;new.tar.gz</code>执行后即可看到桌面多出一个new.tar.gz 的压缩文件<br>类似3.当中提到的，这条合并命令一样可以用 | 在一条命令内实现“合并+解压”的任务。复制内容到剪贴板代码:<code>cat split.tar.gz.a* | tar -zxv</code>注意这里两步执行的时候同样用到了类似上面的缓存操作，所以并不需要指定合并后的压缩文件的具体名称，后面的tar命令也不需要加上-f参数指定名称了。<br>转自：<a target="_blank" rel="noopener" href="http://mac.pcbeta.com/thread-112623-1-1.html">http://mac.pcbeta.com/thread-112623-1-1.html</a><br>示例<br>使用 zip 命令压缩文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zip - largefile | split -b 500k</span><br></pre></td></tr></table></figure>
+
+<p>将文件 <em>largefile</em> 压缩成 zip 包并分卷成不超过 500k 的文件，分解后文件名默认是 <code>x*</code> ，后缀为 2 位 <code>a-z</code> 字母，如 aa、ab。<br>要合并已分解的文件，可使用cat命令恢复成 <em>zip</em> 文件后使用 <code>unzip</code> 或其它主流解压软件解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat x* &gt; file.zip</span><br></pre></td></tr></table></figure>
+
+<p>tar 命令压缩文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czvf - largefile | split -b 500k</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>tar</code> 解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat x* | tar xzvf -</span><br></pre></td></tr></table></figure>
+
+<p><strong>相关压缩文件解压命令</strong></p>
+<table>
+<thead>
+<tr>
+<th>压缩文件格式</th>
+<th>解压命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*.tar</td>
+<td>tar –xvf</td>
+</tr>
+<tr>
+<td>*.gz</td>
+<td>gzip -d或者gunzip</td>
+</tr>
+<tr>
+<td>.tar.gz和.tgz</td>
+<td>tar –xzf</td>
+</tr>
+<tr>
+<td>*.bz2</td>
+<td>bzip2 -d或者用bunzip2</td>
+</tr>
+<tr>
+<td>*.tar.bz2</td>
+<td>tar –xjf</td>
+</tr>
+<tr>
+<td>*.Z</td>
+<td>uncompress</td>
+</tr>
+<tr>
+<td>*.tar.Z</td>
+<td>tar –xZf</td>
+</tr>
+</tbody></table>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2016/03/24/Mac文件解压shell命令/">http://huluo666.github.io/2016/03/24/Mac文件解压shell命令/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2016/03/24/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%90%9C%E7%B4%A2%E6%A1%86/"><i class="fa fa-chevron-left">  </i><span>自定义搜索框</span></a></div><div class="next-post pull-right"><a href="/2016/03/23/%E7%AE%80%E5%8D%95%E5%B0%81%E8%A3%85%E6%96%B0%E6%B5%AA%E6%8F%90%E7%A4%BA%E6%A1%86/"><span>简单封装新浪提示框</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

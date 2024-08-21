@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="创建Xcode模板"><meta name="keywords" content="iOS"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>创建Xcode模板 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.</span> <span class="toc-text">一、为什么要自定义模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A8%A1%E6%9D%BF%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">二、模板存放位置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%A6%82%E4%BD%95%E9%80%9F%E5%88%9B%E5%BB%BA%E3%80%81%E4%BF%AE%E6%94%B9Xcode%E6%A8%A1%E6%9D%BF"><span class="toc-number">3.</span> <span class="toc-text">三、如何速创建、修改Xcode模板</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%85%B6%E5%AE%83%E5%BA%94%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">四、其它应用实例</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">创建Xcode模板</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2016-05-23</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h4 id="一、为什么要自定义模板"><a href="#一、为什么要自定义模板" class="headerlink" title="一、为什么要自定义模板"></a>一、为什么要自定义模板</h4><p>1.节省重复代码手写时间</p>
+<p>2.统一规范代码，提高代码可读性<br>3.减少手写代码,XIB或修改相关配置等不必要的时间</p>
+<p>如我们要求所有的viewController的代码都得按照一下代码结构来写:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - def</span><br><span class="line">#pragma mark - override</span><br><span class="line">#pragma mark - api</span><br><span class="line">#pragma mark - model event </span><br><span class="line">#pragma mark - view event</span><br><span class="line">#pragma mark - private</span><br><span class="line">#pragma mark - getter / setter</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/08be5b30ff82">iOS代码编程规范-根据项目经验汇总</a></p>
+<h4 id="二、模板存放位置"><a href="#二、模板存放位置" class="headerlink" title="二、模板存放位置"></a>二、模板存放位置</h4><p>Xcode模板主要分为2种，系统默认模板和用户自定模板，对iOS App开发者而言，一般用到的是系统模板中的<code>/Applications/Xcode.app/Contents/Developer/Platforms</code>目录下的<code>iPhoneOS.platform</code>中的模板</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/328273-4c4941288e786bfb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1.png"></p>
+<p><strong>1、Xcode系统模板位置</strong></p>
+<p>(1) iOS开发系统模板位置</p>
+<ul>
+<li>里面包含文件模板（File Templates）和工程模板（Project Templates）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates</span><br></pre></td></tr></table></figure>
+
+<p>(2) MacOSX的系统文件模板位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.用户自定义模板位置</strong><br> <code>~/Library/Developer/Xcode/Templates</code> </p>
+<p>终端命令打开文件目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Library/Developer/Xcode/Templates //进入目录</span><br><span class="line">open .							     //打开目前目录</span><br><span class="line">等价于</span><br><span class="line">open ~/Library/Developer/Xcode/Templates</span><br></pre></td></tr></table></figure>
+
+<p>或者点击Finder菜单栏的<code>前往&gt;前往文件夹</code>(<code>shift + command + G</code>) ，<br>输入：<code>~/Library/Developer/Xcode/Templates</code></p>
+<p>会看到<code>File Templates</code>，<code>Project Templates</code>2个文件夹，分别代表<code>文件模板</code>和<code>工程模板</code>目录。</p>
+<h4 id="三、如何速创建、修改Xcode模板"><a href="#三、如何速创建、修改Xcode模板" class="headerlink" title="三、如何速创建、修改Xcode模板"></a>三、如何速创建、修改Xcode模板</h4><p> Xcode没有提供直接的工具或者是向导给你创建一个工程模板，,但是我们可以找到Xcode内置的几个模板,这里以iPhone开发为说明,介绍模板的创建修改过程.</p>
+<p><strong>iOS模板目录</strong></p>
+<p><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates</code></p>
+<p>终端命令打开方式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates</span><br></pre></td></tr></table></figure>
+
+<p>或者点击Finder菜单栏的<code>前往&gt;前往文件夹</code>(<code>shift + command + G</code>)</p>
+<p>输入:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates</span><br></pre></td></tr></table></figure>
+
+<p><strong>1）基于现成模板修改或使用</strong></p>
+<p>拷贝<code>iOS系统模板目录</code>中的模板进行修改。</p>
+<p>为Xcode添加<code>Empty Application</code>、<code>category</code>、<code>protocol</code>等模板</p>
+<p>现成下载：<a target="_blank" rel="noopener" href="https://github.com/NSFish/AddMissingTemplates">https://github.com/NSFish/AddMissingTemplates</a></p>
+<p>​		   <a target="_blank" rel="noopener" href="https://github.com/ChenYilong/XcodeMissingTemplates">https://github.com/ChenYilong/XcodeMissingTemplates</a></p>
+<p>也可以利用<code>AlcaAtraz</code>安装相关模板，<code>shift+command+9</code> &gt;<code>Templates</code>模板</p>
+<p>推荐：<a target="_blank" rel="noopener" href="https://github.com/zubco/PZCustomView">https://github.com/zubco/PZCustomView</a></p>
+<p> 复制模板文件夹到用户自定义模板目录 <code>~/Library/Developer/Xcode/Templates/</code> ，重启即可</p>
+<p><strong>2）完全自定义模板</strong><br>例如创建一个带有导航栏和标签栏控制器的工程<br>1、进入模板目录<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\\ Templates/iOS</code></p>
+<p>2、手动创建<code>CustomTemplate</code>文件夹<br><img src="http://upload-images.jianshu.io/upload_images/328273-c013cfd53a4b00c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3.png"></p>
+<p>将原来XCode6中的“Empty Application”模板拷贝过来（可以从上文提到的Github中下载），修改增加一些必要字段。<br>Plist文件内容如下图<br><img src="http://upload-images.jianshu.io/upload_images/328273-f9cd3a40efa73169.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="2.png"></p>
+<p>PS:基于标签栏和导航栏工程模板文件相关内容详见文末<a target="_blank" rel="noopener" href="https://github.com/huluo666/CustomTemplate">Github</a><br>相关字段含义查阅3.1</p>
+<p><strong>3.1 Xcode模板 文件宏</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">占位符</th>
+<th align="left">意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>___FILENAME___</code></td>
+<td align="left">文件名包括后缀</td>
+</tr>
+<tr>
+<td align="left"><code>___PROJECTNAME___</code></td>
+<td align="left">当前工程名，在创建工程时设置的</td>
+</tr>
+<tr>
+<td align="left"><code>___FULLUSERNAME___</code></td>
+<td align="left">当前登录用户的名字</td>
+</tr>
+<tr>
+<td align="left"><code>___DATE___</code></td>
+<td align="left">当前日期 ，格式为MM&#x2F;DD&#x2F;YY</td>
+</tr>
+<tr>
+<td align="left"><code>___FILEBASENAMEASIDENTIFIER___</code></td>
+<td align="left">不带后缀的文件名</td>
+</tr>
+<tr>
+<td align="left"><code>___projectnameasidentifier___</code></td>
+<td align="left">项目名称转换为有效的C风格的标识符</td>
+</tr>
+<tr>
+<td align="left"><code>___organizationname___</code></td>
+<td align="left">在Xcode项目定义的组织名称</td>
+</tr>
+<tr>
+<td align="left"><code>___time___</code></td>
+<td align="left">当前时间</td>
+</tr>
+<tr>
+<td align="left"><code>___year___</code></td>
+<td align="left">前四位数的年份</td>
+</tr>
+</tbody></table>
+<p>From:<a target="_blank" rel="noopener" href="http://see.sl088.com/wiki/Xcode%E6%A8%A1%E6%9D%BF_%E6%96%87%E4%BB%B6%E5%AE%8F">http://see.sl088.com/wiki/Xcode%E6%A8%A1%E6%9D%BF_%E6%96%87%E4%BB%B6%E5%AE%8F</a></p>
+<p><strong>3.2文件组成</strong><br>–TemplateInfo.plist（<code>必要</code>）：所有的模板属性设置都在这里。<br>–TemplateIcon.tiff（<code>可选</code>）：定义显示在new project的dialog中的模板图标。<br>– Main_iPhone.storyboard、Main_iPad.storyboard：要添加在项目中的文件。</p>
+<p><strong>3.3TemplateInfo.plist字段详解</strong></p>
+<ul>
+<li><code>Kind</code>（必须） 模板类型<br>Xcode.Xcode3.ProjectTemplateUnitKind –指定该模板是工程(项目)模板<br>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind –指定该模板是文件模板</li>
+<li><code>SortOrder</code> 这个是排序的值，该模板显示在new project的dialog中的位置索引,可以设置在界面中的摆放位置，值越大越前面</li>
+<li><code>Ancestors</code>：要继承的模板。也就是模板的“父类”，从父类那里继承一些模板的基础属性，可以有多个父类。</li>
+<li><code>Concrete</code>：设置为YES的模板才可以显示在new project的dialog中，此时这个模板不能被其他模板继承。</li>
+<li><code>Description</code>：就是Description描述信息。</li>
+<li><code>Identifier</code>：模板的唯一标示符，若模板B要继承模板A，就在模板B的Ancestors中写上模板A的Identifier。</li>
+<li><code>Nodes</code>：定义要添加到项目中的文件，目标结构节点。</li>
+<li><code>Definitions</code>：将Nodes中定义的文件添加到项目中（相关.h&#x2F;.m文件）。</li>
+<li><code>Options</code>：定义在new project中选择模板后点击next后的dialog中的内容，如Product Name、Organization Name、Company Identifier、Bundle Identifier等。</li>
+<li>在Suffixes里面添加自定义的模板类的类名以及模板类所继承的类名</li>
+</ul>
+<h4 id="四、其它应用实例"><a href="#四、其它应用实例" class="headerlink" title="四、其它应用实例"></a>四、其它应用实例</h4><p><strong>iOS开发网络适配https，修改模板方式解决</strong><br>iOS9让所有的HTTP默认使用了HTTPS，App无法正常访问HTTP链接。<br><code>1、常规解决方法</code>：<br> <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000002933776">iOS9 HTTP 不能正常使用的解决办法</a><br><code>2、Xcode模板修改步骤</code><br><strong>步骤1、：进入工程模板目录或直接打开编辑</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\\ Templates/iOS/Application/Cocoa\\ Touch\\ Application\\ Base.xctemplate/TemplateInfo.plist</span><br></pre></td></tr></table></figure>
+
+<p>编辑<code>Cocoa Touch Application Base.xctemplate/TemplateInfo.plist</code>文件</p>
+<p><strong>步骤2、添加key&amp;value值</strong></p>
+<ul>
+<li><p>在Nodes中增加一个item， 值（右侧）设置为Info.plist:NSAppTransportSecurity  。</p>
+</li>
+<li><p>在Definitions字段下增加item， 键（左侧）设置为Info.plist:NSAppTransportSecurity ，值（右侧）设置为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br><span class="line">&lt;/dict&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/328273-daa93a71cc9df9f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="4.png"></p>
+<p>注意第4点，里面内容不仅仅是所见的<code>NSAppTransportSecurity</code>，包含以上字典所有内容</p>
+<p><code>Github</code> <strong><a target="_blank" rel="noopener" href="https://github.com/huluo666/CustomTemplate">CustomTemplate</a></strong></p>
+<p>下载安装：<br>打开&#x2F;ios文件目录，将<code>UITbaBar&amp;Nav.xctemplate</code>模板放置在<code>CustomTemplate</code>目录,如图3所示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Templates/Project\\ Templates/iOS</span><br></pre></td></tr></table></figure></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2016/05/23/创建Xcode模板/">http://huluo666.github.io/2016/05/23/创建Xcode模板/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2016/05/24/%E5%88%A9%E7%94%A8runtime%E8%BF%9B%E8%A1%8C%E8%87%AA%E5%8A%A8%E5%BD%92%E6%A1%A3%E8%A7%A3%E6%A1%A3/"><i class="fa fa-chevron-left">  </i><span>利用runtime进行自动归档解档</span></a></div><div class="next-post pull-right"><a href="/2016/05/23/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F/"><span>常用数据类型对应字节数</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

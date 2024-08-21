@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>	
+	<script src="http://bililite.com/inc/jquery.parsecss.js"></script>	
+	</head>
+	<body>
+		<style>
+			.comments {
+				width:100%;/*自动适应父布局宽度*/
+				overflow:auto;
+				word-break:break-all;
+			}
+		</style>
+		<div class="container-fluid">
+		<br>
+		<center>
+			<title2>CSS转JSON</title2>			
+		</center>
+		<a href="http://huluo666.cn/2017/08/02/%E4%BD%BF%E7%94%A8%20CSSJSON%20Converts%20CSS%20to%20JSON/">iOS使用js库实现css转换json</a><br>
+		发现使用CSSToJSON这个js库转换后会出现转换空值问题，所以使用parsecss.js这个jquery插件来转换<br>
+		用途：<br>
+		CSS里面包含字体，颜色值... 将其转换为JSON供App使用<br>	
+		<a href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/xcode.min.css">Test CSS Code</a><br>
+		</div>	
+		<div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+		<textarea rows="10" cols="100" id="csscode" class="comments"></textarea>	
+		</div>
+		<div class="container-fluid">
+			<center><button type="button" class="btn btn-primary" id="parsecss">ParseCSS</button></center>
+		</div>
+		<div class="container-fluid">
+			 <br>
+			 <pre><code id="jsoncode"></code></pre> 
+		</div>
+		<script>
+			$(document).ready(function(){
+				function convertCSSToJSON(cssStr) {
+					$.parsecss(cssStr, function(css) {
+						var jsonStr = JSON.stringify(css, null, 2); // spacing level = 2
+						console.log("jsonStr"+jsonStr);
+						$("#jsoncode").text(jsonStr);
+					});
+				}
+				$('#parsecss').click(function(){
+					var	cssStr = $('#csscode').val(); // 欲处理的文本  
+					console.log("parsed"+cssStr);
+					convertCSSToJSON(cssStr);
+				});
+			
+			$('#styles').text($('style').map(function(){return this.innerHTML}).get().join(''));
+			});
+		</script>
+
+	</body>
+</html>

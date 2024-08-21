@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="javascript HTTP网络请求"><meta name="keywords" content="JavaScript"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>javascript HTTP网络请求 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E3%80%81AJAX-HTTP%E5%BA%93%E6%AF%94%E8%BE%83%EF%BC%88%E8%AF%91%E6%96%87%E6%91%98%E8%A6%81%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">一、AJAX &#x2F; HTTP库比较（译文摘要）</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">javascript HTTP网络请求</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-02-06</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>​     作为一名移动开发者，很多时候需要对网络数据进行处理，而Xcode每次修改都需要重新编译，这大大降低了我们开发的敏捷性。python对网络数据的处理是很简单的，但iOS开发对python的支持不是很够，只能用第三方框架，而且API数量和使用方便性很低。对于JavaScript，iOS7之后苹果就推出了JavaScriptCore.framework这个框架,这个框架为大家在与JS交互上提供了很大帮助,可以在html界面上调用OC方法并传参,也可以在OC上调用JS方法并传参，可以很方便的实现OC&#x2F;swift与js交互。</p>
+<p>JavaScript中的网络分为两大类：AJAX（浏览器）和HTTP客户端（服务器），下面是对这2种请求的分析比较</p>
+<h4 id="一、AJAX-HTTP库比较（译文摘要）"><a href="#一、AJAX-HTTP库比较（译文摘要）" class="headerlink" title="一、AJAX &#x2F; HTTP库比较（译文摘要）"></a>一、AJAX &#x2F; HTTP库比较（译文摘要）</h4><p>原文链接：<a target="_blank" rel="noopener" href="https://www.javascriptstuff.com/ajax-libraries/">https://www.javascriptstuff.com/ajax-libraries/</a></p>
+<p>JavaScript中的网络分为两类：<code>AJAX</code>（浏览器）和<code>HTTP</code>客户端（服务器）。</p>
+<p>有时你只需要其中的一个，有时需要两个（例如在一个同构&#x2F;通用的应用程序）。</p>
+<p>无论哪种方式，你都希望拥有<strong>简洁的语法</strong>。大多数开发人员发现<code>XMLHttpRequest</code>API太冗长了。</p>
+<p>很多开发人员使用<code>jQuery</code>，但是如果您只需要<code>AJAX</code>功能，加载整个库看起来可能很浪费。</p>
+<p>我整理了一个列表来帮助你为你的项目选择一个<strong>最合适</strong>的JavaScript网络请求库。之后，我会举几个具体的场景来推荐相应库。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Support</th>
+<th>Features</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>Chrome &amp;Firefox1</td>
+<td>All Browsers</td>
+<td>Node</td>
+<td>Concise Syntax</td>
+<td>Promises</td>
+<td>Native2</td>
+<td>Single Purpose3</td>
+<td>Formal Specification</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://nodejs.org/api/http.html">Node HTTP</a></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalFetch/fetch">fetch()</a></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/github/fetch">Fetch polyfill</a></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/bitinn/node-fetch">node-fetch</a></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/matthew-andrews/isomorphic-fetch">isomorphic-fetch</a></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/visionmedia/superagent">superagent</a></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/mzabriskie/axios">axios</a></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/request/request">request</a></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://jquery.com/">jQuery</a></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/ded/reqwest">reqwest</a></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>更多查看原文：<a target="_blank" rel="noopener" href="https://www.javascriptstuff.com/ajax-libraries/">https://www.javascriptstuff.com/ajax-libraries/</a></p>
+<p>jQuery中的ajax与原生js中的ajax对比？</p>
+<p>jquery是基于原生ajax的一个js封装库，不同浏览器对ajax的实现可能不同，jQuery解决了兼容问题。当然封装后语法更简单，使用更方便。</p>
+<p>jQuery网络请求</p>
+<p><strong>1、ajax()方式</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestData</span>(<span class="params">id</span>) &#123;  </span><br><span class="line">          <span class="keyword">var</span> params = <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;张山&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;1112222&quot;</span>&#125;);</span><br><span class="line">          $.<span class="title function_">ajax</span>(&#123;  </span><br><span class="line">              <span class="attr">type</span>: <span class="string">&quot;post&quot;</span>,  </span><br><span class="line">              <span class="attr">url</span>: <span class="string">&quot;https://www.baidu.com/&quot;</span>,  </span><br><span class="line">              <span class="attr">dataType</span>: <span class="string">&quot;json&quot;</span>,  </span><br><span class="line">              <span class="attr">data</span>: params,  </span><br><span class="line">              <span class="attr">cache</span>: <span class="literal">false</span>,  </span><br><span class="line">              <span class="attr">timeout</span>: <span class="number">10</span> * <span class="number">1000</span>,  </span><br><span class="line">              <span class="attr">success</span>: <span class="keyword">function</span>(<span class="params">data</span>) &#123;  </span><br><span class="line">                   <span class="title function_">alert</span>(<span class="string">&quot;数据+ data&quot;</span>);</span><br><span class="line">              &#125;,  </span><br><span class="line">              <span class="attr">error</span>: <span class="keyword">function</span>(<span class="params">XMLHttpRequest, textStatus, errorThrown</span>) &#123;  </span><br><span class="line"></span><br><span class="line">              &#125;  </span><br><span class="line">          &#125;);  </span><br><span class="line">      &#125;;  </span><br></pre></td></tr></table></figure>
+
+<p><strong>2.$.get()</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestData</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="attr">url</span>: <span class="string">&quot;https://www.baidu.com/&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: id</span><br><span class="line">    &#125;;</span><br><span class="line">    $.<span class="title function_">get</span>(url, params,</span><br><span class="line">        <span class="keyword">function</span>(<span class="params">data</span>) &#123;</span><br><span class="line">    			<span class="title function_">alert</span>(<span class="string">&quot;数据+ data&quot;</span>);</span><br><span class="line">        &#125;, <span class="string">&quot;json&quot;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>3.$.post()</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">requestData</span>(<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> <span class="attr">url</span>: <span class="string">&quot;https://www.baidu.com/&quot;</span>;</span><br><span class="line">    <span class="keyword">var</span> params = &#123;</span><br><span class="line">        <span class="string">&quot;id&quot;</span>: id</span><br><span class="line">    &#125;;</span><br><span class="line">    $.<span class="title function_">post</span>(url, params,</span><br><span class="line">        <span class="keyword">function</span>(<span class="params">data</span>) &#123;</span><br><span class="line">			<span class="title function_">alert</span>(<span class="string">&quot;数据+ data&quot;</span>);</span><br><span class="line">	&#125;, <span class="string">&quot;json&quot;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>4.$.jQuery.getJSON()</strong></p>
+<p>函数没有type参数，返回的是json类型的，不需要转换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.<span class="title function_">getJSON</span>(<span class="string">&quot;test.js&quot;</span>, <span class="keyword">function</span>(<span class="params">json</span>)&#123;  </span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&quot;JSON Data: &quot;</span> + json);  </span><br><span class="line">&#125;); </span><br></pre></td></tr></table></figure>
+
+
+
+<p>示例</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="comment">//在文档加载后激活函数：</span></span></span><br><span class="line"><span class="language-javascript">$(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">	$(<span class="string">&quot;button&quot;</span>).<span class="title function_">click</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">		$.<span class="title function_">get</span>(<span class="string">&quot;https://www.baidu.com/&quot;</span>,<span class="keyword">function</span>(<span class="params">data,status</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">			<span class="title function_">alert</span>(<span class="string">&quot;数据：&quot;</span> + data + <span class="string">&quot;\n状态：&quot;</span> + status);</span></span><br><span class="line"><span class="language-javascript">		&#125;);</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript">&#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span>&gt;</span>向页面发送 HTTP GET 请求，然后获得返回的结果<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果使用本地文件然后浏览器打开调试会出现<code>No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;null&#39; is therefore not allowed access.</code>错误</p>
+<p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/8456538/origin-null-is-not-allowed-by-access-control-allow-origin">https://stackoverflow.com/questions/8456538/origin-null-is-not-allowed-by-access-control-allow-origin</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2018/02/06/JavaScriptHTTP网络请求/">http://huluo666.github.io/2018/02/06/JavaScriptHTTP网络请求/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/02/07/%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B8%B8%E7%94%A8%E7%BD%91%E7%AB%99/"><i class="fa fa-chevron-left">  </i><span>前端开发常用网站</span></a></div><div class="next-post pull-right"><a href="/2018/02/06/JavaScript%E5%B8%B8%E7%94%A8%E5%BA%93/"><span>javascript 常用库</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

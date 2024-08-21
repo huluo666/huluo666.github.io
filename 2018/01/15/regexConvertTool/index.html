@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>正则表达式转换</title>
+	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="">
+	<style type="text/css">
+		/* textarea 自适应父容器大小 */  
+		.comments {  
+			width: 100%; /*自动适应父布局宽度*/  
+			overflow: auto;  
+			word-break: break-all;			
+			min-height: 50px; 
+			max-height: 200px;
+			margin-left: 0px; /*auto*/
+			margin-right: 0px; 
+			margin-top: 10px;; 
+			margin-bottom: 10px;; 
+			padding: 0px;
+			outline: 0; 
+			border: 1px solid #a0b3d6; 
+			font-size: 14px; 
+			word-wrap: break-word;
+		}  
+		
+	
+	
+	.tableCell {  
+			width: 100%; /*自动适应父布局宽度*/  
+			overflow: auto;  
+			word-break: break-all;			
+			min-height: 30px; 
+			max-height: 200px;
+			margin-left:  0px; /*auto*/
+			margin-right: 0px; 
+			margin-top: 10px;; 
+			margin-bottom: 10px;; 
+		}  
+	
+	</style>
+	
+</head>
+<body>
+
+<div class="container">
+
+	<p class="text">
+<!-- 	正则表达式转义符 -->
+	</p>	
+	
+	<div class="row" >
+		<div class="col-xs-5" style="background-color: #dedef8;">
+			<textarea cols="80" rows="10" id="codeEditor" class="comments" placeholder="请输入您要转换的正则表达式">(f|ht){1}(tp|tps):\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?</textarea>  
+		</div>
+		
+		<div class="col-xs-2"  style="height:200px">				
+				<p class="tableCell">
+				
+				 <center><button type="button" class="btn btn-primary" id="button_id">添加转义符</button></center>
+				 <p></p>
+				 <center><button type="button" class="btn btn-info" id="button_id2">移除转义符</button></center>
+				 <p></p>
+				 <center><button type="button" class="btn btn-default" id="button_id3">重 置</button></center>
+				</p>			
+		</div>
+		
+		
+		<div class="col-xs-5" style="background-color: #dedef8;">
+			<textarea cols="80" rows="10" id="templateCode" class="comments" placeholder="转换结果"></textarea>  
+		</div>
+	</div>
+</div>
+
+<!-- 	JS函数 -->
+	<script>
+	//添加转义符
+	$("#button_id").click(function(){	
+		var	content =$('#codeEditor').val(); //欲处理的文本  
+		var content2=escapeRegExp(content);
+		$("#templateCode").text(content2);
+	});
+
+	//移除转义符
+	$("#button_id2").click(function(){	
+		var	content =$('#codeEditor').val(); // 欲处理的文本  
+		var content2=unEscapeRegExp(content);
+		$("#templateCode").text(content2);
+	});
+	
+	$("#button_id3").click(function(){	
+		$("#templateCode").text("");
+	});
+	
+	//移除转义符
+	
+	function unEscapeRegExptest(str) {
+		     return str.replace(/([.?*+^$[\]\\(){}-])/g, "\\$1");
+	}
+
+
+	function unEscapeRegExp(str) {
+		if (!str) return "";
+		if (str.length == 0) return "";
+		str =  str.replace(/(\\\/)/g,'/');// \/
+		str =  str.replace(/(\\\^)/g,'^');// \^
+		str =  str.replace(/(\\\$)/g,'$');// \$
+		str =  str.replace(/(\\\()/g,'(');// \( 
+		str =  str.replace(/(\\\))/g,')');// \)
+		str =  str.replace(/(\\\[)/g,'[');// \[
+		str =  str.replace(/(\\\])/g,']');// \] 
+		str =  str.replace(/(\\\{)/g,'{');// \{
+		str =  str.replace(/(\\\})/g,'}');// \}
+		str =  str.replace(/(\\\.)/g,'.');// \.
+		str =  str.replace(/(\\\?)/g,'?');// \?
+		str =  str.replace(/(\\\+)/g,'+');// \+
+		str =  str.replace(/(\\\*)/g,'*');// \*
+		str =  str.replace(/(\\\|)/g,'|');// \|
+		return str;
+	}
+
+	function escapeRegExp(str) {			
+		var pattern = str; 
+		var regexString;
+		try {
+		var regex=new RegExp(pattern);
+			regexString = String(regex).slice(1, -1);
+		} catch(e) {
+			regexString="正则表达式错误,请仔细检查";
+			console.log("Error"+e);
+		}
+		return regexString;
+	}
+	</script>
+
+</body>
+</html>

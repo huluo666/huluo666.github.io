@@ -1,0 +1,219 @@
+<span id="more"></span>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>在线JSON模拟</title>
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/my/mock.js"></script>
+		<script type="text/javascript" src="/js/my/codemirror.min.js"></script>
+
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<!-- codemirror 必须依赖库 -->
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/codemirror.min.css" rel="stylesheet">
+
+		<!--括号匹配-->
+		<script src="codemirror-5.12/addon/edit/matchbrackets.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/lint/json-lint.min.js"></script>
+
+		<!-- 高亮插件 -->
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/clike/clike.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/http/http.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/htmlmixed/htmlmixed.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/mode/swift/swift.js"></script>
+		<!--注释插件 -->
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/comment/comment.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/keymap/sublime.min.js"></script>
+
+		<!-- 搜索插件 -->
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/search.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/jump-to-line.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/search/searchcursor.min.js"></script>
+		<script src="https://cdn.bootcss.com/codemirror/5.28.0/addon/dialog/dialog.min.js"></script>
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/addon/dialog/dialog.min.css" rel="stylesheet">
+
+ 		<!-- 编辑器主题 -->
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/seti.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/solarized.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/base16-light.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/eclipse.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/dracula.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/cobalt.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/duotone-light.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/mdn-like.min.css" rel="stylesheet">
+        <link href="https://cdn.bootcss.com/codemirror/5.28.0/theme/solarized.min.css" rel="stylesheet">
+
+		<style type="text/css">
+/*			p {*/
+/*			}*/
+
+			#codemodelselect {
+				margin-left: 30px;
+			}
+
+			#copyright {
+				text-align: center;
+				margin:10px 0 10px 0;
+			}
+			#modelist {
+				position: absolute;
+				right: 20px;
+/*				top: 0px;*/
+				z-index: 25;
+			}
+
+			/*编辑框*/
+			.container-fluid {
+				padding-right:30px;
+				padding-left: 30px;
+				margin-right: auto;margin-left: auto;
+			}
+		</style>
+	</head>
+	<body>
+	<script>// 使用 Mock
+		var editorReusult;
+		var mockjsObj= {
+				'total': 20,
+				'pageNo': 1,
+			 	"code": 0,
+				"message": '@cparagraph()',
+				// 属性 result 的值是一个数组，其中含有 1 到 n 个元素
+			    'result|1-20': [{
+				// 属性 id 是一个自增数，起始值为 1，每次增 1
+				'id|+1': 1,
+				'title|1-6': '我是标题 ',  //5x6 30字以内的标题
+				"content"  : "@cparagraph()", //模拟文本
+				"date": "@date('yyyy-MM-dd')",//模拟时间
+				"image"    : "@image()",	 //模拟图片URL
+				'color'    : '@color',    //模拟颜色
+				'userName'     : '@name',
+				"age|1-100":100,          //模拟年龄(1-100)
+				"url"      : "@url()"     //模拟url
+				}]
+		 };
+
+		function mockreloadPage()
+		{
+			/*获取代码编辑器的值*/
+			 var editor = $('.CodeMirror')[0].CodeMirror;
+			 //You can then use it as you wish
+			 var selectval = editor.getValue();
+			 console.log("selectval: "+selectval);
+
+			mockjsObj=JSON.parse(selectval);
+			var	mockjsStingTest=JSON.stringify(mockjsObj,null,0);
+			var data = Mock.mock(
+				mockjsObj
+			);
+			// 输出结果
+			editorReusult.setValue(JSON.stringify(data,null,2));
+		}
+	  </script>
+		 <h2 class="title" align="center">在线JSON模拟</h2>
+		<div style="margin-left:30px;">
+		<h4>模拟规则（可修改）</h4>
+		</div>
+			<div id="codemodelselect">
+			<span class="label label-info" margin-left: 10px>选择主题:</span>
+			<select id="select" onchange="selectTheme()">
+					<option selected>default</option>
+					<option>eclipse</option>
+					<option>seti</option>
+					<option>base16-light</option>
+					<option>dracula</option>
+					<option>duotone-light</option>
+					<option>mdn-like</option>
+					<option>cobalt</option>
+					<option>solarized</option>
+				</select>
+				<!-- 语言列表 http://codemirror.net/mode/index.html -->
+				<select id="modelist" onchange="selectMode()">
+					<option value="text/javascript">Default</option>
+					<option value="text/x-objectivec">objectivec</option>
+					<option value="text/x-swift">swift</option>
+					<option value="message/http">HTTP</option>
+					<option value="application/json">text/html</option>
+					<option value="application/json">application/json</option>
+					<option value="text/javascript">text/javascript</option>
+				</select>
+			</div>
+			</br>
+			<div class="container-fluid" id="mycode"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+			<textarea id="runcode_mock" name="runcode_mock" class="comments">#code#</textarea>
+			</div>
+		<script>$("textarea#runcode_mock").val(JSON.stringify(mockjsObj,null,2));</script>
+		</br>
+		<center><button type="button" class="btn btn-success" id="button_id">生成模拟数据>></button></center>
+		<script>
+			function selectMode() {
+				var input = document.getElementById("modelist");
+				var editor = $('.CodeMirror')[0].CodeMirror;
+				var theme = input.options[input.selectedIndex].value;
+				console.log("mode:"+theme);
+				editor.setOption("mode", theme);
+			};
+			//调用mock方法模拟数据
+			$("#button_id").click(function(){
+				mockreloadPage();
+			});
+		</script>
+		<div style="margin-left:30px;">
+		<h4>模拟结果</h4>
+		</div>
+
+
+		<div class="container-fluid"><!-- 水平居中，两边有margin，最小屏幕时，充满父元素 -->
+		<textarea id="runcode_result" name="runcode_result">#code#</textarea>
+		</div>
+		</br>
+		</br>
+		</br>
+		<script>
+		   var codeMirrorConfig0= {
+					//Java高亮显示
+					lineNumbers: true, /* 定义是否显示行号 */
+					lineWrapping: true, /*自动换行*/
+					styleActiveLine: true, // 当前行背景高亮
+					matchBrackets: true, // 括号匹配
+					readOnly: true,
+					extraKeys: {
+						"Cmd-J": "toMatchingTag",
+						"Cmd-/": "toggleComment",
+					}
+				};
+			var codeMirrorConfig = codeMirrorConfig0;
+			codeMirrorConfig.readOnly = false;
+
+			var editor0 = CodeMirror.fromTextArea(document.getElementById("runcode_mock"),codeMirrorConfig0);
+			var editor = CodeMirror.fromTextArea(document.getElementById("runcode_result"),codeMirrorConfig);
+			editorReusult=editor;
+			var input = document.getElementById("select");
+			function selectTheme() {
+				var theme = input.options[input.selectedIndex].textContent;
+				editor.setOption("theme", theme);
+				editor0.setOption("theme", theme);
+				location.hash = "#" + theme;
+			}
+			var choice = (location.hash && location.hash.slice(1)) ||
+									 (document.location.search &&
+										decodeURIComponent(document.location.search.slice(1)));
+			if (choice) {
+				input.value = choice;
+				editor.setOption("theme", choice);
+				editor0.setOption("theme", choice);
+			}
+			CodeMirror.on(window, "hashchange", function() {
+				var theme = location.hash.slice(1);
+				if (theme) { input.value = theme; selectTheme(); }
+			});
+		</script>
+
+		<div id="copyright">
+			Copyright © By kimi <a target="_blank" href="http://huluo666.cn/">模拟工具</a>
+		</div>
+	</body>
+</html>

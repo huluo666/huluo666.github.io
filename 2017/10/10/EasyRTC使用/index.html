@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="EasyRTC"><meta name="keywords" content="直播"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>EasyRTC | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">EasyRTC</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-10-10</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E7%9B%B4%E6%92%AD/">直播</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>EasyRTC是什么</p>
+<p>EasyRTC是WebRTC标准的一个实现。</p>
+<p>它包括：</p>
+<ul>
+<li><p>服务器端，nodejs实现的</p>
+</li>
+<li><p>Web端javascript api，相当于是对WebRTC API的封装和简化</p>
+</li>
+<li><p>iOS和Android本地API，这个应该是付费版本才有</p>
+<p>​</p>
+</li>
+</ul>
+<p>他们开源了服务器端和Web端的javascript api，见<a target="_blank" rel="noopener" href="https://github.com/priologic/easyrtc">GitHub</a>。</p>
+<p>EasyRTC使用</p>
+<p>1、安装nodejs，安装npm （没安装自行谷歌）</p>
+<p>2、安装运行easyrtc需要的js包（js框架），package.json 中的依赖库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/priologic/easyrtc.git</span><br><span class="line">cd   easyrtc/server_example 目录</span><br><span class="line">npm install  //安装package.json中的依赖库</span><br></pre></td></tr></table></figure>
+
+<p>3、启动easyrtc server</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> npm start</span><br><span class="line">或</span><br><span class="line"> node  server.js</span><br><span class="line">//端口预设在 port 8080 LISTEN</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、浏览器中测试</p>
+<p>打开<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> </p>
+<p>2、引入必要的依赖库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AudioToolbox.framework</span><br><span class="line">VideoToolbox.framework</span><br><span class="line">QuartzCore.framework</span><br><span class="line">OpenGLES.framework</span><br><span class="line">CoreGraphics.framework</span><br><span class="line">CoreVideo.framework</span><br><span class="line">CoreMedia.framework</span><br><span class="line">CoreAudio.framework</span><br><span class="line">AVFoundation.framework</span><br><span class="line">GLKit.framework</span><br><span class="line">CFNetwork.framework</span><br><span class="line">Security.framework</span><br><span class="line">libsqlite3.tbd</span><br><span class="line">libicucore.tbd</span><br><span class="line">libc.tbd</span><br><span class="line">libc++.dylib </span><br><span class="line">libstdc++.6.0.9.tbd</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>错误解决</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Undefined symbols for architecture x86_64:</span><br><span class="line">  &quot;_OBJC_CLASS_$_RTCEAGLVideoView&quot;, referenced from:</span><br><span class="line">      objc-class-ref in VideoChatViewController.o</span><br><span class="line">  &quot;_OBJC_CLASS_$_RTCSessionDescription&quot;, referenced from:</span><br></pre></td></tr></table></figure>
+
+<p>重新导入对于库文件</p>
+<ul>
+<li>framework文件没有导入</li>
+<li>静态库编译时往往需要一些库的支持，查看你是否有没有导入的库文件<br>同样是在<code>Build Phases</code>里的<code>Link Binary With Libraries</code>中添加相应的framework。</li>
+</ul>
+<p>1、注意真机关闭<code>bitcode</code></p>
+<p>2、注意添加相关权限</p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/83db0b4f0bfe">iOS10 权限崩溃问题</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;key&gt;NSCameraUsageDescription&lt;/key&gt;    </span><br><span class="line">&lt;string&gt;cameraDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSContactsUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;contactsDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSMicrophoneUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;microphoneDesciption&lt;/string&gt;</span><br><span class="line">&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;</span><br><span class="line">&lt;string&gt;photoLibraryDesciption&lt;/string&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="http://www.zaomaiwang.com/html/9125204.html">WebRTC各种资料集合</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.pffair.com/blog/2016/06/29/webrtcshi-jian/">Webrtc实践</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/fulianga/p/5869208.html">WebRTC iOS平台的基本实现</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/c49da1d93df4">iOS下音视频通信-基于WebRTC</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.enkichen.com/2017/05/12/webrtc-ios-build/">WebRTC iOS&amp;OSX 库的编译</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.kadia-china.com/?p/435753014d47">iOS音视频开源框架WebRTC入门-编译(前序-授人鱼不如授人以渔)</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/994f9f6c9874">WebRTC入门：iOS工程</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/hrhguanli/p/3781385.html">WebRTC学习笔记_Demo收集</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/AnyRTC/anyRTC-RTMP-OpenSource">https://github.com/AnyRTC/anyRTC-RTMP-OpenSource</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/qq3200341/FLWebRTCDemo">https://github.com/qq3200341/FLWebRTCDemo</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Haley-Wong/WebRTC_iOS">https://github.com/Haley-Wong/WebRTC_iOS</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/hiroeorz/PeerObjectiveC">https://github.com/hiroeorz/PeerObjectiveC</a></p>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/csdnhaoren13/article/details/51023814">http://blog.csdn.net/csdnhaoren13/article/details/51023814</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22301898">WebRTC有前途吗？</a></p>
+<p>服务器</p>
+<p><a target="_blank" rel="noopener" href="https://naurudao.blogspot.hk/2016/07/webrtc.html">https://naurudao.blogspot.hk/2016/07/webrtc.html</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2017/10/10/EasyRTC使用/">http://huluo666.github.io/2017/10/10/EasyRTC使用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%9B%B4%E6%92%AD/">直播</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/10/14/iOS%E7%9B%B4%E6%92%AD%20%E9%9F%B3%E8%A7%86%E9%A2%91%E9%87%87%E9%9B%86/"><i class="fa fa-chevron-left">  </i><span>iOS直播 音视频采集</span></a></div><div class="next-post pull-right"><a href="/2017/10/10/GPUImage/"><span>ios 美颜</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="iOS开发SQL使用"><meta name="keywords" content="iOS"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>iOS开发SQL使用 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%88%9B%E5%BB%BA%EF%BC%88%E5%88%A0%E9%99%A4%EF%BC%89%E8%A1%A8"><span class="toc-number">1.</span> <span class="toc-text">一、创建（删除）表</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%88%9B%E5%BB%BA"><span class="toc-number">1.1.</span> <span class="toc-text">1、创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2、删除表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E4%BF%AE%E6%94%B9%E8%A1%A8-%E9%87%8D%E5%91%BD%E5%90%8D%E8%A1%A8"><span class="toc-number">1.3.</span> <span class="toc-text">3、修改表(重命名表)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E6%95%B0%E6%8D%AE%E8%A1%A8%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5"><span class="toc-number">1.4.</span> <span class="toc-text">4、数据表添加字段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81DML%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C%E6%93%8D%E4%BD%9C-%E5%A2%9E%E5%88%A0%E6%94%B9"><span class="toc-number">2.</span> <span class="toc-text">二、DML数据库操作操作(增删改)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%A2%9E"><span class="toc-number">3.</span> <span class="toc-text">1、增</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%88%A0"><span class="toc-number">4.</span> <span class="toc-text">2、删</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%94%B9"><span class="toc-number">5.</span> <span class="toc-text">3、改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81DQL%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5-%E6%9F%A5%E8%AF%A2"><span class="toc-number">6.</span> <span class="toc-text">三、DQL数据库查询语句(查询)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">7.</span> <span class="toc-text">条件语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FMDB%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">7.1.</span> <span class="toc-text">FMDB的使用</span></a></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">iOS开发SQL使用</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2017-04-13</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>在ios项目中使用sqlite需要添加 <code>libsqlite3.dylib</code>库</p>
+<p><strong>SQL语句的特点</strong></p>
+<blockquote>
+<p>不区分大小写（比如数据库认为insert和InSerT是一样的）<br>每条语句都必须以分号 “ ; ” 结尾。</p>
+</blockquote>
+<p><strong>SQL中常用关键字</strong></p>
+<blockquote>
+<p>select、insert、update、delete、from、create、where、desc、order、by、group、table、alter、view、index等</p>
+<p>注意:数据库中不可以使用关键字来命名表、字段</p>
+<p>SQL 语句中除过 <code>SELECT</code> 语句都可以称之为更新操作。包括 <code>CREATE</code>，<code>UPDATE</code>，<code>INSERT</code>，<code>ALTER</code>，<code>COMMIT</code>，<code>BEGIN</code>，<code>DETACH</code>，<code>DROP</code>，<code>END</code>，<code>EXPLAIN</code>，<code>VACUUM</code>，<code>REPLACE</code> 等。一般只要不是以 <code>SELECT</code> 开头的 SQL 语句，都是更新语句。</p>
+</blockquote>
+<p><strong>二、SQL语句的种类</strong></p>
+<blockquote>
+<p>1.<strong>数据定义语句</strong>（DDL：Data Definition Language）</p>
+<p>包括create和drop等操作</p>
+<p>在数据库中创建新表或删除表（create table或 drop table）</p>
+<p>2**.数据操作语句**（DML：Data Manipulation Language）</p>
+<p>包括insert、update、delete等操作</p>
+<p>上面的3种操作分别用于添加、修改、删除表中的数据</p>
+<p>3**.数据查询语句**（DQL：Data Query Language）</p>
+<p>可以用于查询获得表中的数据</p>
+<p>关键字select是DQL（也是所有SQL）用得最多的操作</p>
+<p>其他DQL常用的关键字有where，order by，group by和having</p>
+</blockquote>
+<h3 id="一、创建（删除）表"><a href="#一、创建（删除）表" class="headerlink" title="一、创建（删除）表"></a>一、创建（删除）表</h3><h4 id="1、创建"><a href="#1、创建" class="headerlink" title="1、创建"></a>1、创建</h4><blockquote>
+<ul>
+<li><p>create table 表名 (字段名1 字段类型1, 字段名2 字段类型2, …) ;</p>
+</li>
+<li><p>create table if not exists 表名 (字段名1 字段类型1, 字段名2 字段类型2, …) ;</p>
+</li>
+</ul>
+</blockquote>
+<p>示例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table t_student (id integer, name text, age inetger, score real)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS     -- 创建表</span><br><span class="line">t_student (					   -- 表的名称t_student</span><br><span class="line">-- <span class="type">id</span>主键 默认地AUTO_INCREMENT 的开始值是 <span class="number">1</span>，每条新记录递增 <span class="number">1</span>。</span><br><span class="line"><span class="type">id</span> INTEGER NOT <span class="literal">NULL</span> PRIMARY KEY AUTOINCREMENT,</span><br><span class="line">name TEXT,					   -- 字段类型</span><br><span class="line">age INTEGER,</span><br><span class="line">score REAL</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建新表(create table)    删除表(drop table)</p>
+</li>
+<li><p>注意事项：</p>
+<ul>
+<li><p>1、创建表格时, 最好加个表格是否已经存在的判断, 这个防止语句多次执行时发生错误。</p>
+<p><code>if not exists</code>: 判断表不存在时才创建表.。</p>
+</li>
+<li><p>2、SQL不区分大小写,编写SQL规范,最好关键字都使用大写.表名最好加上<code>t_</code>前缀。</p>
+</li>
+<li><p>3、<code>PRIMARY KEY</code>: 约束为主键。</p>
+</li>
+<li><p>4、<code>AUTOINCREMENT</code>: 自动递增。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>创建表推荐写法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE IF NOT EXISTS t_student (id integer PRIMARY KEY AUTOINCREMENT, name text, age integer, score integer);</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、删除表"><a href="#2、删除表" class="headerlink" title="2、删除表"></a>2、删除表</h4><blockquote>
+<p>格式: <code>DROP TABLE IF EXISTS 表名;</code></p>
+</blockquote>
+<p>删除表示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE IF EXISTS t_student;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="3、修改表-重命名表"><a href="#3、修改表-重命名表" class="headerlink" title="3、修改表(重命名表)"></a>3、修改表(重命名表)</h4><blockquote>
+<p>格式: <code>ALTER TABLE 旧表名 RENAME TO 新表名;</code></p>
+</blockquote>
+<p>重命名表示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE t_student RENAME TO t_person;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="4、数据表添加字段"><a href="#4、数据表添加字段" class="headerlink" title="4、数据表添加字段"></a>4、数据表添加字段</h4><blockquote>
+<p>格式: <code>ALTER TABLE 表名 ADD COLUMN 字段名 数据类型 限定符</code></p>
+</blockquote>
+<p>数据表添加字段示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE t_student ADD COLUMN address text;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>SQLite数据类型类型</p>
+<blockquote>
+<p><strong>SQLite将数据划分为以下几种存储类型：</strong><br>integer : 整型值<br>real : 浮点值<br>text : 文本字符串<br>blob : 二进制数据（比如文件）</p>
+</blockquote>
+<p>实际上SQLite是无类型的<br>就算声明为integer类型，还是能存储字符串文本（主键除外）<br>建表时声明啥类型或者不声明类型都可以，也就意味着创表语句可以这么写：<br>create table t_student(name, age); 为了保持良好的编程规范，编写建表语句的时候最好加上每个字段的具体类型</p>
+<h3 id="二、DML数据库操作操作-增删改"><a href="#二、DML数据库操作操作-增删改" class="headerlink" title="二、DML数据库操作操作(增删改)"></a>二、DML数据库操作操作(增删改)</h3><h3 id="1、增"><a href="#1、增" class="headerlink" title="1、增"></a>1、增</h3><p>插入数据（insert）</p>
+<blockquote>
+<p>格式： insert into 表名 (字段1, 字段2, …) values (字段1的值, 字段2的值, …) ;</p>
+</blockquote>
+<p>SQL插入数据示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into t_student (name, age) values (‘mj’, 10) ;</span><br><span class="line">INSERT INTO t_student (name, age, height) VALUES (&#x27;zhangsan&#x27;, 20, 1.78);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>注意：数据库中的字符串内容应该用单引号 ’ 括住</p>
+</li>
+<li><p>1.字段和值一定要对应，否则也会添加错误的数据进表里</p>
+<p> 2.TEXT类型需要添加引号’’</p>
+</li>
+</ul>
+<h3 id="2、删"><a href="#2、删" class="headerlink" title="2、删"></a>2、删</h3><blockquote>
+<p>格式: delete from 表名 ;</p>
+<p>格式: delete from 表名 where 条件;</p>
+</blockquote>
+<p>删除表示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">delete from t_student ;</span><br><span class="line">/*</span><br><span class="line">	DML删除数据</span><br><span class="line">	DELETE		-- 删除数据</span><br><span class="line">	FROM		-- 从哪张表中删除数据</span><br><span class="line">	WHERE		-- 条件</span><br><span class="line"> */</span><br><span class="line">DELETE FROM t_student WHERE id = 1;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3、改"><a href="#3、改" class="headerlink" title="3、改"></a>3、改</h3><p>更新数据（update）</p>
+<blockquote>
+<p>格式: update 表名 set 字段1 &#x3D; 字段1的值, 字段2 &#x3D; 字段2的值, … ;</p>
+</blockquote>
+<p>SQL更新数据示例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">	DML更新数据</span><br><span class="line">	UPDATE			-- 更新数据</span><br><span class="line">	t_student		-- 需要更新数据的表</span><br><span class="line">	SET			-- 更新哪个字段</span><br><span class="line">	name = &#x27;liudehua&#x27;	-- 更新字段的值</span><br><span class="line">	WHERE			-- 条件</span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line"> 1.如果不指定条件会更新所有数据</span><br><span class="line"> */</span><br><span class="line">update t_student set name = ‘jack’, age = 20 ;</span><br><span class="line">更新一个字段</span><br><span class="line">update t_person set name = &#x27;xiaofang&#x27; where name = &#x27;wangwu&#x27;;</span><br><span class="line">更新多个字段，每个字段之间使用,分隔</span><br><span class="line">update t_person set age = 20, height = 2.0 where name = &#x27;xiaofang&#x27;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、DQL数据库查询语句-查询"><a href="#三、DQL数据库查询语句-查询" class="headerlink" title="三、DQL数据库查询语句(查询)"></a>三、DQL数据库查询语句(查询)</h3><p>查询数据（select）</p>
+<ul>
+<li>1.查询数据格式</li>
+</ul>
+<blockquote>
+<p>格式1: <code>select * from 表名;</code>, <code>*</code>:通配符,表示所有字段.<br>格式2: <code>select 字段1, 字段2, … from 表名;</code><br>格式3: <code>select 字段1, 字段2, … from 表名 where 条件;</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">	DQL查询数据</span><br><span class="line">	SELECT		-- 查询</span><br><span class="line">	name, age	-- 查询的字段</span><br><span class="line">	FROM		-- 从哪张表中查询</span><br><span class="line">    t_student   -- 查询的表名</span><br><span class="line"> */</span><br><span class="line">-- 查询所有字段</span><br><span class="line">SELECT * FROM t_student;</span><br><span class="line">-- 查询指定字段</span><br><span class="line">SELECT name, age FROM t_student;</span><br><span class="line">-- 查询 age &lt; 22 的记录的name, age字段</span><br><span class="line">SELECT name, age FROM t_student WHERE age &lt; 22;</span><br><span class="line"></span><br><span class="line">-- 查询 age &lt; 22 的所有字段</span><br><span class="line">SELECT * FROM t_student WHERE age &lt; 22;</span><br><span class="line"></span><br><span class="line">-- 查询记录总数</span><br><span class="line">SELECT COUNT(*) FROM t_student;</span><br><span class="line"></span><br><span class="line">-- 查询 age &lt; 22 的记录总数</span><br><span class="line">SELECT COUNT(*) FROM t_student WHERE age &lt; 22;</span><br><span class="line"></span><br><span class="line">-- 查询最大的 age</span><br><span class="line">SELECT MAX(age) FROM t_student;</span><br><span class="line"></span><br><span class="line">-- 查询最小的 age</span><br><span class="line">SELECT MIN(age) FROM t_student;</span><br><span class="line"></span><br><span class="line">-- 查询所有记录的所有字段，根据 age 升序排序</span><br><span class="line">SELECT * FROM t_student ORDER BY age;</span><br><span class="line"></span><br><span class="line">-- 查询所有记录的所有字段， 根据 age 降序排序</span><br><span class="line">SELECT * FROM t_student ORDER BY age DESC;</span><br><span class="line"></span><br><span class="line">-- 使用多个字段排序，先按age降序排序，当age相同再根据height降序排序</span><br><span class="line">SELECT * FROM t_student ORDER BY age DESC,height DESC;</span><br><span class="line"></span><br><span class="line">-- 返回指定的记录</span><br><span class="line">-- LIMIT常用于分页</span><br><span class="line">-- 0 表示跳过的3条</span><br><span class="line">-- 2 表示获取2条</span><br><span class="line">SELECT * FROM t_student LIMIT 3, 2;</span><br><span class="line"></span><br><span class="line">-- 取出年龄最大的3条记录</span><br><span class="line">SELECT * FROM t_student ORDER BY age DESC LIMIT 3;</span><br><span class="line"></span><br><span class="line">-- 查询是给字段取别名</span><br><span class="line">SELECT name AS JP_name, age AS JF_age, height AS JF_height FROM t_student;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">从数据库查出名字叫做wangwu的记录</span><br><span class="line">select * from t_student where name = &#x27;wangwu&#x27;;</span><br><span class="line">从数据库查出名字以wang开头的记录</span><br><span class="line">select * from t_student where name like &#x27;wangwu%&#x27;;</span><br><span class="line">从数据库查出名字中包含a的记录，通常用于模糊查询，建议不要搞太多字段组合模糊查询，那样性能会非常差！</span><br><span class="line">select * from t_student where name like &#x27;%a%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>排序查询</p>
+<blockquote>
+<p>1、ASC 升序（默认的排序方法） 2、DESC 降序</p>
+<p>格式: <code>SELECT 字段1(或*) FROM 表名 ORDER BY 要排序的字段名 ASC;</code></p>
+<p>格式: <code>SELECT 字段1(或*) FROM 表名 ORDER BY 要排序的字段名 DESC;</code></p>
+<p>格式: <code>SELECT * FROM 表名 ORDER BY 字段名1 排序类型, 字段名2 排序类型;</code></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">●  select * from t_student order by age desc ; //降序</span><br><span class="line">●  select * from t_student order by age asc ; // 升序(默认)</span><br><span class="line">用多个字段进行排序,由左至右排序的优先级依次降低，也就是第一个排序列的优先级是最高的</span><br><span class="line">●  select * from t_student order by age asc, height desc ;</span><br><span class="line">先按照年龄排序(升序),年龄相等就按照身高排序(降序)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>limit分页查询</p>
+<blockquote>
+<p>格式: <code>select * from 表名 limit 数值1, 数值2 ;</code></p>
+</blockquote>
+<p>●  使用limit可以精确地控制查询结果的数量,比如每次只查询10条数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from t_student limit 4, 8 ;// 可以理解为:跳过最前面4条语句,然后取8条记录</span><br><span class="line">SELECT * FROM t_student LIMIT 5*(n-1), 5;//一页显示5条数据,查询第n页的数据</span><br></pre></td></tr></table></figure>
+
+
+
+<p>对数据进行统计</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">取出所有数据的总数目</span><br><span class="line">select count(*) from t_student;</span><br><span class="line">统计符合条件的记录条数</span><br><span class="line">select count(*) from t_student where name like &#x27;wang%&#x27;;</span><br><span class="line">选择指定列的最大值</span><br><span class="line">select max(age) from t_student;</span><br><span class="line">选择指定列的最小值</span><br><span class="line">select min(age) from t_student;</span><br><span class="line">计算指定列的平均值</span><br><span class="line">select avg(age) from t_student;</span><br><span class="line">计算指定列数值的总数</span><br><span class="line">select sum(age) from t_student;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>四、约束</strong></p>
+<p>1、简单约束</p>
+<blockquote>
+<p>建表时可以给特定的字段设置一些约束条件，常见的约束有</p>
+<p><code>not null</code> ：规定字段的值不能为null</p>
+<p><code>unique</code> ：规定字段的值必须唯一</p>
+<p><code>default</code> ：指定字段的默认值</p>
+<p>（建议：尽量给字段设定严格的约束，以保证数据的规范性）</p>
+<p>示例</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table t_student (id integer, name text not null unique, age integer not null default 1) ;</span><br><span class="line">//name字段不能为null，并且唯一</span><br><span class="line">//age字段不能为null，并且默认为1</span><br></pre></td></tr></table></figure>
+
+<p>说明：如果想要让主键自动增长（必须是integer类型），应该增加autoincrement</p>
+<p>2、主键 primary key</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  // integer类型的id作为t_student表的主键</span><br><span class="line">   create table t_student (id integer primary key,name text,age integer);</span><br><span class="line">/*</span><br><span class="line">    主键字段：只要声明为primary key，就说明是一个主键字段</span><br><span class="line">    主键字段默认就包含了not null 和 unique 两个约束</span><br><span class="line">    如果想要让主键自动增长（必须是integer类型），应该增加autoincrement</span><br><span class="line">*/</span><br><span class="line">    create table t_student (id integer primary key autoincrement,name text,age integer);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>SQL语句的基本使用</strong></p>
+<h3 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h3><ul>
+<li>1.条件语句的常见格式</li>
+</ul>
+<blockquote>
+<p>where 字段 &#x3D; 某个值 ; &#x2F;&#x2F; 不能用两个 &#x3D;<br>where 字段 is 某个值 ; &#x2F;&#x2F; is 相当于 &#x3D;<br>where 字段 !&#x3D; 某个值 ;<br>where 字段 is not 某个值 ; &#x2F;&#x2F; is not 相当于 !&#x3D;<br>where 字段 &gt; 某个值 ;<br>where 字段1 &#x3D; 某个值 and 字段2 &gt; 某个值 ; &#x2F;&#x2F; and相当于C语言中的 &amp;&amp;<br>where 字段1 &#x3D; 某个值 or 字段2 &#x3D; 某个值 ; &#x2F;&#x2F; or 相当于C语言中的 ||</p>
+</blockquote>
+<p>iOS 更新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char *update = &quot;INSERT OR REPLACE INTO PERSIONINFO(NAME,AGE,SEX,WEIGHT,ADDRESS)&quot;&quot;VALUES(?,?,?,?,?);&quot;;</span><br><span class="line">//上边的update也可以这样写：</span><br><span class="line">//NSString *insert = [NSString stringWithFormat:@&quot;INSERT OR REPLACE INTO PERSIONINFO(&#x27;%@&#x27;,&#x27;%@&#x27;,&#x27;%@&#x27;,&#x27;%@&#x27;,&#x27;%@&#x27;)VALUES(?,?,?,?,?)&quot;,NAME,AGE,SEX,WEIGHT,ADDRESS];</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="FMDB的使用"><a href="#FMDB的使用" class="headerlink" title="FMDB的使用"></a>FMDB的使用</h4><p>Github：<a target="_blank" rel="noopener" href="https://github.com/ccgus/fmdb">https://github.com/ccgus/fmdb</a></p>
+<p>FMDB是iOS平台的SQLite数据库框架，以OC的方式封装了SQLite的C语言API。</p>
+<p>优点：</p>
+<p>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码</p>
+<p>提供了多线程安全的数据库操作方法，有效地防止数据混乱</p>
+<p>相关文章</p>
+<p><a target="_blank" rel="noopener" href="http://www.runoob.com/sqlite/sqlite-create-table.html">runoob SQLite 教程</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/index.asp">w3school SQL 教程</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2017/04/13/iOS开发SQL使用/">http://huluo666.github.io/2017/04/13/iOS开发SQL使用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2017/04/20/iOS%E9%A1%B5%E9%9D%A2%E6%A8%AA%E7%AB%96%E5%B1%8F%E5%88%87%E6%8D%A2/"><i class="fa fa-chevron-left">  </i><span>iOS页面横竖屏自由切换适配</span></a></div><div class="next-post pull-right"><a href="/2017/04/13/iOS%2011%20%E5%92%8C%20iPhone%20X%20%E9%80%82%E9%85%8D/"><span>iOS 11 和 iPhone X 适配问题集锦</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>

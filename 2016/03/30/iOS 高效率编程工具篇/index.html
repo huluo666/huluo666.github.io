@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="iOS 高效率编程工具篇"><meta name="keywords" content="编程规范,代码优化"><meta name="author" content="kyren"><meta name="copyright" content="kyren"><title>iOS 高效率编程工具篇 | Kyren's Blog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '7.3.0'
+} </script><meta name="generator" content="Hexo 7.3.0"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BC%80%E6%BA%90%E7%B1%BB%E5%BA%93%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">第三方开源类库管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Xcode-%E6%8F%92%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">Xcode 插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%BB%E9%87%8F%E7%BA%A7%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">轻量级文本编辑器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UI%E5%9B%BE%E7%89%87%E5%A4%84%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">UI图片处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91"><span class="toc-number">5.</span> <span class="toc-text">安卓开发</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">kyren</div><div class="author-info__description text-center">huluo的技术博客</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">235</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">40</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">29</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Kyren's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/categories">分类</a><a class="site-page" href="/about">关于</a><a class="site-page" href="/essay">随笔</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title">iOS 高效率编程工具篇</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2016-03-30</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>古语有云，“工欲善其事，必先利其器” ，合理的使用工具能让开发效率大大提升，达到事半功倍的效果。</p>
+<h3 id="第三方开源类库管理"><a href="#第三方开源类库管理" class="headerlink" title="第三方开源类库管理"></a>第三方开源类库管理</h3><p>CocoaPods–快速集成文第三方开源类库<br>使用教程：<a target="_blank" rel="noopener" href="http://code4app.com/article/cocoapods-install-usage">CocoaPods安装和使用教程</a></p>
+<h3 id="Xcode-插件"><a href="#Xcode-插件" class="headerlink" title="Xcode 插件"></a>Xcode 插件</h3><p>利用插件提高代码质量和工作效率</p>
+<p>建议使用<a target="_blank" rel="noopener" href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>来管理Xcode插件 快捷键<code>Shift+Command+9</code></p>
+<p>Alcatraz安装</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https:<span class="comment">//raw.github.com/alcatraz/Alcatraz/master/Scripts/install.sh | sh</span></span><br></pre></td></tr></table></figure>
+
+<p>Alcatraz卸载：		    </p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span><br><span class="line"></span><br><span class="line">rm -rf ~/Library/Application Support/Alcatraz/</span><br></pre></td></tr></table></figure>
+
+<p>InjectionPlugin （<code>推荐</code>）<br>Xcode高端必备插件，可以实时的修改代码,而不需要重新编译运行到模拟器中，成吨提高开发效率。</p>
+<p><strong>代码格式化与注释</strong><br>1.XAlign   <code>Shift+Command+X</code><br>2.ClangFormat</p>
+<p><strong>注释辅助插件</strong><br>XToDo         快捷键标记，和统一查看(TODO，FIXME,???和!!!注释，还为你提供了一个查看列表。)<br>VVDocumenter  规范注释生成器</p>
+<p><strong>JSON数据一键生成模型文件</strong><br>1.ESJsonFormat<br>2.XWJsonToCode</p>
+<p><strong>控制台的输出中文</strong><br>Debug栏打印时自动把Unicode转化成汉字<br>1.DXXcodeConsoleUnicodePlugin<br>2.FKConsole</p>
+<p><strong>import头文件整理</strong><br>项目中import了很多类，经过不停的修改后可能已经不需要导入这个类，可是我们没有删除#import，这样会导致我们编译速度变慢<br>FUI                 清除没有引用的头文件<br>CleanHeaders        清除没有引用的头文件<br>SortXcodeSelection  整理头文件</p>
+<p><strong>XIB 辅助插件</strong><br>DefaultMarginDisabler  为XIB设置默认约束<br>RRConstraintsPlugin    使用自动布局的辅助插件.</p>
+<p>FuzzyAutocompletePlugin 代码自动补全<br>XcodeBoost  提取方法声明，添加基于命令行的代码操作（剪切&#x2F;复制&#x2F;粘贴&#x2F;重复&#x2F;删除行），以及持续高亮等</p>
+<p>DCLazyInstantiate 自动生成懒加载代码<code>Shift + Cmd + -</code></p>
+<p>ZLGotoSandboxPlugin 快速进入App沙盒目录<br>看沙盒的插件，当运行模拟器的时候，<code>Shift + Common + w</code> 直接查看当前模拟器下程序的沙盒。</p>
+<p>CocoaPods    图像界面管理CocoaPods<br>FixCode      开发证书管理<br>KSImageNamed 提供了图像名称填写的自动化<br>KSHObjcUML   显示类的依赖关系导图<br>Reveal-In-GitHub 查看项目中GitHub的代码<br>ShowInGitHub </p>
+<p><code>更新Xcode版本失效快捷修复</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl https://raw.githubusercontent.com/cielpy/RPAXU/master/refreshPluginsAfterXcodeUpgrading.sh | sh</span><br></pre></td></tr></table></figure>
+
+<p>Dash		   最好用的阅读文档的工具<br><strong>ipa优化</strong><br><a target="_blank" rel="noopener" href="https://github.com/jeffhodnett/Unused">Unused</a>       用来检查Xcode项目中没有用到的资源。<br><a target="_blank" rel="noopener" href="http://wasted.werk01.de/">Wasted</a>	      选取ipa文件分析出哪些可以优化</p>
+<p><strong>AppIcon自动生成</strong></p>
+<p>IconKit  App应用图标制作工具</p>
+<p>自动生成@3x,@2x, @1x 图片<br>1.RTImageAssets<br>2.ROTools<br>3.Prepo</p>
+<p><strong>Mac自带工具</strong><br>FileMerge   代码比较工具<br>数码测色计    支持十六进制取色</p>
+<h3 id="轻量级文本编辑器"><a href="#轻量级文本编辑器" class="headerlink" title="轻量级文本编辑器"></a>轻量级文本编辑器</h3><ul>
+<li>编辑器之神 vim</li>
+<li>神之编辑器 Emacs   </li>
+<li>编辑器之妖 TextMate</li>
+<li>神级代码编辑器 Sublime Text</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://blog.csdn.net/redguardtoo/article/details/7222501">一年成为Emacs高手(像神一样使用编辑器)</a><br><code>开发者必备编辑器:</code><a target="_blank" rel="noopener" href="http://www.maczapp.com/zjbb-i-developers">http://www.maczapp.com/zjbb-i-developers</a></p>
+<h3 id="UI图片处理"><a href="#UI图片处理" class="headerlink" title="UI图片处理"></a>UI图片处理</h3><p>GIF图录制  <a target="_blank" rel="noopener" href="http://www.cockos.com/licecap/">liceCap</a><br>Pixelmator（图片处理）<br>轻量级修图软件，干净整洁的界面易于操作，界面清爽，布局灵活，熟悉 Photoshop 的人可迅速上手。<br>Logoist 2   一款非常不错的Mac平面设计软件</p>
+<p><strong>测量工具</strong><br><a target="_blank" rel="noopener" href="http://www.ricciadams.com/projects/pixel-winch">Pixel Winch</a><br>UI没标注肿么办，用直接Pixel Winch自动精确测量 UI 切图之间的距离吧，相比系统手工量方便多了</p>
+<p>取色配色工具</p>
+<p>Colored</p>
+<p>快捷 App 启动和切换工具 :</p>
+<p> Manico</p>
+<p><strong>图片压缩</strong><br>Tinyjpg      <a target="_blank" rel="noopener" href="https://tinyjpg.com/">https://tinyjpg.com/</a><br>ImageOptim   <a target="_blank" rel="noopener" href="https://imageoptim.com/">https://imageoptim.com/</a>　<br>色彩笔　　 　<a target="_blank" rel="noopener" href="http://www.secaibi.com/tools/">http://www.secaibi.com/tools/</a></p>
+<p>More：<a target="_blank" rel="noopener" href="http://www.iplaysoft.com/image-optimization-tools.html">http://www.iplaysoft.com/image-optimization-tools.html</a></p>
+<p>UI设计工具推荐: <a target="_blank" rel="noopener" href="http://tool.ui.cn/">http://tool.ui.cn/</a></p>
+<p><strong>接口调试</strong><br>网络封包分析工具：<a target="_blank" rel="noopener" href="http://www.charlesproxy.com/">Charles</a><br>调试API接口神器— <code>Echo</code>、<code>Paw</code>、<code>do http</code><br>Chrom插件 —DHC 支持HTTP和HTTPS 、Postman<br>火狐插件 — HttpRequester、HTTP Tool、RESTClient</p>
+<p>在线接口测试工具<br><a target="_blank" rel="noopener" href="http://www.atool.org/httptest.php">http://www.atool.org/httptest.php</a><br><a target="_blank" rel="noopener" href="http://www.haojson.com/postjson/">http://www.haojson.com/postjson/</a></p>
+<p>Json解析格式验证</p>
+<p><a target="_blank" rel="noopener" href="http://json.cn/">http://json.cn/</a></p>
+<p><a target="_blank" rel="noopener" href="http://json.parser.online.fr/beta/">http://json.parser.online.fr/beta/</a></p>
+<p><strong>SQLite管理工具</strong><br>1.SQLite Professional<br>2.MesaSQLite for Mac</p>
+<p><strong>Api测试</strong><br><a target="_blank" rel="noopener" href="https://www.juhe.cn/">聚合数据</a><br><a target="_blank" rel="noopener" href="http://apistore.baidu.com/">百度ApiStore</a><br>Unicode转码<br><a target="_blank" rel="noopener" href="http://tool.chinaz.com/Tools/Unicode.aspx">http://tool.chinaz.com/Tools/Unicode.aspx</a></p>
+<p><strong>贝塞尔曲线生成</strong><br><a target="_blank" rel="noopener" href="http://cubic-bezier.com/">http://cubic-bezier.com/</a></p>
+<p>CheatSheet<code>推荐</code> 		长按<code>command</code>键可以弹出当前程序下的快捷键列表。<br>Better Rename  	文件批量重命名<br>Kaleidoscope 	   进行文本比较、图片比较的工具，可以支持任意类型文本格式的文件，也可以支持图片比较，无论你是可怜的码农，用作代码比较利器，文艺的作家，比较文章的不同，还是高端的设计师，来查看图片间的细微区别，都非常适合。<br>iTerm2           作为互联网从业者，装个系统终端增强工具总是必要的</p>
+<p>Snap  		超级好用的应用快捷键启动工具</p>
+<p><strong>推送调试</strong></p>
+<p><strong>Knuff</strong>–<a target="_blank" rel="noopener" href="https://github.com/KnuffApp/Knuff">https://github.com/KnuffApp/Knuff</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/sixindev/p/4545825.html">友盟分享，极光推送Demo</a></p>
+<p>思维导图&#x2F;流程图</p>
+<p><a target="_blank" rel="noopener" href="http://naotu.baidu.com/">百度脑图</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.processon.com/">https://www.processon.com/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.mindmeister.com/zh">https://www.mindmeister.com/zh</a></p>
+<p>Mindnode</p>
+<p><strong>下载工具</strong></p>
+<p>Progressive Downloader  支持断点续传，多任务下载，速度也不错</p>
+<p><strong>文件比较</strong></p>
+<p>Beyond Compare   允许你快速和容易地比较你的文件和文件夹。通过使用简单的，强大的命令，你可以专注于你感兴趣的差异，并忽略其余。</p>
+<p>程序开发相关工具：</p>
+<p>Developer Font Tool 这是一款Mac平台的开发者字体工具，是一款帮助开发者和设计人员更简单的预览和比较字体效果的软件。</p>
+<p>开发者HTTP工具 :</p>
+<p> Developer HTTP Tool 这是一款Mac的开发者HTTP工具，帮助开发者快速检查HTTP相关的参数：请求参数、请求内容。</p>
+<p><code>Mac 推荐</code></p>
+<p>QQ截图 <a target="_blank" rel="noopener" href="http://snip.qq.com/">http://snip.qq.com/</a></p>
+<p>重命名namechanger  <a target="_blank" rel="noopener" href="https://mrrsoftware.com/namechanger/">https://mrrsoftware.com/namechanger/</a></p>
+<p><a target="_blank" rel="noopener" href="http://zipzapmac.com/go2shell">Go2Shell</a>(官网)-从Finder直接打开终端</p>
+<h3 id="安卓开发"><a href="#安卓开发" class="headerlink" title="安卓开发"></a>安卓开发</h3><p><strong>Android Studio</strong> -谷歌出的安卓开发环境，</p>
+<p><strong>Eclipse&#x2F;MyEclipse</strong></p>
+<p><strong>TotalFinder</strong></p>
+<p>也是必备的一个软件，给Finder加上像谷歌浏览器一样的标签页，在各个标签页切换很方便。</p>
+<p><strong>KeyKey Typing Tutor</strong> </p>
+<p>是一款 Mac OS X 上优秀的键盘打字练习工具，可以让我们快速的掌握高效率正确的键盘打字方式，软件界面也很精美！</p>
+<p><strong>可视化文件对比合并同步工具</strong></p>
+<p><strong>Araxis Merge</strong>  </p>
+<p><strong>Kaleidoscope</strong> </p>
+<p><strong>Beyond Compare</strong></p>
+<p>cakeBrew</p>
+<p>Brew GUI工具</p>
+<p>用分屏小工具</p>
+<p>SizeUp </p>
+<p>更多：<a target="_blank" rel="noopener" href="http://www.scoop.it/t/ios-dev">http://www.scoop.it/t/ios-dev</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/iamjiyixuan/iOSDevToolBox/blob/master/README.md">iOS开发工具箱</a></p>
+<p><a target="_blank" rel="noopener" href="http://benscheirman.com/2013/08/the-ios-developers-toolbelt/">75 Essential Tools for iOS Developers</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">kyren</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://huluo666.github.io/2016/03/30/iOS 高效率编程工具篇/">http://huluo666.github.io/2016/03/30/iOS 高效率编程工具篇/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://huluo666.github.io">Kyren's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/">编程规范</a><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96/">代码优化</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2016/03/31/iOS%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"><i class="fa fa-chevron-left">  </i><span>iOS 多环境配置 Build Configuration</span></a></div><div class="next-post pull-right"><a href="/2016/03/30/iOS%20%E5%85%A8%E9%83%A8%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE/"><span>iOS访问权限设置</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2024 By kyren</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script src="/js/search/local-search.js"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
